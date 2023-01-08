@@ -37,10 +37,10 @@ const AboutArabic = () => {
 		<AboutPageWrapper dir='rtl'>
 			<Helmet>
 				<meta charSet='utf-8' />
-				<title>Ace Online Store</title>
-				<meta name='description' content='ACE Online Store' />
-				<link rel='canonical' href='https://gqshop.me/about' />
+				<title>Ace Online Shop | About Us</title>
+				<meta name='description' content='Ace Online Store' />
 				<link rel='icon' href='gq_frontend\src\GeneralImgs\favicon.ico' />
+				<link rel='canonical' href='https://acesportive.com/about' />
 			</Helmet>
 			<div className='container my-5'>
 				<h1 className='title text-center '>من نحن؟</h1>

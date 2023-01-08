@@ -209,7 +209,7 @@ const Login = ({ history }) => {
 		<WholeSignin>
 			<Helmet>
 				<meta charSet='utf-8' />
-				<title>ACE Online Shop | Account Login</title>
+				<title>ACE Sports Wear Online Shop | Account Login</title>
 
 				<meta
 					name='description'

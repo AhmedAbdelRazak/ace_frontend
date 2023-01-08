@@ -112,7 +112,7 @@ const Navbar = ({ fromPage, pageScrolled }) => {
 								<Menu.Item
 									key='/admin/update-product'
 									icon={<RocketOutlined />}>
-									<Link to='/admin/update-product'>Products And Inventory</Link>
+									Products And Inventory
 								</Menu.Item>
 								<Menu.Item key='eleven' icon={<DollarCircleOutlined />}>
 									Financial
@@ -120,17 +120,15 @@ const Navbar = ({ fromPage, pageScrolled }) => {
 								<Menu.Item
 									key='/admin/add-shipping-carrier'
 									icon={<CarOutlined />}>
-									<Link to='/admin/add-shipping-carrier'>
-										Shipping / Carriers
-									</Link>
+									Shipping / Carriers
 								</Menu.Item>
 								<Menu.Item key='/admin/add-category' icon={<ProjectOutlined />}>
-									<Link to='/admin/add-category'>Categories Management</Link>
+									Categories Management
 								</Menu.Item>
 								<Menu.Item
 									key='/admin/add-gender'
 									icon={<UsergroupAddOutlined />}>
-									<Link to='/admin/add-gender'>Gender Management</Link>
+									Gender Management
 								</Menu.Item>
 							</Menu.SubMenu>
 						</Menu>

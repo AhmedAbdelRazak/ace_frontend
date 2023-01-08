@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { useCartContext } from "../../Checkout/cart_context";
 import SidebarFilters from "./Filters/SidebarFilters";
 import DarkBackground from "./Filters/DarkBackground";
+import { Helmet } from "react-helmet";
 // import { FilterTwoTone } from "@ant-design/icons";
 
 const ShopPageMain = ({ chosenLanguage }) => {
@@ -93,6 +94,14 @@ const ShopPageMain = ({ chosenLanguage }) => {
 
 	return (
 		<ShopPageMainWrapper>
+			<Helmet>
+				<meta charSet='utf-8' />
+				<title>Ace Sports Online Shop | Our Products</title>
+
+				<meta name='description' content='Ace Online Shop' />
+				<link rel='icon' href='gq_frontend\src\GeneralImgs\favicon.ico' />
+				<link rel='canonical' href='https://acesportive.com/our-products' />
+			</Helmet>
 			{isSideFilterOpen ? (
 				<DarkBackground isSideFilterOpen={isSideFilterOpen} />
 			) : null}

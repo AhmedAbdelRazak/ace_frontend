@@ -80,11 +80,11 @@ const ContactArabic = () => {
 		<ContactArabicWrapper dir='rtl'>
 			<Helmet>
 				<meta charSet='utf-8' />
-				<title>Ace Online Shop</title>
+				<title>Ace Online Shop | Contact Us</title>
 
 				<meta name='description' content='Ace Online Shop' />
 				<link rel='icon' href='gq_frontend\src\GeneralImgs\favicon.ico' />
-				<link rel='canonical' href='http://gqshop.me/contact' />
+				<link rel='canonical' href='https://acesportive.com/contact' />
 			</Helmet>
 			<div>
 				<div className='row mt-5 ml-3'>

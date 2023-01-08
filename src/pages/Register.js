@@ -230,7 +230,7 @@ const Register = () => {
 		<WholeSignup>
 			<Helmet>
 				<meta charSet='utf-8' />
-				<title>ACE Online Shop | Account Register</title>
+				<title>ACE Sports Wear Online Shop | Account Register</title>
 				<meta
 					name='description'
 					content='ACE Online Shop Platform Developed By https://infinite-apps.com'

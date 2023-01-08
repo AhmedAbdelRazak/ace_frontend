@@ -89,7 +89,7 @@ const Contactus = () => {
 
 				<meta name='description' content='Ace Online Shop' />
 				<link rel='icon' href='gq_frontend\src\GeneralImgs\favicon.ico' />
-				<link rel='canonical' href='https://gqshop.me/contact' />
+				<link rel='canonical' href='https://acesportive.com/contact' />
 			</Helmet>
 			{/* <div className='ad-class my-3 text-center mx-auto'> */}
 			{/* add your slot id  */}
