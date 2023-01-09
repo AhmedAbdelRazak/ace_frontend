@@ -26,6 +26,7 @@ import CustomerConfirmationModal from "./CustomerConfirmationModal";
 import CheckoutCardModal from "./CheckoutCardModal";
 import CheckoutCashModal from "./CheckoutCashModal";
 import { toast } from "react-toastify";
+import NewCustomerModal from "./NewCustomerModal";
 
 const OnsiteOrderTaking = () => {
 	// eslint-disable-next-line
@@ -39,6 +40,7 @@ const OnsiteOrderTaking = () => {
 	const [modalVisible3, setModalVisible3] = useState(false);
 	const [modalVisible4, setModalVisible4] = useState(false);
 	const [modalVisible5, setModalVisible5] = useState(false);
+	const [modalVisible6, setModalVisible6] = useState(false);
 	const [allProducts, setAllProducts] = useState([]);
 	const [allProductsAll, setAllProductsAll] = useState([]);
 	const [allCategories, setAllCategories] = useState([]);
@@ -61,9 +63,19 @@ const OnsiteOrderTaking = () => {
 	// eslint-disable-next-line
 	const [postsPerPage, setPostsPerPage] = useState(15);
 	const [addedPhoneNumber, setAddedPhoneNumber] = useState("");
-	const [userCustomerDetails, setUserCustomerDetails] = useState("");
+	const [userCustomerDetails, setUserCustomerDetails] = useState({
+		fullName: "",
+		email: "",
+		phone: "",
+		address: "",
+		state: "",
+		city: "",
+		cityName: "",
+		carrierName: "",
+	});
 	const [accountHistOrders, setAccountHistOrders] = useState("");
 	const [lengthOfOrders, setLengthOfOrders] = useState("");
+	const [customerPaid, setCustomerPaid] = useState("");
 	const [orderCreationDate, setOrderCreationDate] = useState(
 		new Date(
 			new Date().toLocaleString("en-US", {
@@ -449,6 +461,13 @@ const OnsiteOrderTaking = () => {
 									setCategoryFilter={setCategoryFilter}
 								/>
 
+								<NewCustomerModal
+									modalVisible={modalVisible6}
+									setModalVisible={setModalVisible6}
+									customerDetails={userCustomerDetails}
+									setCustomerDetails={setUserCustomerDetails}
+								/>
+
 								<DiscountModal
 									modalVisible={modalVisible2}
 									setModalVisible={setModalVisible2}
@@ -536,6 +555,7 @@ const OnsiteOrderTaking = () => {
 									totalAmount={productsTotalAmount}
 									paymentStatus={paymentStatus}
 									employeeData={user}
+									customerPaid={customerPaid}
 								/>
 							</div>
 							<div className='row'>
@@ -634,7 +654,13 @@ const OnsiteOrderTaking = () => {
 																);
 															}
 															if (paymentStatus === "cash") {
-																setModalVisible4(true);
+																if (!customerPaid) {
+																	return toast.error(
+																		"Please add how much the customer paid?",
+																	);
+																} else {
+																	setModalVisible4(true);
+																}
 															} else {
 																setModalVisible5(true);
 															}
@@ -793,6 +819,22 @@ const OnsiteOrderTaking = () => {
 												/>
 											</div>
 										</div>
+										{paymentStatus === "cash" ? (
+											<div>
+												<input
+													placeholder='Customer Paid?'
+													value={customerPaid}
+													onChange={(e) => setCustomerPaid(e.target.value)}
+													type='number'
+													style={{
+														border: "1px lightgrey solid",
+														width: "23%",
+														padding: "8px 5px",
+														boxShadow: "2px 1px 2px 1px rgba(0,0,0,0.3)",
+													}}
+												/>
+											</div>
+										) : null}
 									</div>
 
 									<div
@@ -815,6 +857,7 @@ const OnsiteOrderTaking = () => {
 											Customer List
 										</button>
 										<button
+											onClick={() => setModalVisible6(true)}
 											style={{
 												background: "#0070eb",
 												border: "none",

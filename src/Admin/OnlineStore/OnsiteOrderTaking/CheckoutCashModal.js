@@ -1,6 +1,6 @@
 /** @format */
 
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Modal } from "antd";
 import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
@@ -19,7 +19,10 @@ const CheckoutCashModal = ({
 	totalAmount,
 	paymentStatus,
 	employeeData,
+	customerPaid,
 }) => {
+	const [moneyReceived, setMoneyReceived] = useState(false);
+
 	const mainForm = () => {
 		return (
 			<div
@@ -27,8 +30,12 @@ const CheckoutCashModal = ({
 				style={{ background: "", minHeight: "300px" }}>
 				<div className='row'>
 					<div
-						className='col-5'
-						style={{ background: "white", borderRight: "2px grey solid" }}>
+						className='col-5 mx-auto'
+						style={{
+							background: "white",
+							borderRight: "2px grey solid",
+							borderLeft: "2px grey solid",
+						}}>
 						<div
 							style={{
 								fontSize: "1rem",
@@ -51,22 +58,42 @@ const CheckoutCashModal = ({
 							paymentStatus={paymentStatus}
 							employeeData={employeeData}
 						/>
-					</div>
-
-					<div className='col-6 mx-auto'>
-						<div
-							style={{
-								fontSize: "1rem",
-								fontWeight: "bold",
-								marginLeft: "10px",
-								textTransform: "uppercase",
-							}}>
-							Order Details
+						<div className='mt-3'>
+							<div>
+								<strong>Customer Paid:</strong>{" "}
+								<span className='ml-5'>
+									{customerPaid && Number(customerPaid).toFixed(2)} EGP
+								</span>
+							</div>
+							<div>
+								<strong>Customer Change: </strong>
+								<span className='ml-4'>
+									{Number(customerPaid - totalAmountAfterDiscount).toFixed(2)}{" "}
+									EGP
+								</span>{" "}
+							</div>
+							<div className='mt-3'>
+								Are You Sure You Received The Cash And Returned The Change?{" "}
+								<input
+									type='checkbox'
+									checked={moneyReceived}
+									onChange={(e) => setMoneyReceived(!moneyReceived)}
+								/>
+							</div>
 						</div>
-						<div className='col-8 mx-auto'>
-							<hr />
-						</div>
 					</div>
+				</div>
+				<div className='text-center mx-auto col-3 mt-4 '>
+					<button
+						disabled={!moneyReceived}
+						className='btn btn-primary btn-block mx-auto text-center'
+						style={{
+							background: "darkgreen",
+							color: "white",
+							border: "1px darkgreen solid",
+						}}>
+						Submit Order
+					</button>
 				</div>
 			</div>
 		);
@@ -88,7 +115,7 @@ const CheckoutCashModal = ({
 				onOk={() => {
 					setModalVisible(false);
 				}}
-				// okButtonProps={{ style: { display: "none" } }}
+				okButtonProps={{ style: { display: "none" } }}
 				cancelButtonProps={{ style: { display: "none" } }}
 				onCancel={() => {
 					setModalVisible(false);

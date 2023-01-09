@@ -27,8 +27,12 @@ const CheckoutCardModal = ({
 				style={{ background: "", minHeight: "300px" }}>
 				<div className='row'>
 					<div
-						className='col-5'
-						style={{ background: "white", borderRight: "2px grey solid" }}>
+						className='col-5 mx-auto'
+						style={{
+							background: "white",
+							borderRight: "2px grey solid",
+							borderLeft: "2px grey solid",
+						}}>
 						<div
 							style={{
 								fontSize: "1rem",
@@ -52,20 +56,16 @@ const CheckoutCardModal = ({
 							employeeData={employeeData}
 						/>
 					</div>
-
-					<div className='col-6 mx-auto'>
-						<div
-							style={{
-								fontSize: "1rem",
-								fontWeight: "bold",
-								marginLeft: "10px",
-								textTransform: "uppercase",
-							}}>
-							Order Details
-						</div>
-						<div className='col-8 mx-auto'>
-							<hr />
-						</div>
+				</div>
+				<div className='text-center mx-auto col-3 mt-4 '>
+					<div
+						className='btn btn-primary btn-block mx-auto text-center'
+						style={{
+							background: "darkgreen",
+							color: "white",
+							border: "1px darkgreen solid",
+						}}>
+						Submit Order
 					</div>
 				</div>
 			</div>
@@ -88,7 +88,7 @@ const CheckoutCardModal = ({
 				onOk={() => {
 					setModalVisible(false);
 				}}
-				// okButtonProps={{ style: { display: "none" } }}
+				okButtonProps={{ style: { display: "none" } }}
 				cancelButtonProps={{ style: { display: "none" } }}
 				onCancel={() => {
 					setModalVisible(false);
