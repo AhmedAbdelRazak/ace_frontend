@@ -297,6 +297,8 @@ const MainReports = () => {
 			return res;
 		}, {});
 
+	console.log(OrdersDates_OrdersCount, "OrdersDates_OrdersCount");
+
 	var chartDataOrdersCount = {
 		options: {
 			chart: {
@@ -368,7 +370,7 @@ const MainReports = () => {
 			},
 			xaxis: {
 				name: "Order Date",
-				categories: OrdersDates_TotalAmount.map((i) =>
+				categories: OrdersDates_OrdersCount.map((i) =>
 					new Date(i.orderCreationDate).toLocaleDateString(),
 				),
 			},
@@ -379,7 +381,7 @@ const MainReports = () => {
 			},
 
 			yaxis: {
-				tickAmount: 6,
+				tickAmount: 2,
 				labels: {
 					formatter: function (val) {
 						return val;
@@ -401,7 +403,7 @@ const MainReports = () => {
 			{
 				name: "Total Paid Amount",
 				data: OrdersDates_OrdersCount.map((i) => {
-					return i.ordersCount.toFixed(2);
+					return i.ordersCount.toFixed(0);
 				}),
 			},
 		],

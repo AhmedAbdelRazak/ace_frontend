@@ -88,7 +88,7 @@ const DiscountModal = ({
 							fontSize: "1.3rem",
 						}}>{`Total Discount`}</div>
 				}
-				visible={modalVisible}
+				open={modalVisible}
 				onOk={() => {
 					setModalVisible(false);
 				}}

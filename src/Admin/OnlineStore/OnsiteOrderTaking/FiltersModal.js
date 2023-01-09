@@ -114,7 +114,7 @@ const FiltersModal = ({
 							fontSize: "1.3rem",
 						}}>{`Product Filters`}</div>
 				}
-				visible={modalVisible}
+				open={modalVisible}
 				onOk={() => {
 					setModalVisible(false);
 				}}

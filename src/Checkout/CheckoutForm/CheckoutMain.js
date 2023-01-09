@@ -495,6 +495,18 @@ const CheckoutMain = ({ match }) => {
 	var notAvailableStock =
 		cart.map((i) => i.max < i.amount).indexOf(true) !== -1;
 
+	const selfServiceEmployeeData = {
+		_id: "63bb4214308546a3aab19a63",
+		email: "9099914386",
+		name: "Self Service",
+		role: 1,
+		activePoints: 0,
+		activeUser: true,
+		employeeImage:
+			"https://res.cloudinary.com/infiniteapps/image/upload/v1673216495/GQ_B2B/1673216495198.jpg",
+		userRole: "Order Taker",
+	};
+
 	const CreatingOrder = (e) => {
 		e.preventDefault();
 		window.scrollTo({ top: 0, behavior: "smooth" });
@@ -519,6 +531,11 @@ const CheckoutMain = ({ match }) => {
 		) {
 			setCurrent(1);
 			return toast.error("Please Add All Required Info");
+		}
+
+		if (customerDetails.phone.includes("@")) {
+			setCurrent(1);
+			return toast.error("Please make sure your phone # is correct");
 		}
 
 		if (cart.length === 0) {
@@ -574,7 +591,7 @@ const CheckoutMain = ({ match }) => {
 			// Number(Number(total_amount * 0.01).toFixed(2))
 			totalOrderedQty: Number(total_items),
 			orderTakerDiscount: "",
-			employeeData: "Online Order",
+			employeeData: selfServiceEmployeeData,
 			chosenShippingOption: chosenShippingOption,
 			orderSource: "ace",
 			sendSMS: false,
@@ -857,6 +874,41 @@ const CheckoutMain = ({ match }) => {
 										background: "#005fbb",
 									}}
 									onClick={(e) => {
+										if (
+											!customerDetails.fullName ||
+											!customerDetails.phone ||
+											!customerDetails.state ||
+											!customerDetails.address ||
+											!customerDetails.cityName ||
+											!customerDetails.carrierName ||
+											customerDetails.carrierName === "No Shipping Carrier" ||
+											customerDetails.cityName === "Unavailable"
+										) {
+											setCurrent(1);
+											return toast.error("Please Add All Required Info");
+										}
+
+										if (customerDetails.phone.includes("@")) {
+											setCurrent(1);
+											return toast.error(
+												"Please make sure your phone # is correct",
+											);
+										}
+
+										if (cart.length === 0) {
+											return toast.error("Please Add Products To The Order");
+										}
+										if (customerDetails.phone.length < 11) {
+											setCurrent(1);
+											return toast.error("Phone Should Be 11 Digits");
+										}
+
+										if (notAvailableStock) {
+											return toast.error(
+												"Not Enough Stock for the product you picked",
+											);
+										}
+
 										ordersLength().then((data) => {
 											if (data.error) {
 												console.log(data.error);
@@ -885,7 +937,7 @@ const CheckoutMain = ({ match }) => {
 											// Number(Number(total_amount * 0.01).toFixed(2))
 											totalOrderedQty: Number(total_items),
 											orderTakerDiscount: "",
-											employeeData: "Online Order",
+											employeeData: selfServiceEmployeeData,
 											chosenShippingOption: chosenShippingOption,
 											orderSource: "ace",
 											sendSMS: false,

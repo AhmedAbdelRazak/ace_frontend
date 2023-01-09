@@ -414,47 +414,13 @@ const AdminMenu = ({
 				defaultOpenKeys={[
 					"sub1",
 
-					fromPage === "AddGender" ||
-					fromPage === "UpdateGender" ||
-					fromPage === "DeleteGender"
-						? "sub2"
-						: null,
-
-					fromPage === "AddCategory" ||
-					fromPage === "UpdateCategory" ||
-					fromPage === "DeleteCategory"
-						? "sub3"
-						: null,
-
-					fromPage === "AddSubcategory" ||
-					fromPage === "UpdateSubcategory" ||
-					fromPage === "DeleteSubcategory"
-						? "sub7"
-						: null,
-
-					fromPage === "AddColor" || fromPage === "AddSize" ? "sub17" : null,
-					fromPage === "AddProduct" ||
-					fromPage === "UpdateProduct" ||
-					fromPage === "DeleteProduct" ||
-					fromPage === "AddSize" ||
-					fromPage === "AddColor" ||
-					fromPage === "AddSubcategory" ||
-					fromPage === "UpdateSubcategory" ||
-					fromPage === "UpdateCategory" ||
-					fromPage === "AddCategory"
-						? "sub4"
-						: null,
-
-					fromPage === "AddShippingOption" ||
-					fromPage === "UpdateShippingOption" ||
-					fromPage === "DeleteShippingOption"
-						? "sub30"
-						: null,
-
-					fromPage === "AddStore" ||
-					fromPage === "UpdateStore" ||
-					fromPage === "DeleteStore"
-						? "sub31"
+					fromPage === "AceStoreSales" ||
+					fromPage === "AceStoreReceiving" ||
+					fromPage === "PrintBarcodes" ||
+					fromPage === "AceInventory" ||
+					fromPage === "CouponManagement" ||
+					fromPage === "ProductSpecs"
+						? "sub34"
 						: null,
 
 					fromPage === "CreateNewOrder" ||
