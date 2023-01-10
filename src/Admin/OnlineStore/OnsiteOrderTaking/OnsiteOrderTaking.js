@@ -10,6 +10,7 @@ import DarkBG from "../../AdminMenu/DarkBG";
 import {
 	getColors,
 	getProducts,
+	getReceivingLogs,
 	ordersLength,
 	readSingleOrderByPhoneNumber,
 } from "../../apiAdmin";
@@ -50,6 +51,10 @@ const OnsiteOrderTaking = () => {
 	const [allSubSKUs, setAllSubSKUs] = useState([]);
 	const [chosenSubSKUs, setChosenSubSKUs] = useState([]);
 	const [chosenProducts, setChosenProducts] = useState([]);
+
+	// eslint-disable-next-line
+	const [allReceivings, setAllReceivings] = useState([]);
+
 	const [genderFilter, setGenderFilter] = useState("men");
 	const [categoryFilter, setCategoryFilter] = useState("");
 	const [chosenProductWithVariables, setChosenProductWithVariables] = useState(
@@ -105,215 +110,268 @@ const OnsiteOrderTaking = () => {
 			if (data.error) {
 				console.log(data.error);
 			} else {
-				var allAceProducts = data.filter(
-					(i) => i.activeProduct === true && i.storeName.storeName === "ace",
-				);
-
-				setAllProductsAll(allAceProducts);
-
-				const AllProductsModified =
-					allAceProducts && allAceProducts.map((i) => i.productAttributes);
-
-				var mergedAttributes = [].concat.apply([], AllProductsModified);
-
-				let allAttributes = [
-					...new Map(mergedAttributes.map((item) => [item, item])).values(),
-				];
-
-				const allAttributesEnhanced =
-					allAttributes &&
-					allAttributes.filter((i) => i.productImages.length > 0);
-
-				const PK =
-					allAttributesEnhanced && allAttributesEnhanced.map((i) => i.PK);
-
-				const finalResultVariableDifferentImages = allAceProducts.map((i) => {
-					return {
-						...i,
-						productAttributes: i.productAttributes,
-						clickedProductAttribute: i.productAttributes.filter(
-							(ii) => PK.indexOf(ii.PK) !== -1,
-						),
-					};
-				});
-
-				const finalOfFinal1 =
-					finalResultVariableDifferentImages &&
-					finalResultVariableDifferentImages.map((i) =>
-						i.clickedProductAttribute.map((ii) => {
-							return {
-								...i,
-								DropShippingPrice: ii.DropShippingPrice,
-								MSRP: ii.MSRP,
-								PK: ii.PK,
-								SubSKU: ii.SubSKU,
-								WholeSalePrice: ii.WholeSalePrice,
-								color: ii.color,
-								price: ii.price,
-								priceAfterDiscount: ii.priceAfterDiscount,
-								productImages: ii.productImages,
-								quantity: ii.quantity,
-								size: ii.size,
-							};
-						}),
-					);
-
-				var mergedFinalOfFinal2 = [].concat.apply([], finalOfFinal1);
-
-				let allAttributesFinalOfFinalMain = [
-					...new Map(mergedFinalOfFinal2.map((item) => [item, item])).values(),
-				];
-
-				const requiredProducts =
-					allAttributesFinalOfFinalMain &&
-					allAttributesFinalOfFinalMain.filter(
-						(i) =>
-							i.productImages &&
-							i.productImages[0] &&
-							i.productImages[0].url !== undefined,
-					);
-
-				if (categoryFilter) {
-					setAllProducts(
-						requiredProducts.filter(
-							(iii) =>
-								iii.gender.genderName.toLowerCase() ===
-									genderFilter.toLowerCase() &&
-								iii.category.categoryName.toLowerCase() ===
-									categoryFilter.toLowerCase(),
-						),
-					);
-				} else {
-					setAllProducts(
-						requiredProducts.filter(
-							(iii) =>
-								iii.gender.genderName.toLowerCase() ===
-								genderFilter.toLowerCase(),
-						),
-					);
-				}
-
-				//Unique Categories
-				var categoriesArray =
-					allAceProducts && allAceProducts.map((ii) => ii.category);
-
-				let uniqueCategories = [
-					...new Map(
-						categoriesArray &&
-							categoriesArray.map((item) => [item["categoryName"], item]),
-					).values(),
-				];
-				setAllCategories(uniqueCategories);
-
-				//Gender Unique
-				var genderUnique =
-					allAceProducts && allAceProducts.map((ii) => ii.gender);
-
-				let uniqueGenders = [
-					...new Map(
-						genderUnique &&
-							genderUnique.map((item) => [item["genderName"], item]),
-					).values(),
-				];
-				setAllGenders(uniqueGenders);
-
-				var allAceSKUs =
-					allAceProducts &&
-					allAceProducts.map((i) => i.productAttributes.map((ii) => ii.SubSKU));
-
-				var mergedSubSKUs = [].concat.apply([], allAceSKUs);
-				let uniqueMergedSubSKUs = [...new Set(mergedSubSKUs)];
-
-				setAllSubSKUs(uniqueMergedSubSKUs);
-
-				var addingVariablesToMain =
-					allAceProducts &&
-					allAceProducts.map((i) =>
-						i.productAttributes.map((ii) => {
-							return {
-								...i,
-								DropShippingPrice: ii.DropShippingPrice,
-								MSRP: ii.MSRP,
-								PK: ii.PK,
-								SubSKU: ii.SubSKU,
-								WholeSalePrice: ii.WholeSalePrice,
-								color: ii.color,
-								price: ii.price,
-								priceAfterDiscount: ii.priceAfterDiscount,
-								productImages: ii.productImages,
-								quantity: ii.quantity,
-								size: ii.size,
-								receivedQuantity: ii.receivedQuantity ? ii.receivedQuantity : 0,
-							};
-						}),
-					);
-
-				// eslint-disable-next-line
-				var mergedFinalOfFinal = [].concat.apply([], addingVariablesToMain);
-
-				let allAttributesFinalOfFinal = [
-					...new Map(mergedFinalOfFinal.map((item) => [item, item])).values(),
-				];
-
-				let chosenProducts1 =
-					chosenSubSKUs &&
-					allAttributesFinalOfFinal &&
-					allAttributesFinalOfFinal.filter(
-						(i) => chosenSubSKUs.indexOf(i.SubSKU) > -1,
-					);
-
-				const UniqueProducts = [
-					...new Map(
-						chosenProducts1.map((item) => [item["SubSKU"], item]),
-					).values(),
-				];
-
-				setChosenProducts(UniqueProducts);
-
-				const productSubSKUImage = (requiredProduct, productSubSKUColor) => {
-					const theReturn = requiredProduct.productAttributes.filter(
-						(i) => i.color === productSubSKUColor,
-					)[0].productImages;
-					return theReturn[0] ? theReturn[0].url : undefined;
-				};
-
-				setChosenProductWithVariables(
-					UniqueProducts.map((i) => {
-						return {
-							SubSKU: i.SubSKU,
-							OrderedQty: 1,
-							productId: i._id,
-							productName: i.productName,
-							productMainImage: i.thumbnailImage[0].images[0].url,
-							productSubSKUImage: productSubSKUImage(
-								UniqueProducts.filter((s) => s._id === i._id)[0],
-								UniqueProducts.filter(
-									(s) => s._id === i._id,
-								)[0].productAttributes.filter((ss) => ss.SubSKU === i.SubSKU)[0]
-									.color,
+				getReceivingLogs(token).then((data2) => {
+					if (data2.error) {
+						console.log(data2.error);
+					} else {
+						var overallReceivedSKUs = [];
+						const allReceivingsSummarized1 = data2
+							.filter(
+								(i) =>
+									i.storeName.toLowerCase() === user.userStore.toLowerCase() &&
+									i.storeBranch.toLowerCase() === user.userBranch.toLowerCase(),
 							)
-								? productSubSKUImage(
-										UniqueProducts.filter((s) => s._id === i._id)[0],
-										UniqueProducts.filter(
-											(s) => s._id === i._id,
-										)[0].productAttributes.filter(
-											(ss) => ss.SubSKU === i.SubSKU,
-										)[0].color,
-								  )
-								: UniqueProducts.filter((s) => s._id === i._id)[0]
-										.thumbnailImage[0].images[0].url,
-							SubSKUPriceAfterDiscount: i.priceAfterDiscount,
-							SubSKURetailerPrice: i.price,
-							SubSKUWholeSalePrice: i.WholeSalePrice,
-							SubSKUDropshippingPrice: i.DropShippingPrice,
-							pickedPrice: i.priceAfterDiscount,
-							quantity: i.receivedQuantity,
-							SubSKUColor: i.color,
-							SubSKUSize: i.size,
-							SubSKUMSRP: i.MSRP,
+							.map((iii) => {
+								return {
+									receivedSubSKU: iii.receivedSKU,
+									quantityReceived: iii.receivedQuantity,
+								};
+							});
+
+						allReceivingsSummarized1 &&
+							allReceivingsSummarized1.reduce(function (res, value) {
+								if (!res[value.receivedSubSKU]) {
+									res[value.receivedSubSKU] = {
+										receivedSubSKU: value.receivedSubSKU.toLowerCase(),
+										quantityReceived: 0,
+									};
+									overallReceivedSKUs.push(res[value.receivedSubSKU]);
+								}
+								res[value.receivedSubSKU].quantityReceived += Number(
+									value.quantityReceived,
+								);
+								return res;
+							}, {});
+
+						setAllReceivings(overallReceivedSKUs);
+					}
+
+					var allAceProducts = data.filter(
+						(i) => i.activeProduct === true && i.storeName.storeName === "ace",
+					);
+
+					setAllProductsAll(allAceProducts);
+
+					const AllProductsModified =
+						allAceProducts && allAceProducts.map((i) => i.productAttributes);
+
+					var mergedAttributes = [].concat.apply([], AllProductsModified);
+
+					let allAttributes = [
+						...new Map(mergedAttributes.map((item) => [item, item])).values(),
+					];
+
+					const allAttributesEnhanced =
+						allAttributes &&
+						allAttributes.filter((i) => i.productImages.length > 0);
+
+					const PK =
+						allAttributesEnhanced && allAttributesEnhanced.map((i) => i.PK);
+
+					const finalResultVariableDifferentImages = allAceProducts.map((i) => {
+						return {
+							...i,
+							productAttributes: i.productAttributes,
+							clickedProductAttribute: i.productAttributes.filter(
+								(ii) => PK.indexOf(ii.PK) !== -1,
+							),
 						};
-					}),
-				);
+					});
+
+					const finalOfFinal1 =
+						finalResultVariableDifferentImages &&
+						finalResultVariableDifferentImages.map((i) =>
+							i.clickedProductAttribute.map((ii) => {
+								return {
+									...i,
+									DropShippingPrice: ii.DropShippingPrice,
+									MSRP: ii.MSRP,
+									PK: ii.PK,
+									SubSKU: ii.SubSKU,
+									WholeSalePrice: ii.WholeSalePrice,
+									color: ii.color,
+									price: ii.price,
+									priceAfterDiscount: ii.priceAfterDiscount,
+									productImages: ii.productImages,
+									quantity: ii.quantity,
+									size: ii.size,
+								};
+							}),
+						);
+
+					var mergedFinalOfFinal2 = [].concat.apply([], finalOfFinal1);
+
+					let allAttributesFinalOfFinalMain = [
+						...new Map(
+							mergedFinalOfFinal2.map((item) => [item, item]),
+						).values(),
+					];
+
+					const requiredProducts =
+						allAttributesFinalOfFinalMain &&
+						allAttributesFinalOfFinalMain.filter(
+							(i) =>
+								i.productImages &&
+								i.productImages[0] &&
+								i.productImages[0].url !== undefined,
+						);
+
+					if (categoryFilter) {
+						setAllProducts(
+							requiredProducts.filter(
+								(iii) =>
+									iii.gender.genderName.toLowerCase() ===
+										genderFilter.toLowerCase() &&
+									iii.category.categoryName.toLowerCase() ===
+										categoryFilter.toLowerCase(),
+							),
+						);
+					} else {
+						setAllProducts(
+							requiredProducts.filter(
+								(iii) =>
+									iii.gender.genderName.toLowerCase() ===
+									genderFilter.toLowerCase(),
+							),
+						);
+					}
+
+					//Unique Categories
+					var categoriesArray =
+						allAceProducts && allAceProducts.map((ii) => ii.category);
+
+					let uniqueCategories = [
+						...new Map(
+							categoriesArray &&
+								categoriesArray.map((item) => [item["categoryName"], item]),
+						).values(),
+					];
+					setAllCategories(uniqueCategories);
+
+					//Gender Unique
+					var genderUnique =
+						allAceProducts && allAceProducts.map((ii) => ii.gender);
+
+					let uniqueGenders = [
+						...new Map(
+							genderUnique &&
+								genderUnique.map((item) => [item["genderName"], item]),
+						).values(),
+					];
+					setAllGenders(uniqueGenders);
+
+					var allAceSKUs =
+						allAceProducts &&
+						allAceProducts.map((i) =>
+							i.productAttributes.map((ii) => ii.SubSKU),
+						);
+
+					var mergedSubSKUs = [].concat.apply([], allAceSKUs);
+					let uniqueMergedSubSKUs = [...new Set(mergedSubSKUs)];
+
+					setAllSubSKUs(uniqueMergedSubSKUs);
+
+					const quantityReceivedFuntion = (requiredSKU) => {
+						var index = overallReceivedSKUs
+							.map((i) => i.receivedSubSKU)
+							.indexOf(requiredSKU.toLowerCase());
+						if (index === -1) {
+							return 0;
+						} else {
+							return overallReceivedSKUs[index].quantityReceived;
+						}
+					};
+
+					var addingVariablesToMain =
+						allAceProducts &&
+						allAceProducts.map((i) =>
+							i.productAttributes.map((ii) => {
+								return {
+									...i,
+									DropShippingPrice: ii.DropShippingPrice,
+									MSRP: ii.MSRP,
+									PK: ii.PK,
+									SubSKU: ii.SubSKU,
+									WholeSalePrice: ii.WholeSalePrice,
+									color: ii.color,
+									price: ii.price,
+									priceAfterDiscount: ii.priceAfterDiscount,
+									productImages: ii.productImages,
+									quantity: ii.quantity,
+									size: ii.size,
+									receivedQuantity: quantityReceivedFuntion(ii.SubSKU),
+								};
+							}),
+						);
+
+					// eslint-disable-next-line
+					var mergedFinalOfFinal = [].concat.apply([], addingVariablesToMain);
+
+					let allAttributesFinalOfFinal = [
+						...new Map(mergedFinalOfFinal.map((item) => [item, item])).values(),
+					];
+
+					let chosenProducts1 =
+						chosenSubSKUs &&
+						allAttributesFinalOfFinal &&
+						allAttributesFinalOfFinal.filter(
+							(i) => chosenSubSKUs.indexOf(i.SubSKU) > -1,
+						);
+
+					const UniqueProducts = [
+						...new Map(
+							chosenProducts1.map((item) => [item["SubSKU"], item]),
+						).values(),
+					];
+
+					setChosenProducts(UniqueProducts);
+
+					const productSubSKUImage = (requiredProduct, productSubSKUColor) => {
+						const theReturn = requiredProduct.productAttributes.filter(
+							(i) => i.color === productSubSKUColor,
+						)[0].productImages;
+						return theReturn[0] ? theReturn[0].url : undefined;
+					};
+
+					setChosenProductWithVariables(
+						UniqueProducts.map((i) => {
+							return {
+								SubSKU: i.SubSKU,
+								OrderedQty: 1,
+								productId: i._id,
+								productName: i.productName,
+								productMainImage: i.thumbnailImage[0].images[0].url,
+								productSubSKUImage: productSubSKUImage(
+									UniqueProducts.filter((s) => s._id === i._id)[0],
+									UniqueProducts.filter(
+										(s) => s._id === i._id,
+									)[0].productAttributes.filter(
+										(ss) => ss.SubSKU === i.SubSKU,
+									)[0].color,
+								)
+									? productSubSKUImage(
+											UniqueProducts.filter((s) => s._id === i._id)[0],
+											UniqueProducts.filter(
+												(s) => s._id === i._id,
+											)[0].productAttributes.filter(
+												(ss) => ss.SubSKU === i.SubSKU,
+											)[0].color,
+									  )
+									: UniqueProducts.filter((s) => s._id === i._id)[0]
+											.thumbnailImage[0].images[0].url,
+								SubSKUPriceAfterDiscount: i.priceAfterDiscount,
+								SubSKURetailerPrice: i.price,
+								SubSKUWholeSalePrice: i.WholeSalePrice,
+								SubSKUDropshippingPrice: i.DropShippingPrice,
+								pickedPrice: i.priceAfterDiscount,
+								quantity: quantityReceivedFuntion(i.SubSKU),
+								SubSKUColor: i.color,
+								SubSKUSize: i.size,
+								SubSKUMSRP: i.MSRP,
+							};
+						}),
+					);
+				});
 			}
 		});
 	};

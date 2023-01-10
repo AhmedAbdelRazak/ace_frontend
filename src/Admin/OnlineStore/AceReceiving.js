@@ -7,7 +7,7 @@ import { isAuthenticated } from "../../auth";
 import AdminMenu from "../AdminMenu/AdminMenu";
 import Navbar from "../AdminNavMenu/Navbar";
 import DarkBG from "../AdminMenu/DarkBG";
-import { getColors, getProducts, updateProduct } from "../apiAdmin";
+import { getColors, getProducts, receiveNew, updateProduct } from "../apiAdmin";
 import { Select } from "antd";
 import { toast } from "react-toastify";
 
@@ -212,6 +212,24 @@ const AceReceiving = () => {
 				setTimeout(function () {
 					window.location.reload(false);
 				}, 3000);
+			}
+		});
+
+		receiveNew(user._id, token, {
+			productName: chosenProduct.productName,
+			productId: chosenProduct._id,
+			receivedByEmployee: user,
+			storeName: user.userStore,
+			storeBranch: user.userBranch ? user.userBranch : "san stefano",
+			receivedSKU: chosenSubSKU,
+			receivedQuantity: quantityToBeReceived,
+		}).then((data) => {
+			if (data.error) {
+				setTimeout(function () {
+					// window.location.reload(false);
+				}, 1000);
+			} else {
+				toast.success("Successfully Added To Your Receiving Log");
 			}
 		});
 	};
@@ -442,6 +460,15 @@ const AceReceiving = () => {
 												items
 											</span>
 											<br />
+										</div>
+										<div
+											className='my-3'
+											style={{
+												textTransform: "uppercase",
+												fontSize: "1.1rem",
+											}}>
+											This will be received in branch:{" "}
+											<strong>{user.userBranch}</strong>
 										</div>
 										<div
 											className='my-3'

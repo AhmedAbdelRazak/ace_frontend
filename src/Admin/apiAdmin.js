@@ -1294,3 +1294,37 @@ export const getAbouts = (token) => {
 		})
 		.catch((err) => console.log(err));
 };
+
+export const receiveNew = (userId, token, receiving) => {
+	return fetch(`${process.env.REACT_APP_API_URL}/receiving/create/${userId}`, {
+		method: "POST",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify(receiving),
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+};
+
+export const getReceivingLogs = (token) => {
+	return fetch(`${process.env.REACT_APP_API_URL}/receivings`, {
+		method: "GET",
+		headers: {
+			// content type?
+			"Content-Type": "application/json",
+			Accept: "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.catch((err) => console.log(err));
+};
