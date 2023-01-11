@@ -15,6 +15,7 @@ const FormStep1 = ({
 	appliedCouponName,
 	couponApplied,
 	setCouponApplied,
+	stringChecker,
 }) => {
 	var payOnDelivery_OnlineLogic =
 		alreadySetLoyaltyPointsManagement.activatePayOnDelivery &&
@@ -61,6 +62,12 @@ const FormStep1 = ({
 					<div className='form-group col-md-6 '>
 						<label className=''>
 							Phone {customerDetails.phone.length < 8 ? requiredText() : null}
+							{stringChecker(customerDetails.phone) ? (
+								<strong
+									style={{ fontSize: "10px", marginLeft: "3px", color: "red" }}>
+									Should be digits only*
+								</strong>
+							) : null}
 						</label>
 						<input
 							onChange={handleChange("phone")}

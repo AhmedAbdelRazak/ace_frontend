@@ -730,6 +730,8 @@ export const generatingTokenPaymob = (
 	totalAmountAfterDiscounting2,
 	total_amount,
 	cart,
+	firstName,
+	lastName,
 ) => {
 	const totalAmountFinal =
 		Number(totalAmountAfterDiscounting2()) + Number(total_amount) * 0.01;
@@ -773,20 +775,18 @@ export const generatingTokenPaymob = (
 						};
 					}),
 					shipping_data: {
-						apartment: "Unknown",
-						email: customerDetails.email
-							? customerDetails.email
-							: "Unknown@unknown.com",
+						apartment: "NA",
+						email: customerDetails.email ? customerDetails.email : "NA",
 						floor: "12",
-						first_name: customerDetails.fullName,
+						first_name: firstName,
 						street: customerDetails.address,
-						building: "Unknown",
+						building: "NA",
 						phone_number: customerDetails.phone,
-						postal_code: "unknown",
-						extra_description: "8 Ram , 128 Giga",
+						postal_code: "NA",
+						extra_description: "NA",
 						city: customerDetails.cityName,
 						country: "EG",
-						last_name: customerDetails.fullName,
+						last_name: lastName,
 						state: customerDetails.state,
 					},
 					shipping_details: {
@@ -823,20 +823,18 @@ export const generatingTokenPaymob = (
 							currency: "EGP",
 							integration_id: process.env.REACT_APP_INTEGRATION_ID,
 							billing_data: {
-								apartment: "Unknown",
-								email: customerDetails.email
-									? customerDetails.email
-									: "Unknown@unknown.com",
+								apartment: "NA",
+								email: customerDetails.email ? customerDetails.email : "NA",
 								floor: "12",
-								first_name: customerDetails.fullName,
+								first_name: firstName,
 								street: customerDetails.address,
-								building: "Unknown",
+								building: "NA",
 								phone_number: customerDetails.phone,
-								postal_code: "unknown",
+								postal_code: "NA",
 								extra_description: "8 Ram , 128 Giga",
 								city: customerDetails.cityName,
 								country: "EG",
-								last_name: customerDetails.fullName,
+								last_name: lastName,
 								state: customerDetails.state,
 							},
 							lock_order_when_paid: false,

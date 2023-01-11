@@ -99,6 +99,7 @@ import OnsiteOrderTaking from "./Admin/OnlineStore/OnsiteOrderTaking/OnsiteOrder
 import PrintBarcodes from "./Admin/OnlineStore/PrintBarcodes/PrintBarcodes";
 import SingleBarcodePage from "./Admin/OnlineStore/PrintBarcodes/SingleBarcodePage";
 import Inventory from "./Admin/OnlineStore/Inventory/Inventory";
+import AceReceivingLog from "./Admin/OnlineStore/AceReceivingLog";
 
 const App = () => {
 	// eslint-disable-next-line
@@ -363,6 +364,11 @@ const App = () => {
 					path='/admin/ace-receiving'
 					exact
 					component={AceReceiving}
+				/>
+				<AdminRoute
+					path='/admin/ace-receiving-log'
+					exact
+					component={AceReceivingLog}
 				/>
 				<AdminRoute
 					path='/admin/ace-inventory-report'

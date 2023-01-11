@@ -292,6 +292,17 @@ const CheckoutMain = ({ match }) => {
 		// eslint-disable-next-line
 	}, []);
 
+	const firstName =
+		customerDetails &&
+		customerDetails.fullName.split(" ") &&
+		customerDetails.fullName.split(" ")[0];
+	const lastName =
+		customerDetails &&
+		customerDetails.fullName.split(" ") &&
+		customerDetails.fullName.split(" ")[
+			customerDetails.fullName.split(" ").length - 1
+		];
+
 	useEffect(() => {
 		generatingTokenPaymob(
 			setPaymobtoken,
@@ -300,6 +311,8 @@ const CheckoutMain = ({ match }) => {
 			totalAmountAfterDiscounting2,
 			total_amount,
 			cart,
+			firstName,
+			lastName,
 		);
 
 		// eslint-disable-next-line
@@ -380,6 +393,7 @@ const CheckoutMain = ({ match }) => {
 					handleAppliedCoupon={handleAppliedCoupon}
 					couponApplied={couponApplied}
 					setCouponApplied={setCouponApplied}
+					stringChecker={stringChecker}
 				/>
 			),
 		},
@@ -723,6 +737,53 @@ const CheckoutMain = ({ match }) => {
 		// eslint-disable-next-line
 	}, []);
 
+	function hasWhiteSpace(s) {
+		return s.indexOf(" ") >= 0;
+	}
+
+	function stringChecker(p) {
+		const lowerCase = [
+			"a",
+			"b",
+			"c",
+			"d",
+			"e",
+			"f",
+			"g",
+			"h",
+			"i",
+			"j",
+			"k",
+			"l",
+			"m",
+			"n",
+			"o",
+			"p",
+			"q",
+			"r",
+			"s",
+			"t",
+			"u",
+			"v",
+			"w",
+			"x",
+			"y",
+			"z",
+		];
+		const upperCase = lowerCase && lowerCase.map((i) => i.toUpperCase());
+		for (var i = 0; i < p.length; i++) {
+			if (lowerCase.indexOf(p[i]) > -1) {
+				return true;
+			} else if (upperCase.indexOf(p[i]) > -1) {
+				return true;
+			} else {
+				if (i === p.length - 1) {
+					return false;
+				}
+			}
+		}
+	}
+
 	return (
 		<CheckoutMainWrapper>
 			{cart.length === 0 ? RedirectToHome() : null}
@@ -761,7 +822,9 @@ const CheckoutMain = ({ match }) => {
 										customerDetails.payOnline) ||
 									(!customerDetails.payOnDelivery &&
 										!customerDetails.payOnline) ||
-									notAvailableStock
+									notAvailableStock ||
+									!hasWhiteSpace(customerDetails.fullName) ||
+									stringChecker(customerDetails.phone)
 								}
 								type='primary'
 								className='Buttons'
@@ -906,6 +969,13 @@ const CheckoutMain = ({ match }) => {
 										if (notAvailableStock) {
 											return toast.error(
 												"Not Enough Stock for the product you picked",
+											);
+										}
+
+										if (hasWhiteSpace(customerDetails.fullName) === false) {
+											setCurrent(1);
+											return toast.error(
+												"Please make sure you add your full name",
 											);
 										}
 

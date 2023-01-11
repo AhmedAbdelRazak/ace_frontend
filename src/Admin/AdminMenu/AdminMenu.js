@@ -15,6 +15,7 @@ import {
 	BorderHorizontalOutlined,
 	RadiusBottomleftOutlined,
 	SwapOutlined,
+	ShoppingOutlined,
 } from "@ant-design/icons";
 import { Button, Menu } from "antd";
 import LogoImage from "../../GeneralImages/ace-logo.png";
@@ -144,9 +145,14 @@ const items = [
 			<AppstoreAddOutlined />,
 		),
 		getItem(
+			<Link to='/admin/ace-receiving-log'>Ace Receiving Log</Link>,
+			"/admin/ace-receiving-log",
+			<MailOutlined />,
+		),
+		getItem(
 			<Link to='/admin/offline-order-taking'>Onsite Order Taking</Link>,
 			"/admin/offline-order-taking",
-			<MailOutlined />,
+			<ShoppingOutlined />,
 		),
 		getItem("ACE Pages", "sub41", <SwapOutlined />, [
 			getItem("Contact Us", "/admin/website-edit/contactus-edit"),
@@ -407,9 +413,11 @@ const AdminMenu = ({
 						? "/admin/offline-order-taking"
 						: fromPage === "PrintBarcodes"
 						? "/admin/print-barcodes"
-						: (fromPage = "AceInventory"
-								? "/admin/ace-inventory-report"
-								: "/admin/dashboard")
+						: fromPage === "AceInventory"
+						? "/admin/ace-inventory-report"
+						: fromPage === "AceReceivingLog"
+						? "/admin/ace-receiving-log"
+						: "/admin/dashboard"
 				}
 				defaultOpenKeys={[
 					"sub1",

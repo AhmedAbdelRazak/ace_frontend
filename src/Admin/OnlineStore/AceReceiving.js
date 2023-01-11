@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-// eslint-disable-next-line
 import { isAuthenticated } from "../../auth";
 import AdminMenu from "../AdminMenu/AdminMenu";
 import Navbar from "../AdminNavMenu/Navbar";
@@ -223,6 +222,7 @@ const AceReceiving = () => {
 			storeBranch: user.userBranch ? user.userBranch : "san stefano",
 			receivedSKU: chosenSubSKU,
 			receivedQuantity: quantityToBeReceived,
+			receivingCase: "new",
 		}).then((data) => {
 			if (data.error) {
 				setTimeout(function () {
