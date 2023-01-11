@@ -12,10 +12,10 @@ ReactDOM.render(
 			<MessengerChat
 				pageId={process.env.REACT_APP_FACEBOOK_PAGE_ID}
 				language='sv_SE'
-				themeColor={"#000000"}
-				bottomSpacing={300}
-				loggedInGreeting='loggedInGreeting'
-				loggedOutGreeting='loggedOutGreeting'
+				// themeColor={"#000000"}
+				bottomSpacing={100}
+				// loggedInGreeting='loggedInGreeting'
+				// loggedOutGreeting='loggedOutGreeting'
 				greetingDialogDisplay={"show"}
 				debugMode={true}
 				onMessengerShow={() => {
