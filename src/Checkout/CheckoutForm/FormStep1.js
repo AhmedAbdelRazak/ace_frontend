@@ -16,6 +16,7 @@ const FormStep1 = ({
 	couponApplied,
 	setCouponApplied,
 	stringChecker,
+	hasWhiteSpace,
 }) => {
 	var payOnDelivery_OnlineLogic =
 		alreadySetLoyaltyPointsManagement.activatePayOnDelivery &&
@@ -34,6 +35,7 @@ const FormStep1 = ({
 			</span>
 		);
 	};
+
 	const customerDetailsForm = () => {
 		return (
 			<div
@@ -48,7 +50,14 @@ const FormStep1 = ({
 					<div className='form-group col-md-6 '>
 						<label className=''>
 							Full Name{" "}
-							{customerDetails.fullName.length < 2 ? requiredText() : null}
+							{customerDetails.fullName.length < 1 ? requiredText() : null}
+							{!hasWhiteSpace(customerDetails.fullName) &&
+							customerDetails.fullName ? (
+								<strong
+									style={{ fontSize: "10px", marginLeft: "3px", color: "red" }}>
+									Ensure To Add Your Full Name. Thanks!
+								</strong>
+							) : null}
 						</label>
 						<input
 							onChange={handleChange("fullName")}
@@ -79,13 +88,23 @@ const FormStep1 = ({
 					</div>
 
 					<div className='form-group col-md-6 '>
-						<label className=''>Email Address</label>
+						<label className=''>Email Address </label>
+						{customerDetails.payOnline && !customerDetails.payOnDelivery ? (
+							<strong
+								style={{ fontSize: "10px", marginLeft: "3px", color: "red" }}>
+								Required*
+							</strong>
+						) : null}
 						<input
 							onChange={handleChange("email")}
 							type='text'
 							className='form-control'
 							value={customerDetails.email}
-							placeholder='Optional - Email Address'
+							placeholder={
+								customerDetails.payOnline && !customerDetails.payOnDelivery
+									? "Required - Email Address"
+									: "Optional - Email Address"
+							}
 						/>
 					</div>
 					<div className='form-group col-md-6 '>

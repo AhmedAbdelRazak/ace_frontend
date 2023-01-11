@@ -10,6 +10,7 @@ import { showAverageRating2 } from "../SingleProduct/Rating";
 import { useCartContext } from "../../Checkout/cart_context";
 import { viewsCounter } from "../../apiCore";
 import { ShoppingCartOutlined } from "@ant-design/icons";
+import ReactPixel from "react-facebook-pixel";
 
 const CardInHomePage = ({
 	product,
@@ -134,9 +135,16 @@ const CardInHomePage = ({
 		<div className='product-wrapper'>
 			<span onClick={openSidebar}>
 				<span
-					onClick={() =>
-						addToCart(product._id, null, 1, product, chosenProductAttributes)
-					}
+					onClick={() => {
+						addToCart(product._id, null, 1, product, chosenProductAttributes);
+						ReactPixel.track("Cart", {
+							content_name: "Cart",
+							content_category: "Cart",
+							content_type: product.productName,
+							value: "Cart",
+							currency: "",
+						});
+					}}
 					className='btn'>
 					<ShoppingCartOutlined />
 				</span>

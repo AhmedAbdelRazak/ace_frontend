@@ -17,6 +17,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 // import ReactGA from "react-ga";
 // eslint-disable-next-line
 import Helmet from "react-helmet";
+import ReactPixel from "react-facebook-pixel";
 
 const Register = () => {
 	const [values, setValues] = useState({
@@ -225,6 +226,19 @@ const Register = () => {
 	// 	ReactGA.pageview(window.location.pathname + window.location.search);
 	// 	// eslint-disable-next-line
 	// }, []);
+
+	const options = {
+		autoConfig: true,
+		debug: false,
+	};
+
+	useEffect(() => {
+		ReactPixel.init(process.env.REACT_APP_FACEBOOK_PIXEL_ID, options);
+
+		ReactPixel.pageView();
+
+		// eslint-disable-next-line
+	}, []);
 
 	return (
 		<WholeSignup>

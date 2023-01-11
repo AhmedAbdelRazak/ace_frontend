@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import ReactPixel from "react-facebook-pixel";
 import { getColors, gettingAllProducts } from "../../apiCore";
 import MainFilter from "./Filters/MainFilter";
 import CardForShop from "./CardForShop";
@@ -91,6 +92,19 @@ const ShopPageMain = ({ chosenLanguage }) => {
 
 		// eslint-disable-next-line
 	}, [usedFilters]);
+
+	const options = {
+		autoConfig: true,
+		debug: false,
+	};
+
+	useEffect(() => {
+		ReactPixel.init(process.env.REACT_APP_FACEBOOK_PIXEL_ID, options);
+
+		ReactPixel.pageView();
+
+		// eslint-disable-next-line
+	}, []);
 
 	return (
 		<ShopPageMainWrapper>

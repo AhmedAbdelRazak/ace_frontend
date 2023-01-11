@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-
+import ReactPixel from "react-facebook-pixel";
 import {
 	userlike,
 	userunlike,
@@ -573,6 +573,19 @@ const SingleProduct = (props) => {
 
 	// console.log(window.location.search.split("=")[1], "window.location.search");
 
+	const options = {
+		autoConfig: true,
+		debug: false,
+	};
+
+	useEffect(() => {
+		ReactPixel.init(process.env.REACT_APP_FACEBOOK_PIXEL_ID, options);
+
+		ReactPixel.pageView();
+
+		// eslint-disable-next-line
+	}, []);
+
 	return (
 		<SingleEmp className='mx-auto'>
 			<Helmet>
@@ -824,6 +837,13 @@ const SingleProduct = (props) => {
 																Product,
 																chosenProductAttributes,
 															);
+															ReactPixel.track("Cart", {
+																content_name: "Cart",
+																content_category: "Cart",
+																content_type: Product.productName,
+																value: "Cart",
+																currency: "",
+															});
 														}}>
 														<div className='sc-pCPXO dbhMVG'>
 															<svg

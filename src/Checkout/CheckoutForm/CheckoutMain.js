@@ -3,6 +3,7 @@
 // eslint-disable-next-line
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import ReactPixel from "react-facebook-pixel";
 // eslint-disable-next-line
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
@@ -394,6 +395,7 @@ const CheckoutMain = ({ match }) => {
 					couponApplied={couponApplied}
 					setCouponApplied={setCouponApplied}
 					stringChecker={stringChecker}
+					hasWhiteSpace={hasWhiteSpace}
 				/>
 			),
 		},
@@ -784,6 +786,19 @@ const CheckoutMain = ({ match }) => {
 		}
 	}
 
+	const options = {
+		autoConfig: true,
+		debug: false,
+	};
+
+	useEffect(() => {
+		ReactPixel.init(process.env.REACT_APP_FACEBOOK_PIXEL_ID, options);
+
+		ReactPixel.pageView();
+
+		// eslint-disable-next-line
+	}, []);
+
 	return (
 		<CheckoutMainWrapper>
 			{cart.length === 0 ? RedirectToHome() : null}
@@ -822,6 +837,9 @@ const CheckoutMain = ({ match }) => {
 										customerDetails.payOnline) ||
 									(!customerDetails.payOnDelivery &&
 										!customerDetails.payOnline) ||
+									(!customerDetails.payOnDelivery &&
+										customerDetails.payOnline &&
+										!customerDetails.email) ||
 									notAvailableStock ||
 									!hasWhiteSpace(customerDetails.fullName) ||
 									stringChecker(customerDetails.phone)
@@ -1052,6 +1070,15 @@ const CheckoutMain = ({ match }) => {
 												}`,
 											},
 										};
+
+										ReactPixel.track("Purchased Pay On Delivery", {
+											content_name: "Purchased Pay On Delivery",
+											content_category: "User Clicked On Pay On Delivery",
+											content_type: "Purchased Pay On Delivery",
+											value: total_amount,
+											currency: "EGP",
+										});
+
 										localStorage.setItem(
 											"orderDataStored",
 											JSON.stringify(orderDataTobeStored),
@@ -1066,6 +1093,15 @@ const CheckoutMain = ({ match }) => {
 											"chosenShippingOption",
 											JSON.stringify(chosenShippingOption),
 										);
+
+										ReactPixel.track("Purchased", {
+											content_name: "Purchased",
+											content_category: "User Clicked On Pay Now",
+											content_type: "Purchased",
+											value: total_amount,
+											currency: "EGP",
+										});
+
 										window.location.replace(
 											`${process.env.REACT_APP_IFRAME_LINK}${paymobToken}`,
 										);

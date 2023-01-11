@@ -13,6 +13,7 @@ import ReactGA from "react-ga";
 import Helmet from "react-helmet";
 // eslint-disable-next-line
 import StoreImage from "../GeneralImages/LoginImg.jpg";
+import ReactPixel from "react-facebook-pixel";
 
 const Login = ({ history }) => {
 	const [values, setValues] = useState({
@@ -204,6 +205,19 @@ const Login = ({ history }) => {
 			</div>
 		</FormSignin>
 	);
+
+	const options = {
+		autoConfig: true,
+		debug: false,
+	};
+
+	useEffect(() => {
+		ReactPixel.init(process.env.REACT_APP_FACEBOOK_PIXEL_ID, options);
+
+		ReactPixel.pageView();
+
+		// eslint-disable-next-line
+	}, []);
 
 	return (
 		<WholeSignin>

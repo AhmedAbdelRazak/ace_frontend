@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import ReactPixel from "react-facebook-pixel";
 import HeroComponent from "./HeroComponent";
 import { getProducts } from "../../apiCore";
 // eslint-disable-next-line
@@ -91,6 +92,19 @@ const Home = ({ chosenLanguage }) => {
 		return () => {
 			setAllProducts([]);
 		};
+
+		// eslint-disable-next-line
+	}, []);
+
+	const options = {
+		autoConfig: true,
+		debug: false,
+	};
+
+	useEffect(() => {
+		ReactPixel.init(process.env.REACT_APP_FACEBOOK_PIXEL_ID, options);
+
+		ReactPixel.pageView();
 
 		// eslint-disable-next-line
 	}, []);

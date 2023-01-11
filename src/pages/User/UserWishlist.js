@@ -11,6 +11,7 @@ import {
 } from "../../apiCore";
 import { isAuthenticated } from "../../auth";
 import CardInHomePage from "../Home/CardInHomePage";
+import ReactPixel from "react-facebook-pixel";
 
 const UserWishlist = () => {
 	// eslint-disable-next-line
@@ -63,6 +64,19 @@ const UserWishlist = () => {
 	useEffect(() => {
 		readingUser();
 		gettingAllColors();
+		// eslint-disable-next-line
+	}, []);
+
+	const options = {
+		autoConfig: true,
+		debug: false,
+	};
+
+	useEffect(() => {
+		ReactPixel.init(process.env.REACT_APP_FACEBOOK_PIXEL_ID, options);
+
+		ReactPixel.pageView();
+
 		// eslint-disable-next-line
 	}, []);
 

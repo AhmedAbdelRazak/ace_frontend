@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getColors } from "../../apiCore";
+import ReactPixel from "react-facebook-pixel";
 
 const isActive = (c, sureClickedLink) => {
 	if (c === sureClickedLink) {
@@ -201,6 +202,14 @@ const ColorsAndSizes = ({
 										);
 										setClickedLink(c.color);
 										setColorSelected(true);
+
+										ReactPixel.track("Client Chose a Color", {
+											content_name: "Client Chose a Color",
+											content_category: "Client Chose a Color",
+											content_type: "Client Chose a Color",
+											value: "Client Chose a Color",
+											currency: "",
+										});
 									}}
 									style={isActive(c.color, clickedLink)}>
 									{c.productImages && c.productImages.length > 0 ? (
@@ -305,6 +314,14 @@ const ColorsAndSizes = ({
 												SubSKUSize: s,
 											});
 										}
+
+										ReactPixel.track("Client Chose a Size", {
+											content_name: "Client Chose a Size",
+											content_category: "Client Chose a Size",
+											content_type: "Client Chose a Size",
+											value: "Client Chose a Size",
+											currency: "",
+										});
 
 										setClickedLink2(s);
 									}}

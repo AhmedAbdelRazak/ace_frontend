@@ -6,6 +6,7 @@ import "./App.css";
 import { ToastContainer } from "react-toastify";
 import "antd/dist/antd.min.css";
 import ReactGA from "react-ga";
+import ReactPixel from "react-facebook-pixel";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Footer from "./Footer";
@@ -161,6 +162,19 @@ const App = () => {
 			localStorage.removeItem("chosenShippingOption");
 			localStorage.removeItem("orderDataStored");
 		}
+
+		// eslint-disable-next-line
+	}, []);
+
+	const options = {
+		autoConfig: true,
+		debug: false,
+	};
+
+	useEffect(() => {
+		ReactPixel.init(process.env.REACT_APP_FACEBOOK_PIXEL_ID, options);
+
+		ReactPixel.pageView();
 
 		// eslint-disable-next-line
 	}, []);

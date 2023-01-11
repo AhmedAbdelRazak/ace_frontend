@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { getColors, readSingleUserHistory, readUser } from "../../apiCore";
 import { isAuthenticated } from "../../auth";
 import UserHistory from "./UserHistory";
+import ReactPixel from "react-facebook-pixel";
 
 const UserDashboard = () => {
 	const [userDetails, setUserDetails] = useState({});
@@ -53,6 +54,19 @@ const UserDashboard = () => {
 		useHistOrders &&
 		useHistOrders.length > 0 &&
 		useHistOrders[useHistOrders.length - 1];
+
+	const options = {
+		autoConfig: true,
+		debug: false,
+	};
+
+	useEffect(() => {
+		ReactPixel.init(process.env.REACT_APP_FACEBOOK_PIXEL_ID, options);
+
+		ReactPixel.pageView();
+
+		// eslint-disable-next-line
+	}, []);
 
 	return (
 		<UserDashboardWrapper>
