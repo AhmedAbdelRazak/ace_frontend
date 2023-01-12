@@ -14,7 +14,6 @@ ReactDOM.render(
 				language='ar_AR'
 				// themeColor={"#000000"}
 				bottomSpacing={50}
-				zIndex={10000}
 				// loggedInGreeting='loggedInGreeting'
 				// loggedOutGreeting='loggedOutGreeting'
 				// greetingDialogDisplay={"show"}
