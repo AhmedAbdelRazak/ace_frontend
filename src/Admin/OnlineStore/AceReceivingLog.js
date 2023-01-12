@@ -7,6 +7,7 @@ import DarkBG from "../AdminMenu/DarkBG";
 import { getReceivingLogs } from "../apiAdmin";
 import ReactExport from "react-export-excel";
 import { Link } from "react-router-dom";
+import ReactGA from "react-ga4";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -68,6 +69,13 @@ const AceReceivingLog = () => {
 			</ExcelFile>
 		);
 	};
+
+	useEffect(() => {
+		ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_MEASUREMENTID);
+		ReactGA.send(window.location.pathname + window.location.search);
+
+		// eslint-disable-next-line
+	}, [window.location.pathname]);
 
 	return (
 		<AceReceivingLogWrapper>

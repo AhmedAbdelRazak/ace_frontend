@@ -5,7 +5,7 @@ import { Route, BrowserRouter, Switch } from "react-router-dom";
 import "./App.css";
 import { ToastContainer } from "react-toastify";
 import "antd/dist/antd.min.css";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 import ReactPixel from "react-facebook-pixel";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -109,13 +109,12 @@ const App = () => {
 
 	useEffect(() => {
 		ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_MEASUREMENTID);
-		// To Report Page View
-		ReactGA.pageview(window.location.pathname + window.location.search);
+		ReactGA.send(window.location.pathname + window.location.search);
 
 		setLanguage("English");
 
 		// eslint-disable-next-line
-	}, []);
+	}, [window.location.pathname]);
 
 	const languageToggle = () => {
 		console.log(language);

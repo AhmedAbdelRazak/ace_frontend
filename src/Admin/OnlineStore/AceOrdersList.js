@@ -24,6 +24,8 @@ import OrdersCountCards from "../CardsBreakDown/OrdersCountCards";
 import OrdersQtyCard from "../CardsBreakDown/OrdersQtyCard";
 import OrdersTotalAmountCards from "../CardsBreakDown/OrdersTotalAmountCards";
 import ReactExport from "react-export-excel";
+import ReactGA from "react-ga4";
+
 // import ExcelToJson from "./ExcelToJson";
 
 const ExcelFile = ReactExport.ExcelFile;
@@ -609,6 +611,13 @@ const AceOrdersList = () => {
 			</div>
 		);
 	};
+
+	useEffect(() => {
+		ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_MEASUREMENTID);
+		ReactGA.send(window.location.pathname + window.location.search);
+
+		// eslint-disable-next-line
+	}, [window.location.pathname]);
 
 	useEffect(() => {
 		const onScroll = () => setOffset(window.pageYOffset);

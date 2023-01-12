@@ -9,6 +9,7 @@ import DarkBG from "../AdminMenu/DarkBG";
 import { getColors, getProducts, receiveNew, updateProduct } from "../apiAdmin";
 import { Select } from "antd";
 import { toast } from "react-toastify";
+import ReactGA from "react-ga4";
 
 const { Option } = Select;
 
@@ -233,6 +234,13 @@ const AceReceiving = () => {
 			}
 		});
 	};
+
+	useEffect(() => {
+		ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_MEASUREMENTID);
+		ReactGA.send(window.location.pathname + window.location.search);
+
+		// eslint-disable-next-line
+	}, [window.location.pathname]);
 
 	return (
 		<AceReceivingWrapper show={AdminMenuStatus}>

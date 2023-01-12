@@ -10,6 +10,7 @@ import DarkBG from "../../AdminMenu/DarkBG";
 import { getProducts } from "../../apiAdmin";
 import Barcode from "react-barcode";
 import { Link } from "react-router-dom";
+import ReactGA from "react-ga4";
 
 const PrintBarcodes = () => {
 	const [AdminMenuStatus, setAdminMenuStatus] = useState(false);
@@ -60,6 +61,13 @@ const PrintBarcodes = () => {
 
 		// eslint-disable-next-line
 	}, []);
+
+	useEffect(() => {
+		ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_MEASUREMENTID);
+		ReactGA.send(window.location.pathname + window.location.search);
+
+		// eslint-disable-next-line
+	}, [window.location.pathname]);
 
 	return (
 		<PrintBarcodesWrapper show={AdminMenuStatus}>

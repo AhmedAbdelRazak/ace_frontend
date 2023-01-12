@@ -12,6 +12,8 @@ import { useCartContext } from "../../Checkout/cart_context";
 import SidebarFilters from "./Filters/SidebarFilters";
 import DarkBackground from "./Filters/DarkBackground";
 import { Helmet } from "react-helmet";
+import ReactGA from "react-ga4";
+
 // import { FilterTwoTone } from "@ant-design/icons";
 
 const ShopPageMain = ({ chosenLanguage }) => {
@@ -105,6 +107,13 @@ const ShopPageMain = ({ chosenLanguage }) => {
 
 		// eslint-disable-next-line
 	}, []);
+
+	useEffect(() => {
+		ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_MEASUREMENTID);
+		ReactGA.send(window.location.pathname + window.location.search);
+
+		// eslint-disable-next-line
+	}, [window.location.pathname]);
 
 	return (
 		<ShopPageMainWrapper>

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ReactPixel from "react-facebook-pixel";
+import ReactGA from "react-ga4";
 import HeroComponent from "./HeroComponent";
 import { getProducts } from "../../apiCore";
 // eslint-disable-next-line
@@ -15,6 +16,7 @@ import GenderLinks from "./GenderLinks";
 import HeroComponent2 from "./HeroComponent2";
 import HeroComponent3 from "./HeroComponent3";
 import GenderNav from "../../Navbar/GenderNav";
+import { Helmet } from "react-helmet";
 
 const Home = ({ chosenLanguage }) => {
 	// eslint-disable-next-line
@@ -109,8 +111,23 @@ const Home = ({ chosenLanguage }) => {
 		// eslint-disable-next-line
 	}, []);
 
+	useEffect(() => {
+		ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_MEASUREMENTID);
+		ReactGA.send(window.location.pathname + window.location.search);
+
+		// eslint-disable-next-line
+	}, [window.location.pathname]);
+
 	return (
 		<HomeWrapper>
+			<Helmet>
+				<meta charSet='utf-8' />
+				<title>ACE SPORTS WEAR | ONLINE SHOP</title>
+
+				<meta name='description' content='Ace Online Shop' />
+				<link rel='icon' href='gq_frontend\src\GeneralImgs\favicon.ico' />
+				<link rel='canonical' href='https://acesportive.com/contact' />
+			</Helmet>
 			<>
 				<GenderNav />
 			</>

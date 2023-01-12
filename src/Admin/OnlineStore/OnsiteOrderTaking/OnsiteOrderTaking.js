@@ -28,6 +28,7 @@ import CheckoutCardModal from "./CheckoutCardModal";
 import CheckoutCashModal from "./CheckoutCashModal";
 import { toast } from "react-toastify";
 import NewCustomerModal from "./NewCustomerModal";
+import ReactGA from "react-ga4";
 
 const OnsiteOrderTaking = () => {
 	// eslint-disable-next-line
@@ -104,6 +105,13 @@ const OnsiteOrderTaking = () => {
 		}
 		return () => window.removeEventListener("scroll", onScroll);
 	}, [offset]);
+
+	useEffect(() => {
+		ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_MEASUREMENTID);
+		ReactGA.send(window.location.pathname + window.location.search);
+
+		// eslint-disable-next-line
+	}, [window.location.pathname]);
 
 	const gettingAllProducts = () => {
 		getProducts().then((data) => {

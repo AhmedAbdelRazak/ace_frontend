@@ -6,6 +6,7 @@ import { getColors, readSingleUserHistory, readUser } from "../../apiCore";
 import { isAuthenticated } from "../../auth";
 import UserHistory from "./UserHistory";
 import ReactPixel from "react-facebook-pixel";
+import ReactGA from "react-ga4";
 
 const UserDashboard = () => {
 	const [userDetails, setUserDetails] = useState({});
@@ -67,6 +68,13 @@ const UserDashboard = () => {
 
 		// eslint-disable-next-line
 	}, []);
+
+	useEffect(() => {
+		ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_MEASUREMENTID);
+		ReactGA.send(window.location.pathname + window.location.search);
+
+		// eslint-disable-next-line
+	}, [window.location.pathname]);
 
 	return (
 		<UserDashboardWrapper>

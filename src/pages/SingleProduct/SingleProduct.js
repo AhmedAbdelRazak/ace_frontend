@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ReactPixel from "react-facebook-pixel";
+import ReactGA from "react-ga4";
 import {
 	userlike,
 	userunlike,
@@ -585,6 +586,13 @@ const SingleProduct = (props) => {
 
 		// eslint-disable-next-line
 	}, []);
+
+	useEffect(() => {
+		ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_MEASUREMENTID);
+		ReactGA.send(window.location.pathname + window.location.search);
+
+		// eslint-disable-next-line
+	}, [window.location.pathname, window.location.search]);
 
 	return (
 		<SingleEmp className='mx-auto'>

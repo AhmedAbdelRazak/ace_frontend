@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { Helmet } from "react-helmet";
 import { getContacts } from "../../Admin/apiAdmin";
 import styled from "styled-components";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
 const Contactus = () => {
 	useEffect(() => {
@@ -76,10 +76,10 @@ const Contactus = () => {
 
 	useEffect(() => {
 		ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_MEASUREMENTID);
-		// To Report Page View
-		ReactGA.pageview(window.location.pathname + window.location.search);
+		ReactGA.send(window.location.pathname + window.location.search);
+
 		// eslint-disable-next-line
-	}, []);
+	}, [window.location.pathname]);
 
 	return (
 		<ContactUsWrapper dir='ltr'>

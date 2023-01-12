@@ -12,6 +12,7 @@ import {
 import { isAuthenticated } from "../../auth";
 import CardInHomePage from "../Home/CardInHomePage";
 import ReactPixel from "react-facebook-pixel";
+import ReactGA from "react-ga4";
 
 const UserWishlist = () => {
 	// eslint-disable-next-line
@@ -79,6 +80,13 @@ const UserWishlist = () => {
 
 		// eslint-disable-next-line
 	}, []);
+
+	useEffect(() => {
+		ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_MEASUREMENTID);
+		ReactGA.send(window.location.pathname + window.location.search);
+
+		// eslint-disable-next-line
+	}, [window.location.pathname]);
 
 	return (
 		<UserWishlistWrapper>

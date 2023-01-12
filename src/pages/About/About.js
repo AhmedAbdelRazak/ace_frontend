@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 // import AboutPhoto from "../imgs/traffic-3098747_1920.jpg";
 // import AboutPhoto from "../Navbar/RCHDIGIMP_Logo.jpg";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 import Helmet from "react-helmet";
 import { getAbouts } from "../../Admin/apiAdmin";
 
@@ -28,10 +28,10 @@ const About = () => {
 
 	useEffect(() => {
 		ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_MEASUREMENTID);
-		// To Report Page View
-		ReactGA.pageview(window.location.pathname + window.location.search);
+		ReactGA.send(window.location.pathname + window.location.search);
+
 		// eslint-disable-next-line
-	}, []);
+	}, [window.location.pathname]);
 
 	return (
 		<AboutPageWrapper>
