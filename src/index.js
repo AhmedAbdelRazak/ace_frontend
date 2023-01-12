@@ -11,7 +11,7 @@ ReactDOM.render(
 		<CartProvider>
 			<MessengerChat
 				pageId={process.env.REACT_APP_FACEBOOK_PAGE_ID}
-				language='sv_SE'
+				language='ar_AR'
 				// themeColor={"#000000"}
 				bottomSpacing={50}
 				zIndex={10000}
