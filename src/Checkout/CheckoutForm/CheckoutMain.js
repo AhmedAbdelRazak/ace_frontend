@@ -316,6 +316,14 @@ const CheckoutMain = ({ match }) => {
 			lastName,
 		);
 
+		ordersLength().then((data) => {
+			if (data.error) {
+				console.log(data.error);
+			} else {
+				setLengthOfOrders(data);
+			}
+		});
+
 		// eslint-disable-next-line
 	}, [appliedCoupon, current]);
 
@@ -663,13 +671,92 @@ const CheckoutMain = ({ match }) => {
 		}),
 	);
 
+	const requiredURL = window.location.pathname + window.location.search;
+
+	let last4 = window.location.search
+		? requiredURL.split("&")[0].split("=")[1]
+		: null;
+	let is_voided = window.location.search
+		? requiredURL.split("&")[2].split("=")[1]
+		: null;
+	let source_data = window.location.search
+		? requiredURL.split("&")[3].split("=")[1]
+		: null;
+	let is_3d_secure = window.location.search
+		? requiredURL.split("&")[5].split("=")[1]
+		: null;
+	let currency = window.location.search
+		? requiredURL.split("&")[6].split("=")[1]
+		: null;
+	let error_occured = window.location.search
+		? requiredURL.split("&")[7].split("=")[1]
+		: null;
+	let is_standalone_payment = window.location.search
+		? requiredURL.split("&")[8].split("=")[1]
+		: null;
+	let pending = window.location.search
+		? requiredURL.split("&")[9].split("=")[1]
+		: null;
+	let success = window.location.search
+		? requiredURL.split("&")[10].split("=")[1]
+		: null;
+	let hmac = window.location.search
+		? requiredURL.split("&")[12].split("=")[1]
+		: null;
+	let is_refund = window.location.search
+		? requiredURL.split("&")[13].split("=")[1]
+		: null;
+	let has_parent_transaction = window.location.search
+		? requiredURL.split("&")[14].split("=")[1]
+		: null;
+	let txn_response_code = window.location.search
+		? requiredURL.split("&")[17].split("=")[1]
+		: null;
+	let profile_id = window.location.search
+		? requiredURL.split("&")[19].split("=")[1]
+		: null;
+	let id = window.location.search
+		? requiredURL.split("&")[20].split("=")[1]
+		: null;
+	let order = window.location.search
+		? requiredURL.split("&")[21].split("=")[1]
+		: null;
+	let message = window.location.search
+		? requiredURL.split("&")[31].split("=")[1]
+		: null;
+
+	const callBackResponse = {
+		last4: last4,
+		is_voided: is_voided,
+		source_data: source_data,
+		is_3d_secure: is_3d_secure,
+		currency: currency,
+		error_occured: error_occured,
+		is_standalone_payment: is_standalone_payment,
+		pending: pending,
+		success: success,
+		hmac: hmac,
+		is_refund: is_refund,
+		is_void: has_parent_transaction,
+		txn_response_code: txn_response_code,
+		profile_id: profile_id,
+		id: id,
+		order: order,
+		amount_cents: "",
+		updated_at: "",
+		message: message,
+	};
+
 	// eslint-disable-next-line
 	const CreatingOrderPaid = (e) => {
 		const orderDataStoredLocalStor = JSON.parse(
 			localStorage.getItem("orderDataStored"),
 		);
 
-		console.log(orderDataStoredLocalStor);
+		const orderDataStoredLocalStorUpdated = {
+			...orderDataStoredLocalStor,
+			paymobData: { ...orderDataStoredLocalStor.paymobData, callBackResponse },
+		};
 
 		window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -681,8 +768,12 @@ const CheckoutMain = ({ match }) => {
 			return toast.error("Not Enough Stock for the product you picked");
 		}
 
+		if (txn_response_code !== "APPROVED") {
+			return toast.error("Error Processing Your Payment, Please try again.");
+		}
+
 		//In Processing, Ready To Ship, Shipped, Delivered
-		const createOrderData = orderDataStoredLocalStor;
+		const createOrderData = orderDataStoredLocalStorUpdated;
 
 		createOrder(token, createOrderData, user._id)
 			.then((response) => {
@@ -697,6 +788,7 @@ const CheckoutMain = ({ match }) => {
 			});
 	};
 
+	// eslint-disable-next-line
 	const RedirectToHome = () => {
 		return <Redirect to='/user/dashboard' />;
 	};
@@ -734,7 +826,7 @@ const CheckoutMain = ({ match }) => {
 			toast.success("Your order was successfully set");
 			setTimeout(() => {
 				CreatingOrderPaid();
-			}, 2000);
+			}, 2500);
 		}
 		// eslint-disable-next-line
 	}, []);

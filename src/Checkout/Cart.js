@@ -341,12 +341,9 @@ const Cart = ({ chosenLanguage }) => {
 		<CartV2Styling>
 			<Helmet>
 				<meta charSet='utf-8' />
-				<title>Demo Ecommerce Web App | Developed By Infinite-Apps</title>
+				<title>ACE SPORTS WEAR | ONLINE SHOP CART</title>
 
-				<meta
-					name='description'
-					content='This is a demo website created by Infinite-Apps. This web app is mainly focusing on Ecommerce business/Web Shops and it could be used for Brick and Mortar stores to increase your sales. Infinite Apps can help with your SEO (Search Engine Optimization) so you can market for your business and rank higher with Google. If you are interested, Please contact infinite apps 9099914386 (www.infinite-apps.com)'
-				/>
+				<meta name='description' content='THE BEST SPORTS WEAR IN THE MARKET' />
 				<link
 					rel='stylesheet'
 					href='http://fonts.googleapis.com/earlyaccess/droidarabickufi.css'
