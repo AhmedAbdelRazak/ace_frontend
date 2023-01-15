@@ -1331,7 +1331,8 @@ const OperationsReport = () => {
 									</div>
 								</div>
 								{user.userRole === "Order Taker" ||
-								user.userRole === "Operations" ? null : (
+								user.userRole === "Operations" ||
+								user.userRole === "Offline Store" ? null : (
 									<div className='col-xl-4 col-lg-6 col-md-11 col-sm-11 text-center mx-auto my-2'>
 										<div className='card' style={{ background: "#50cd89" }}>
 											<div className='card-body'>

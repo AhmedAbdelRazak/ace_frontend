@@ -24,8 +24,12 @@ const AceReceivingLog = () => {
 			if (data.error) {
 				console.log(data.error);
 			} else {
-				setAllReceivings(data);
-				setExcelDataSet(data);
+				setAllReceivings(
+					data.filter((i) => i.receivingCase.toLowerCase() !== "outbound"),
+				);
+				setExcelDataSet(
+					data.filter((i) => i.receivingCase.toLowerCase() !== "outbound"),
+				);
 			}
 		});
 	};

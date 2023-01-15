@@ -297,7 +297,7 @@ const MainReports = () => {
 			return res;
 		}, {});
 
-	console.log(OrdersDates_OrdersCount, "OrdersDates_OrdersCount");
+	// console.log(OrdersDates_OrdersCount, "OrdersDates_OrdersCount");
 
 	var chartDataOrdersCount = {
 		options: {
@@ -877,8 +877,10 @@ const MainReports = () => {
 
 	return (
 		<MainReportsWrapper show={collapsed}>
-			{user.userRole === "Order Taker" || user.userRole === "Operations" ? (
-				<Redirect to='/admin/create-new-order' />
+			{user.userRole === "Order Taker" ||
+			user.userRole === "Operations" ||
+			user.userRole === "Offline Store" ? (
+				<Redirect to='/admin/ace-receiving' />
 			) : null}
 			{!collapsed ? (
 				<DarkBG collapsed={collapsed} setCollapsed={setCollapsed} />

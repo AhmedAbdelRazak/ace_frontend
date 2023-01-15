@@ -70,11 +70,11 @@ const OnsiteOrderTaking = () => {
 	const [postsPerPage, setPostsPerPage] = useState(15);
 	const [addedPhoneNumber, setAddedPhoneNumber] = useState("");
 	const [userCustomerDetails, setUserCustomerDetails] = useState({
-		fullName: "",
+		fullName: "Offline Store",
 		email: "",
-		phone: "",
-		address: "",
-		state: "",
+		phone: "Offline Store",
+		address: "From Store " + isAuthenticated().user.userBranch,
+		state: "From Store " + isAuthenticated().user.userBranch,
 		city: "",
 		cityName: "",
 		carrierName: "",
@@ -425,6 +425,12 @@ const OnsiteOrderTaking = () => {
 					productsTotalAmount - productsTotalAmount * (discountBy / 100),
 			  ).toFixed(2);
 
+	let productsTotalOrderedQty =
+		chosenProductWithVariables &&
+		chosenProductWithVariables
+			.map((i) => Number(i.OrderedQty))
+			.reduce((a, b) => a + b, 0);
+
 	const loadOrdersLength = () => {
 		ordersLength(user._id, token).then((data) => {
 			if (data.error) {
@@ -447,6 +453,8 @@ const OnsiteOrderTaking = () => {
 		paymentStatus,
 		orderCreationDate,
 	]);
+
+	// console.log(chosenProductWithVariables, "chosenProductsWith");
 
 	return (
 		<OnsiteOrderTakingWrapper show={AdminMenuStatus}>
@@ -593,6 +601,9 @@ const OnsiteOrderTaking = () => {
 									totalAmount={productsTotalAmount}
 									paymentStatus={paymentStatus}
 									employeeData={user}
+									productsTotalOrderedQty={productsTotalOrderedQty}
+									lengthOfOrders={lengthOfOrders}
+									setLengthOfOrders={setLengthOfOrders}
 								/>
 
 								<CheckoutCashModal
@@ -622,6 +633,9 @@ const OnsiteOrderTaking = () => {
 									paymentStatus={paymentStatus}
 									employeeData={user}
 									customerPaid={customerPaid}
+									productsTotalOrderedQty={productsTotalOrderedQty}
+									lengthOfOrders={lengthOfOrders}
+									setLengthOfOrders={setLengthOfOrders}
 								/>
 							</div>
 							<div className='row'>

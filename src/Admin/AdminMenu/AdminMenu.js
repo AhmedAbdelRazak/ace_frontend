@@ -78,9 +78,15 @@ const items = [
 			"/admin/gq-reports/sales",
 		),
 		getItem(
-			<Link to='/admin/gq-reports/stock'>Stock Report</Link>,
+			<Link to='/admin/gq-reports/stock'>Stock Report (G&Q Hub)</Link>,
 			"/admin/gq-reports/stock",
 		),
+
+		getItem(
+			<Link to='/admin/ace-inventory-report'>Stock Report (Branch)</Link>,
+			"/admin/ace-inventory-report",
+		),
+
 		getItem(
 			<Link to='/admin/gq-reports/operations'>Operations Report</Link>,
 			"/admin/gq-reports/operations",
@@ -173,11 +179,6 @@ const items = [
 		getItem(
 			<Link to='/admin/print-barcodes'>Print SKUs' Barcode</Link>,
 			"/admin/print-barcodes",
-		),
-
-		getItem(
-			<Link to='/admin/ace-inventory-report'>Inventory Report</Link>,
-			"/admin/ace-inventory-report",
 		),
 	]),
 ];
@@ -425,7 +426,6 @@ const AdminMenu = ({
 					fromPage === "AceStoreSales" ||
 					fromPage === "AceStoreReceiving" ||
 					fromPage === "PrintBarcodes" ||
-					fromPage === "AceInventory" ||
 					fromPage === "CouponManagement" ||
 					fromPage === "ProductSpecs"
 						? "sub34"
