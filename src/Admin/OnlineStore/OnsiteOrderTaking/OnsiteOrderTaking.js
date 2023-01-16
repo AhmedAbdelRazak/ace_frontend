@@ -29,6 +29,7 @@ import CheckoutCashModal from "./CheckoutCashModal";
 import { toast } from "react-toastify";
 import NewCustomerModal from "./NewCustomerModal";
 import ReactGA from "react-ga4";
+import { Link } from "react-router-dom";
 
 const OnsiteOrderTaking = () => {
 	// eslint-disable-next-line
@@ -494,7 +495,7 @@ const OnsiteOrderTaking = () => {
 							position: "absolute",
 							top: "15px",
 						}}>
-						POS SYSTEM (Store #1)
+						ACE STORE (Branch: {user && user.userBranch})
 					</span>
 				</div>
 
@@ -923,19 +924,23 @@ const OnsiteOrderTaking = () => {
 											marginLeft: "50px",
 											marginTop: "10px",
 										}}>
-										<button
+										<Link
+											to='/admin/exchange-or-return/offline-store'
 											style={{
-												background: "#89c1ff",
+												background: "darkred",
 												border: "none",
 												padding: "10px 15px",
 												color: "white",
 												textTransform: "uppercase",
 												fontWeight: "bold",
 												borderRadius: "10px",
-												marginRight: "20px",
-											}}>
-											Customer List
-										</button>
+												marginRight: "10px",
+											}}
+											onClick={() =>
+												window.scrollTo({ top: 0, behavior: "smooth" })
+											}>
+											RETURN/ EXCHANGE
+										</Link>
 										<button
 											onClick={() => setModalVisible6(true)}
 											style={{
@@ -946,7 +951,7 @@ const OnsiteOrderTaking = () => {
 												textTransform: "uppercase",
 												fontWeight: "bold",
 												borderRadius: "10px",
-												marginRight: "20px",
+												marginRight: "10px",
 											}}>
 											New Customer
 										</button>
