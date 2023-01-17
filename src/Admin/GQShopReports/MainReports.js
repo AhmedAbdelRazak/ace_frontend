@@ -879,8 +879,8 @@ const MainReports = () => {
 		<MainReportsWrapper show={collapsed}>
 			{user.userRole === "Order Taker" ||
 			user.userRole === "Operations" ||
-			user.userRole === "Offline Store" ? (
-				<Redirect to='/admin/ace-receiving' />
+			user.userRole === "offlineStore" ? (
+				<Redirect to='/admin/offline-order-taking' />
 			) : null}
 			{!collapsed ? (
 				<DarkBG collapsed={collapsed} setCollapsed={setCollapsed} />

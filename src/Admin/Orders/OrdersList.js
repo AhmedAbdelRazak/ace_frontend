@@ -291,11 +291,7 @@ const OrdersList = () => {
 				row.status.toString().toLowerCase().indexOf(q) > -1 ||
 				row.invoiceNumber.toString().toLowerCase().indexOf(q) > -1 ||
 				row.OTNumber.toString().toLowerCase().indexOf(q) > -1 ||
-				row.trackingNumber.toString().toLowerCase().indexOf(q) > -1 ||
-				row.chosenShippingOption[0].carrierName
-					.toString()
-					.toLowerCase()
-					.indexOf(q) > -1
+				row.trackingNumber.toString().toLowerCase().indexOf(q) > -1
 			);
 		});
 	}

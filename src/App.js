@@ -102,6 +102,7 @@ import SingleBarcodePage from "./Admin/OnlineStore/PrintBarcodes/SingleBarcodePa
 import Inventory from "./Admin/OnlineStore/Inventory/Inventory";
 import AceReceivingLog from "./Admin/OnlineStore/AceReceivingLog";
 import ReturnOrExchangeOfflineStore from "./Admin/OnlineStore/ReturnAndExchange/ReturnOrExchange";
+import AceReceivingOffline from "./Admin/OnlineStore/AceReceiving/AceReceivingOffline";
 
 const App = () => {
 	// eslint-disable-next-line
@@ -393,6 +394,11 @@ const App = () => {
 					path='/admin/offline-order-taking'
 					exact
 					component={OnsiteOrderTaking}
+				/>
+				<AdminRoute
+					path='/admin/receiving-offline-store'
+					exact
+					component={AceReceivingOffline}
 				/>
 				<AdminRoute
 					path='/admin/print-barcodes'

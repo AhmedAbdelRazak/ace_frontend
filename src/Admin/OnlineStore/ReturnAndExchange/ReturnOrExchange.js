@@ -504,16 +504,28 @@ const ReturnOrExchangeOfflineStore = () => {
 				</span>
 			</div>
 
-			<div className='text-center mt-3'>
+			<div
+				style={{
+					fontSize: "1.1rem",
+					fontWeight: "bolder",
+					letterSpacing: "2px",
+					textAlign: "right",
+					marginTop: "20px",
+					marginRight: "40px",
+					textDecoration: "underline",
+				}}>
 				<Link
 					to='/admin/offline-order-taking'
 					style={{
+						fontSize: "1.1rem",
 						fontWeight: "bolder",
-						fontSize: "1rem",
-						textDecoration: "underline",
+						letterSpacing: "2px",
+						textAlign: "right",
 					}}>
-					Back To POS
+					Back to POS
 				</Link>
+			</div>
+			<div className='text-center mt-3'>
 				<h3
 					style={{
 						marginTop: "20px",

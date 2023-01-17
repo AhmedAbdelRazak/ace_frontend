@@ -11,7 +11,8 @@ import {
 	getColors,
 	getProducts,
 	getReceivingLogs,
-	ordersLength,
+	listOrdersAce,
+	ordersLengthAce,
 	readSingleOrderByPhoneNumber,
 } from "../../apiAdmin";
 import LogoImage from "../../../GeneralImages/Logo2.png";
@@ -30,6 +31,7 @@ import { toast } from "react-toastify";
 import NewCustomerModal from "./NewCustomerModal";
 import ReactGA from "react-ga4";
 import { Link } from "react-router-dom";
+import OrdersListModal from "./OrdersListModal";
 
 const OnsiteOrderTaking = () => {
 	// eslint-disable-next-line
@@ -44,9 +46,11 @@ const OnsiteOrderTaking = () => {
 	const [modalVisible4, setModalVisible4] = useState(false);
 	const [modalVisible5, setModalVisible5] = useState(false);
 	const [modalVisible6, setModalVisible6] = useState(false);
+	const [modalVisible7, setModalVisible7] = useState(false);
 	const [allProducts, setAllProducts] = useState([]);
 	const [allProductsAll, setAllProductsAll] = useState([]);
 	const [allCategories, setAllCategories] = useState([]);
+	const [allAceOfflineOrders, setAllAceOfflineOrders] = useState([]);
 	const [allGenders, setAllGenders] = useState([]);
 	// eslint-disable-next-line
 	const [allColors, setAllColors] = useState([]);
@@ -433,7 +437,7 @@ const OnsiteOrderTaking = () => {
 			.reduce((a, b) => a + b, 0);
 
 	const loadOrdersLength = () => {
-		ordersLength(user._id, token).then((data) => {
+		ordersLengthAce(user._id, token).then((data) => {
 			if (data.error) {
 				console.log(data.error);
 			} else {
@@ -442,8 +446,22 @@ const OnsiteOrderTaking = () => {
 		});
 	};
 
+	const loadAceOfflineOrders = () => {
+		listOrdersAce(user._id, token).then((data) => {
+			if (data.error) {
+				console.log(data.error);
+			} else {
+				var ordersForBranch = data.filter(
+					(i) => i.employeeData.userBranch === user.userBranch,
+				);
+				setAllAceOfflineOrders(ordersForBranch);
+			}
+		});
+	};
+
 	useEffect(() => {
 		loadOrdersLength();
+		loadAceOfflineOrders();
 		// eslint-disable-next-line
 	}, [
 		addedPhoneNumber,
@@ -525,6 +543,13 @@ const OnsiteOrderTaking = () => {
 									allColors={allColors}
 									allSubSKUs={allSubSKUs}
 									productsTotalAmount={productsTotalAmount}
+								/>
+
+								<OrdersListModal
+									modalVisible={modalVisible7}
+									setModalVisible={setModalVisible7}
+									orders={allAceOfflineOrders}
+									user={user}
 								/>
 
 								<FiltersModal
@@ -999,6 +1024,46 @@ const OnsiteOrderTaking = () => {
 												Submit
 											</button>
 										</span>
+									</div>
+
+									<div
+										style={{
+											fontSize: "12px",
+											marginLeft: "50px",
+											marginTop: "20px",
+										}}>
+										<Link
+											to='/admin/receiving-offline-store'
+											style={{
+												background: "grey",
+												border: "none",
+												padding: "10px 15px",
+												color: "white",
+												textTransform: "uppercase",
+												fontWeight: "bold",
+												borderRadius: "10px",
+												marginRight: "10px",
+											}}
+											onClick={() =>
+												window.scrollTo({ top: 0, behavior: "smooth" })
+											}>
+											Receive New Items
+										</Link>
+										<Link
+											to='#'
+											style={{
+												background: "#042976",
+												border: "none",
+												padding: "10px 15px",
+												color: "white",
+												textTransform: "uppercase",
+												fontWeight: "bold",
+												borderRadius: "10px",
+												marginRight: "10px",
+											}}
+											onClick={() => setModalVisible7(true)}>
+											Store Order List
+										</Link>
 									</div>
 								</div>
 							</div>

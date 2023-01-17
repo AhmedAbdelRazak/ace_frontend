@@ -846,6 +846,7 @@ export const generatingTokenPaymob = (
 						.then((response3) => {
 							// console.log(response3, "response 3");
 							setPaymobtoken(response3.token);
+							console.log(response3.token, "the required token");
 						})
 						.catch((err) => console.error(err));
 
