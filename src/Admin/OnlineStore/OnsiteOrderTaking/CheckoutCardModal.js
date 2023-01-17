@@ -73,7 +73,7 @@ const CheckoutCardModal = ({
 			orderSource: "ace",
 			sendSMS: false,
 			trackingNumber: "",
-			invoiceNumber: `INV${new Date(orderCreationDate).getFullYear()}${
+			invoiceNumber: `ACE${new Date(orderCreationDate).getFullYear()}${
 				new Date(orderCreationDate).getMonth() + 1
 			}${new Date(orderCreationDate).getDate()}000${lengthOfOrders + 1}`,
 			appliedCoupon: {},
@@ -96,7 +96,7 @@ const CheckoutCardModal = ({
 				status: "Paid In Card",
 				transactionId: transactionId
 					? transactionId
-					: `INV${new Date(orderCreationDate).getFullYear()}${
+					: `ACE${new Date(orderCreationDate).getFullYear()}${
 							new Date(orderCreationDate).getMonth() + 1
 					  }${new Date(orderCreationDate).getDate()}000${lengthOfOrders + 1}`,
 			},
