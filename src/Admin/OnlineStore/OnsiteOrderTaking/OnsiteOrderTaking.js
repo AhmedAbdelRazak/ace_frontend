@@ -609,7 +609,7 @@ const OnsiteOrderTaking = () => {
 									allColors={allColors}
 									chosenProducts={chosenProducts}
 									chosenProductWithVariables={chosenProductWithVariables}
-									invoiceNumber={`INV${new Date(
+									invoiceNumber={`ACE${new Date(
 										orderCreationDate,
 									).getFullYear()}${
 										new Date(orderCreationDate).getMonth() + 1
@@ -640,7 +640,7 @@ const OnsiteOrderTaking = () => {
 									allColors={allColors}
 									chosenProducts={chosenProducts}
 									chosenProductWithVariables={chosenProductWithVariables}
-									invoiceNumber={`INV${new Date(
+									invoiceNumber={`ACE${new Date(
 										orderCreationDate,
 									).getFullYear()}${
 										new Date(orderCreationDate).getMonth() + 1
@@ -909,7 +909,7 @@ const OnsiteOrderTaking = () => {
 												<br />
 												<input
 													className='py-2 mb-3'
-													value={`INV${new Date(
+													value={`ACE${new Date(
 														orderCreationDate,
 													).getFullYear()}${
 														new Date(orderCreationDate).getMonth() + 1
