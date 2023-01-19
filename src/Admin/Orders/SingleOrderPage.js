@@ -7,9 +7,6 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import styled from "styled-components";
 import { isAuthenticated } from "../../auth";
-import AdminMenu from "../AdminMenu/AdminMenu";
-import DarkBG from "../AdminMenu/DarkBG";
-import Navbar from "../AdminNavMenu/Navbar";
 import {
 	getColors,
 	readSingleOrder,
@@ -19,19 +16,16 @@ import {
 } from "../apiAdmin";
 import SingleOrderPageDetails from "./SingleOrderPageDetails";
 import Trial from "./UpdateModals/Trials";
+import LogoImage from "../../GeneralImages/Logo2.png";
 
 const SingleOrderPage = (props) => {
 	const [loading, setLoading] = useState(true);
-	const [modalVisible, setModalVisible] = useState(false);
 	const [updateElement, setUpdateElement] = useState("");
 	const [singleOrder, setSingleOrder] = useState({});
 	const [updateSingleOrder, setUpdateSingleOrder] = useState({});
 	const [updateCustomerDetails, setUpdateCustomerDetails] = useState({});
-	const [AdminMenuStatus, setAdminMenuStatus] = useState(false);
 	const [allColors, setAllColors] = useState([]);
-	const [offset, setOffset] = useState(0);
-	const [pageScrolled, setPageScrolled] = useState(false);
-	const [collapsed, setCollapsed] = useState(false);
+	const [modalVisible, setModalVisible] = useState(false);
 
 	const { user, token } = isAuthenticated();
 
@@ -136,19 +130,6 @@ const SingleOrderPage = (props) => {
 		}
 	};
 
-	useEffect(() => {
-		const onScroll = () => setOffset(window.pageYOffset);
-		// clean up code
-		window.removeEventListener("scroll", onScroll);
-		window.addEventListener("scroll", onScroll, { passive: true });
-		if (window.pageYOffset > 0) {
-			setPageScrolled(true);
-		} else {
-			setPageScrolled(false);
-		}
-		return () => window.removeEventListener("scroll", onScroll);
-	}, [offset]);
-
 	const gettingAllColors = () => {
 		getColors(token).then((data) => {
 			if (data.error) {
@@ -164,25 +145,36 @@ const SingleOrderPage = (props) => {
 		// eslint-disable-next-line
 	}, []);
 
-	console.log(updateSingleOrder, "order");
-
 	return (
-		<SingleOrderPageWrapper show={AdminMenuStatus}>
-			{!collapsed ? (
-				<DarkBG collapsed={collapsed} setCollapsed={setCollapsed} />
-			) : null}
-			<div className='grid-container'>
+		<SingleOrderPageWrapper>
+			<div style={{ padding: "30px 0px", background: "rgb(198,14,14)" }}>
+				<img
+					className='imgLogo2'
+					src={LogoImage}
+					alt='Infinite Apps'
+					style={{
+						width: "80px",
+						position: "absolute",
+						top: "10px",
+						padding: "0px",
+						left: "20px",
+						background: "#c60e0e",
+						border: "#c60e0e solid 1px",
+					}}
+				/>
+				<span
+					style={{
+						fontSize: "1.2rem",
+						marginLeft: "42%",
+						color: "white",
+						position: "absolute",
+						top: "15px",
+					}}>
+					ACE STORE (Branch: {user && user.userBranch})
+				</span>
+			</div>
+			<div className=''>
 				<div className=''>
-					<AdminMenu
-						fromPage='OrdersHist'
-						AdminMenuStatus={AdminMenuStatus}
-						setAdminMenuStatus={setAdminMenuStatus}
-						collapsed={collapsed}
-						setCollapsed={setCollapsed}
-					/>
-				</div>
-				<div className='mainContent'>
-					<Navbar fromPage='OrdersHist' pageScrolled={pageScrolled} />
 					{loading ? (
 						<div>
 							<div
@@ -197,7 +189,26 @@ const SingleOrderPage = (props) => {
 							</div>
 						</div>
 					) : (
-						<div className='col-10 mx-auto'>
+						<div className='ml-5 mt-3'>
+							<div
+								style={{
+									textAlign: "right",
+									fontSize: "1.2rem",
+									fontWeight: "bolder",
+									marginRight: "50px",
+								}}>
+								<Link
+									to='/admin/orders-hist'
+									style={{
+										textAlign: "right",
+										fontSize: "1.2rem",
+										fontWeight: "bolder",
+										textDecoration: "underline",
+									}}>
+									Back to Sales History
+								</Link>
+							</div>
+
 							<Trial
 								modalVisible={modalVisible}
 								setModalVisible={setModalVisible}
@@ -369,6 +380,13 @@ const SingleOrderPage = (props) => {
 										{updateSingleOrder.customerDetails.orderComment}
 									</strong>
 								</div>
+
+								<div className='col-md-6 mx-auto'>
+									Order Taker:{" "}
+									<strong style={{ color: "darkblue" }}>
+										{updateSingleOrder.employeeData.name}
+									</strong>
+								</div>
 								{updateSingleOrder &&
 								updateSingleOrder.appliedCoupon &&
 								updateSingleOrder.appliedCoupon.name ? (
@@ -475,7 +493,7 @@ const SingleOrderPage = (props) => {
 							<div className='col-md-4 mx-auto text-center'>
 								<hr />
 							</div>
-							{singleOrder.returnedItems.length === 0 &&
+							{singleOrder.returnedItems.length > 0 &&
 							(singleOrder.status.includes("Return") ||
 								singleOrder.status.includes("Returned")) ? (
 								<>
@@ -982,6 +1000,7 @@ const SingleOrderPage = (props) => {
 							) : null}
 							<div className='col-md-5 mx-auto text-center my-5'>
 								<button
+									disabled={true}
 									className='btn btn-success btn-block mb-3 mx-auto text-center'
 									onClick={UpdatingOrder}>
 									Update Order
@@ -1001,14 +1020,6 @@ const SingleOrderPageWrapper = styled.div`
 	min-height: 880px;
 	overflow-x: hidden;
 	/* background: #ededed; */
-
-	.grid-container {
-		display: grid;
-		grid-template-columns: ${(props) => (props.show ? "8% 92%" : "15% 85%")};
-		margin: auto;
-		/* border: 1px solid red; */
-		/* grid-auto-rows: minmax(60px, auto); */
-	}
 
 	.card-body {
 		font-weight: bolder;

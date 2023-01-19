@@ -197,6 +197,15 @@ const OrdersListModal = ({ modalVisible, setModalVisible, orders, user }) => {
 													? "Unknown Phone #"
 													: selectedOrder.customerDetails.email}{" "}
 											</div>
+											<div style={{ fontWeight: "bolder" }}>
+												<Link
+													to={`/admin/single-order/${selectedOrder._id}`}
+													onClick={() =>
+														window.scrollTo({ top: 0, behavior: "smooth" })
+													}>
+													Show More Details
+												</Link>
+											</div>
 											{/* <div style={{ fontWeight: "bolder" }}>Orders</div> */}
 										</div>
 									) : null}

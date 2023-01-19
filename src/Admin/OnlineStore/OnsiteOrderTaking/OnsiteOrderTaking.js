@@ -1092,9 +1092,10 @@ const OnsiteOrderTakingWrapper = styled.div`
 
 		.grid-container2 {
 			display: grid;
-			grid-template-columns: 17% 17% 17% 17% 17% 17%;
+			grid-template-columns: 18.5% 18.5% 18.5% 18.5% 18.5%;
 			margin: auto;
 			padding-left: 2px;
+			text-align: center;
 		}
 	}
 

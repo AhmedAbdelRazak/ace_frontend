@@ -14,7 +14,7 @@ import {
 	listOrdersDates,
 	removeOrder,
 } from "../apiAdmin";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import DarkBG from "../AdminMenu/DarkBG";
 import { toast } from "react-toastify";
 import { GroupOutlined } from "@ant-design/icons";
@@ -706,6 +706,11 @@ const OrdersHist = () => {
 
 	return (
 		<OrdersHistWrapper show={AdminMenuStatus}>
+			{user.userRole === "Order Taker" ||
+			user.userRole === "Operations" ||
+			user.userRole === "offlineStore" ? (
+				<Redirect to='/admin/offline-order-taking' />
+			) : null}
 			{allOrders.length === 0 && allProducts.length === 0 ? (
 				<div
 					style={{
