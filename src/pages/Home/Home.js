@@ -126,7 +126,7 @@ const Home = ({ chosenLanguage }) => {
 
 				<meta name='description' content='Ace Online Shop' />
 				<link rel='icon' href='gq_frontend\src\GeneralImgs\favicon.ico' />
-				<link rel='canonical' href='https://acesportive.com/contact' />
+				<link rel='canonical' href='https://acesportive.com' />
 			</Helmet>
 			<>
 				<GenderNav />

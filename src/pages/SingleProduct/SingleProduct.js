@@ -596,7 +596,7 @@ const SingleProduct = (props) => {
 
 	return (
 		<SingleEmp className='mx-auto'>
-			<Helmet>
+			<Helmet itemscope itemtype='http://schema.org/Product'>
 				<meta charSet='utf-8' />
 				<title>{titleName}</title>
 
@@ -605,7 +605,38 @@ const SingleProduct = (props) => {
 					rel='stylesheet'
 					href='http://fonts.googleapis.com/earlyaccess/droidarabickufi.css'
 				/>
-				<link rel='canonical' href='http://infinite-apps.com' />
+				<link
+					rel='canonical'
+					href={`https://acesportive.com${window.location.pathname}`}
+				/>
+				<meta itemprop='brand' content='Ace Sports Wear' />
+				<meta itemprop='name' content={Product.productName} />
+				<meta itemprop='description' content={Product.description} />
+				<meta itemprop='productID' content={Product.productSKU} />
+				<meta
+					itemprop='url'
+					content={`https://acesportive.com${window.location.pathname}`}
+				/>
+				<meta
+					itemprop='image'
+					content={
+						Product &&
+						Product.thumbnailImage &&
+						Product.thumbnailImage[0] &&
+						Product.thumbnailImage[0].images
+							? Product.thumbnailImage[0].images[0].url
+							: null
+					}
+				/>
+				<meta
+					itemprop='price'
+					content={
+						Product &&
+						Product.productAttributes &&
+						Product.productAttributes.map((i) => i.priceAfterDiscount)[0]
+					}
+				/>
+				<meta itemprop='priceCurrency' content='EGP' />
 			</Helmet>
 			{loading && !Product ? (
 				<>
