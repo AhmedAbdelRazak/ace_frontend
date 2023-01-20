@@ -131,8 +131,10 @@ const OnsiteOrderTaking = () => {
 						const allReceivingsSummarized1 = data2
 							.filter(
 								(i) =>
-									i.storeName.toLowerCase() === user.userStore.toLowerCase() &&
-									i.storeBranch.toLowerCase() === user.userBranch.toLowerCase(),
+									i.storeName.toLowerCase().replace(/\s+/g, " ").trim() ===
+										user.userStore.toLowerCase().replace(/\s+/g, " ").trim() &&
+									i.storeBranch.toLowerCase().replace(/\s+/g, " ").trim() ===
+										user.userBranch.toLowerCase().replace(/\s+/g, " ").trim(),
 							)
 							.map((iii) => {
 								return {
@@ -388,6 +390,8 @@ const OnsiteOrderTaking = () => {
 			}
 		});
 	};
+
+	console.log(allReceivings, "All Receiving");
 
 	const gettingAllColors = () => {
 		getColors().then((data) => {

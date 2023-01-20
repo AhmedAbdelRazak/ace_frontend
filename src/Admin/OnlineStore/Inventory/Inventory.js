@@ -63,7 +63,13 @@ const Inventory = () => {
 					if (data2.error) {
 						console.log(data2.error);
 					} else {
-						var allAceReceiving = data2;
+						var allAceReceiving = data2.filter(
+							(i) =>
+								i.storeName.toLowerCase().replace(/\s+/g, " ").trim() ===
+									user.userStore.toLowerCase().replace(/\s+/g, " ").trim() &&
+								i.storeBranch.toLowerCase().replace(/\s+/g, " ").trim() ===
+									user.userBranch.toLowerCase().replace(/\s+/g, " ").trim(),
+						);
 
 						//aggregating receiving
 
