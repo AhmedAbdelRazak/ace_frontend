@@ -6,7 +6,13 @@ import { isAuthenticated } from "../../auth";
 import AdminMenu from "../AdminMenu/AdminMenu";
 import Navbar from "../AdminNavMenu/Navbar";
 import DarkBG from "../AdminMenu/DarkBG";
-import { getColors, getProducts, receiveNew, updateProduct } from "../apiAdmin";
+import {
+	getColors,
+	getProducts,
+	getReceivingLogs,
+	receiveNew,
+	updateProduct,
+} from "../apiAdmin";
 import { Select } from "antd";
 import { toast } from "react-toastify";
 import ReactGA from "react-ga4";
@@ -47,54 +53,114 @@ const AceReceiving = () => {
 			if (data.error) {
 				console.log(data.error);
 			} else {
-				var allAceProducts = data.filter(
-					(i) => i.activeProduct === true && i.storeName.storeName === "ace",
-				);
-				setAllProducts(allAceProducts);
+				getReceivingLogs().then((data2) => {
+					if (data2.error) {
+						console.log(data2.error);
+					} else {
+						var allAceReceiving = data2.filter(
+							(i) =>
+								i.storeName.toLowerCase().replace(/\s+/g, " ").trim() ===
+									user.userStore.toLowerCase().replace(/\s+/g, " ").trim() &&
+								i.storeBranch.toLowerCase().replace(/\s+/g, " ").trim() ===
+									user.userBranch.toLowerCase().replace(/\s+/g, " ").trim(),
+						);
 
-				var allAceSKUs =
-					allAceProducts &&
-					allAceProducts.map((i) => i.productAttributes.map((ii) => ii.SubSKU));
+						var totalQuantityAggregated = [];
+						allAceReceiving &&
+							allAceReceiving.reduce(function (res, value) {
+								if (!res[value.receivedSKU]) {
+									res[value.receivedSKU] = {
+										SubSKU: value.receivedSKU,
+										totalQuantity: 0,
+									};
+									totalQuantityAggregated.push(res[value.receivedSKU]);
+								}
+								res[value.receivedSKU].totalQuantity += Number(
+									value.receivedQuantity,
+								);
+								return res;
+							}, {});
 
-				var mergedSubSKUs = [].concat.apply([], allAceSKUs);
+						var allAceProducts = data.filter(
+							(i) =>
+								i.activeProduct === true && i.storeName.storeName === "ace",
+						);
 
-				setAllSubSKUs(mergedSubSKUs);
-
-				var addingVariablesToMain =
-					allAceProducts &&
-					allAceProducts.map((i) =>
-						i.productAttributes.map((ii) => {
+						var allAceProductAttributesModified = allAceProducts.map((i) => {
 							return {
 								...i,
-								DropShippingPrice: ii.DropShippingPrice,
-								MSRP: ii.MSRP,
-								PK: ii.PK,
-								SubSKU: ii.SubSKU,
-								WholeSalePrice: ii.WholeSalePrice,
-								color: ii.color,
-								price: ii.price,
-								priceAfterDiscount: ii.priceAfterDiscount,
-								productImages: ii.productImages,
-								quantity: ii.quantity,
-								size: ii.size,
-								receivedQuantity: ii.receivedQuantity ? ii.receivedQuantity : 0,
+								productAttributes: i.productAttributes.map((ii) => {
+									return {
+										...ii,
+										quantity: ii.quantity,
+										receivedQuantity:
+											totalQuantityAggregated
+												.map((iii) => iii.SubSKU.toLowerCase())
+												.indexOf(ii.SubSKU.toLowerCase()) > -1
+												? totalQuantityAggregated[
+														totalQuantityAggregated
+															.map((iii) => iii.SubSKU.toLowerCase())
+															.indexOf(ii.SubSKU.toLowerCase())
+												  ].totalQuantity
+												: 0,
+									};
+								}),
 							};
-						}),
-					);
+						});
 
-				var mergedFinalOfFinal = [].concat.apply([], addingVariablesToMain);
+						setAllProducts(allAceProductAttributesModified);
 
-				let allAttributesFinalOfFinal = [
-					...new Map(mergedFinalOfFinal.map((item) => [item, item])).values(),
-				];
+						var allAceSKUs =
+							allAceProductAttributesModified &&
+							allAceProductAttributesModified.map((i) =>
+								i.productAttributes.map((ii) => ii.SubSKU),
+							);
 
-				setChosenProduct(
-					chosenSubSKU &&
-						allAttributesFinalOfFinal &&
-						allAttributesFinalOfFinal.filter(
-							(i) => i.SubSKU.toLowerCase() === chosenSubSKU.toLowerCase(),
-						)[0],
-				);
+						var mergedSubSKUs = [].concat.apply([], allAceSKUs);
+
+						setAllSubSKUs(mergedSubSKUs);
+
+						var addingVariablesToMain =
+							allAceProductAttributesModified &&
+							allAceProductAttributesModified.map((i) =>
+								i.productAttributes.map((ii) => {
+									return {
+										...i,
+										DropShippingPrice: ii.DropShippingPrice,
+										MSRP: ii.MSRP,
+										PK: ii.PK,
+										SubSKU: ii.SubSKU,
+										WholeSalePrice: ii.WholeSalePrice,
+										color: ii.color,
+										price: ii.price,
+										priceAfterDiscount: ii.priceAfterDiscount,
+										productImages: ii.productImages,
+										quantity: ii.quantity,
+										size: ii.size,
+										receivedQuantity: ii.receivedQuantity
+											? ii.receivedQuantity
+											: 0,
+									};
+								}),
+							);
+
+						var mergedFinalOfFinal = [].concat.apply([], addingVariablesToMain);
+
+						let allAttributesFinalOfFinal = [
+							...new Map(
+								mergedFinalOfFinal.map((item) => [item, item]),
+							).values(),
+						];
+
+						setChosenProduct(
+							chosenSubSKU &&
+								allAttributesFinalOfFinal &&
+								allAttributesFinalOfFinal.filter(
+									(i) => i.SubSKU.toLowerCase() === chosenSubSKU.toLowerCase(),
+								)[0],
+						);
+					}
+				});
 			}
 		});
 	};
