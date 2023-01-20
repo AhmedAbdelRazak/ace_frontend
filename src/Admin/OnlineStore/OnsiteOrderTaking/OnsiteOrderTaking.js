@@ -1068,6 +1068,23 @@ const OnsiteOrderTaking = () => {
 											onClick={() => setModalVisible7(true)}>
 											Store Order List
 										</Link>
+										<Link
+											to='/admin/ace-inventory-report-offline-store'
+											style={{
+												background: "darkgreen",
+												border: "none",
+												padding: "10px 15px",
+												color: "white",
+												textTransform: "uppercase",
+												fontWeight: "bold",
+												borderRadius: "10px",
+												marginRight: "10px",
+											}}
+											onClick={() =>
+												window.scrollTo({ top: 0, behavior: "smooth" })
+											}>
+											STOCK ON HAND REPORT
+										</Link>
 									</div>
 								</div>
 							</div>

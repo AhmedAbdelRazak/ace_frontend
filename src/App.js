@@ -103,6 +103,7 @@ import Inventory from "./Admin/OnlineStore/Inventory/Inventory";
 import AceReceivingLog from "./Admin/OnlineStore/AceReceivingLog";
 import ReturnOrExchangeOfflineStore from "./Admin/OnlineStore/ReturnAndExchange/ReturnOrExchange";
 import AceReceivingOffline from "./Admin/OnlineStore/AceReceiving/AceReceivingOffline";
+import InventoryOfflineStore from "./Admin/OnlineStore/Inventory/InventoryOfflineStore";
 
 const App = () => {
 	// eslint-disable-next-line
@@ -389,6 +390,11 @@ const App = () => {
 					path='/admin/ace-inventory-report'
 					exact
 					component={Inventory}
+				/>
+				<AdminRoute
+					path='/admin/ace-inventory-report-offline-store'
+					exact
+					component={InventoryOfflineStore}
 				/>
 				<AdminRoute
 					path='/admin/offline-order-taking'

@@ -419,11 +419,6 @@ const OrdersHist = () => {
 	const dataTable = () => {
 		return (
 			<div className='tableData'>
-				<div className='mt-5 ml-2'>
-					<Link className='btn btn-info' to='/admin/create-new-order'>
-						Create New Order
-					</Link>
-				</div>
 				<div className='mt-4'>{DownloadExcel()}</div>
 				<div className=' mb-3 form-group mx-3 text-center'>
 					<label
