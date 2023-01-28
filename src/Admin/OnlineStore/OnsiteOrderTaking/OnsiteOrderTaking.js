@@ -391,8 +391,6 @@ const OnsiteOrderTaking = () => {
 		});
 	};
 
-	console.log(allReceivings, "All Receiving");
-
 	const gettingAllColors = () => {
 		getColors().then((data) => {
 			if (data.error) {

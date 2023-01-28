@@ -612,6 +612,41 @@ const SingleProduct = (props) => {
 			</Helmet>
 			{loading && !Product ? (
 				<>
+					<div itemscope itemtype='http://schema.org/Product'>
+						<meta itemprop='brand' content='Ace Sports Wear' />
+						<meta itemprop='name' content={Product.productName} />
+						<meta itemprop='description' content={Product.description} />
+						<meta itemprop='productID' content={Product.productSKU} />
+						<meta
+							itemprop='url'
+							content={`https://acesportive.com${window.location.pathname}`}
+						/>
+						<meta
+							itemprop='image'
+							content={
+								Product &&
+								Product.thumbnailImage &&
+								Product.thumbnailImage[0] &&
+								Product.thumbnailImage[0].images
+									? Product.thumbnailImage[0].images[0].url
+									: null
+							}
+						/>
+
+						<div itemprop='offers' itemscope itemtype='http://schema.org/Offer'>
+							<link itemprop='availability' href='available' />
+							<link itemprop='itemCondition' href='New' />
+							<meta
+								itemprop='price'
+								content={
+									Product &&
+									Product.productAttributes &&
+									Product.productAttributes.map((i) => i.priceAfterDiscount)[0]
+								}
+							/>
+							<meta itemprop='priceCurrency' content='EGP' />
+						</div>
+					</div>
 					<div
 						style={{
 							marginTop: "20%",

@@ -141,13 +141,13 @@ const OrderedItems = ({
 															chosenProducts[index].SubSKU =
 																updatedProduct2.SubSKU;
 
-															chosenSubSKUs[index] = updatedProduct2.SubSKU;
+															// chosenSubSKUs[index] = updatedProduct2.SubSKU;
 
 															setChosenProductWithVariables([
 																...chosenProductWithVariables,
 															]);
 															setChosenProducts([...chosenProducts]);
-															setChosenSubSKUs([...chosenSubSKUs]);
+															// setChosenSubSKUs([...chosenSubSKUs]);
 														}
 													}}>
 													<option style={{ textTransform: "capitalize" }}>
@@ -195,15 +195,18 @@ const OrderedItems = ({
 														var updatedProduct2 =
 															updatedProduct1.productAttributes.filter(
 																(att) =>
-																	att.color === p.SubSKUColor &&
-																	att.size === e.target.value,
+																	att.color.toLowerCase() ===
+																		p.SubSKUColor.toLowerCase() &&
+																	att.size.toLowerCase() ===
+																		e.target.value.toLowerCase(),
 															)[0];
 
 														const index = chosenProductWithVariables.findIndex(
 															(object) => {
 																return (
 																	object.productId === p.productId &&
-																	object.SubSKU === p.SubSKU
+																	object.SubSKU.toLowerCase() ===
+																		p.SubSKU.toLowerCase()
 																);
 															},
 														);
@@ -223,14 +226,10 @@ const OrderedItems = ({
 															chosenProductWithVariables[
 																index
 															].receivedQuantity =
-																updatedProduct2.receivedQuantity
-																	? updatedProduct2.receivedQuantity
-																	: 0;
+																updatedProduct2.receivedQuantity;
 
 															chosenProducts[index].receivedQuantity =
-																updatedProduct2.receivedQuantity
-																	? updatedProduct2.receivedQuantity
-																	: 0;
+																updatedProduct2.receivedQuantity;
 
 															chosenProductWithVariables[index].SubSKU =
 																updatedProduct2.SubSKU;
@@ -238,13 +237,13 @@ const OrderedItems = ({
 															chosenProducts[index].SubSKU =
 																updatedProduct2.SubSKU;
 
-															chosenSubSKUs[index] = updatedProduct2.SubSKU;
+															// chosenSubSKUs[index] = updatedProduct2.SubSKU;
 
 															setChosenProductWithVariables([
 																...chosenProductWithVariables,
 															]);
 															setChosenProducts([...chosenProducts]);
-															setChosenSubSKUs([...chosenSubSKUs]);
+															// setChosenSubSKUs([...chosenSubSKUs]);
 														}
 													}}>
 													<option style={{ textTransform: "capitalize" }}>
