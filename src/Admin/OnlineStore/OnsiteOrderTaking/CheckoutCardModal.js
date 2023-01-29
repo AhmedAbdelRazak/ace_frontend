@@ -147,7 +147,7 @@ const CheckoutCardModal = ({
 				style={{ background: "", minHeight: "300px" }}>
 				<div className='row'>
 					<div
-						className='col-5 mx-auto'
+						className='col-7 mx-auto'
 						style={{
 							background: "white",
 							borderRight: "2px grey solid",

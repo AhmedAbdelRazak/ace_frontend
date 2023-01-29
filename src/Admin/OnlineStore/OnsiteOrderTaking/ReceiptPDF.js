@@ -7,6 +7,7 @@ import html2canvas from "html2canvas";
 import "jspdf-autotable";
 import { Link } from "react-router-dom";
 import Barcode from "react-barcode";
+import QrCodeImg from "../../../GeneralImages/qrcode_acesportive.com.png";
 
 const ReceiptPDF = ({
 	chosenProductWithVariables,
@@ -17,6 +18,7 @@ const ReceiptPDF = ({
 	totalAmount,
 	paymentStatus,
 	employeeData,
+	allColors,
 }) => {
 	const selectedDateOrdersSKUsModified = () => {
 		const modifiedArray =
@@ -95,7 +97,7 @@ const ReceiptPDF = ({
 			const imgWidth = 204;
 			const imgHeight = (canvas.height * imgWidth) / canvas.width;
 			const imgDate = canvas.toDataURL("img/png");
-			const pdf = new jsPDF("p", "mm", "a4");
+			const pdf = new jsPDF("p", "mm", [250, 350]);
 			pdf.addImage(imgDate, "PNG", 0, 0, imgWidth, imgHeight);
 			pdf.save("invoice");
 		});
@@ -105,18 +107,21 @@ const ReceiptPDF = ({
 			<div id='content' className='container'>
 				<div
 					className='col-2 mx-auto text-center'
-					style={{ border: "1px darkgrey solid" }}>
+					// style={{ border: "1px darkgrey solid" }}
+				>
 					<img
 						src='https://res.cloudinary.com/infiniteapps/image/upload/v1670932538/GQ_B2B/1670932537573.jpg'
 						alt='logo'
 						style={{
-							width: "100%",
+							width: "150%",
 							// border: "1px black solid",
 							padding: "0px",
 						}}
 					/>
 				</div>
-				<div className='mx-auto text-center' style={{ fontSize: "11px" }}>
+				<div
+					className='mx-auto text-center'
+					style={{ fontSize: "14px", fontWeight: "bolder" }}>
 					<div>ACE SPORT</div>
 					<div>Phone: +201220756485</div>
 					<div>Email: ACEFITMENACE@GMAIL.com</div>
@@ -129,14 +134,15 @@ const ReceiptPDF = ({
 
 				<div
 					className='col-12 mx-auto text-center'
-					// style={{ border: "1px solid black" }}
-				>
+					style={{ fontWeight: "bolder" }}>
 					SALES RECEIPT
 					<div className='p-0 m-0'>
 						<Barcode value={invoiceNumber} />
 					</div>
 				</div>
-				<div className='row ml-5' style={{ fontSize: "12px" }}>
+				<div
+					className='row ml-5'
+					style={{ fontSize: "14px", fontWeight: "bolder" }}>
 					<div className='col-6'>Invoice No.: {invoiceNumber}</div>
 					<div className='col-6'>
 						Order Taker: {employeeData && employeeData.name}{" "}
@@ -149,10 +155,13 @@ const ReceiptPDF = ({
 						Payment: {paymentStatus && paymentStatus.toUpperCase()}{" "}
 					</div>
 				</div>
+				<div className='col-6 mx-auto'>
+					<hr style={{ borderBottom: "grey 1px solid" }} />
+				</div>
 
 				<table
-					className='table mt-2'
-					style={{ fontSize: "10px", border: "1px white solid" }}>
+					className='table mt-2 col-10 mx-auto'
+					style={{ fontSize: "13px", border: "1px white solid" }}>
 					<thead className='' style={{ border: "1px white solid" }}>
 						<tr
 							style={{
@@ -180,7 +189,7 @@ const ReceiptPDF = ({
 						</tr>
 					</thead>
 					<tbody
-						className='my-auto'
+						className=' m-0'
 						style={{
 							textTransform: "capitalize",
 							fontWeight: "bolder",
@@ -193,23 +202,55 @@ const ReceiptPDF = ({
 										<td
 											style={{ border: "1px white solid" }}
 											className='my-auto'>
-											{s.SubSKU}
+											{i + 1}
 										</td>
 										<td
 											style={{
 												textTransform: "capitalize",
 												border: "1px white solid",
 											}}>
+											{s.SubSKU}
+											<br />
 											{s.productName}
+											<br />
+											<span
+												className=''
+												style={{
+													textTransform: "capitalize",
+												}}>
+												Color:{" "}
+												{allColors &&
+												allColors[
+													allColors.map((i) => i.hexa).indexOf(s.SubSKUColor)
+												]
+													? allColors[
+															allColors
+																.map((i) => i.hexa)
+																.indexOf(s.SubSKUColor)
+													  ].color
+													: s.SubSKUColor}
+											</span>{" "}
+											<span
+												style={{
+													textTransform: "capitalize",
+												}}>
+												Size: {s.SubSKUSize}
+											</span>
 										</td>
-										<td style={{ border: "1px white solid" }}>
+										<td
+											className='my-auto'
+											style={{ border: "1px white solid" }}>
 											{s.OrderedQty}
 										</td>
 
-										<td style={{ border: "1px white solid" }}>
+										<td
+											className='my-auto'
+											style={{ border: "1px white solid" }}>
 											{Number(s.unitPrice).toFixed(2)}
 										</td>
-										<td style={{ border: "1px white solid" }}>
+										<td
+											className='my-auto'
+											style={{ border: "1px white solid" }}>
 											{s.totalPaidAmount}
 										</td>
 									</tr>
@@ -220,7 +261,13 @@ const ReceiptPDF = ({
 				<div>
 					<hr />
 				</div>
-				<div className='mb-2' style={{ fontSize: "12px", textAlign: "right" }}>
+				<div
+					className='mb-2'
+					style={{
+						fontSize: "15px",
+						textAlign: "right",
+						fontWeight: "bolder",
+					}}>
 					<div className='row'>
 						<div className='col-7'></div>
 						<div className='col-5'>
@@ -258,7 +305,7 @@ const ReceiptPDF = ({
 								<div
 									className='col-5 mt-4'
 									style={{
-										fontSize: "0.9rem",
+										fontSize: "1.1rem",
 										fontWeight: "bold",
 										color: "black",
 									}}>
@@ -267,7 +314,7 @@ const ReceiptPDF = ({
 								<div
 									className='col-7 mt-4'
 									style={{
-										fontSize: "0.9rem",
+										fontSize: "1.1rem",
 										fontWeight: "bold",
 										color: "black",
 									}}>
@@ -335,11 +382,39 @@ const ReceiptPDF = ({
 						خدمة الدفع عند الاستلام ان وجدت.
 					</div>
 				</div> */}
-
-				<div style={{ fontSize: "13px" }}>
+				<div
+					dir='rtl'
+					className='mb-3 col-12'
+					style={{
+						color: "black",
+						fontSize: "0.9rem",
+						textAlign: "right",
+						fontWeight: "bolder",
+					}}>
+					<div
+						style={{
+							textDecoration: "underline",
+							fontWeight: "bolder",
+							color: "black",
+						}}
+						className=''>
+						سیاسات الاستبدال والاسترجاع :
+					</div>
+					إذا رغبت بإرجاع طلبك مقابل استرداد المبلغ المدفوع أو استبدالھ بمنتجات
+					معینة فإنھ لدیك مھلھ یوم من تاریخ الفاتورة لعمل ذلك. تتطلب عملیة
+					الإرجاع ھذه توافر شرطان أساسیان: <br /> 1. إرجاع المنتج بنفس الحالة
+					التي تم توصیلھ بھا وبغلافھ الأصلي
+					<br /> 2. إحضار الفاتورة الخاصة بالمنتج یرجى العلم بأن المھلة الزمنیة
+					ھي بحسب القوانین المعمول بھا داخل بلدك وفي حالات العروض ستطبق الشروط
+					الخاصة بالعروض. ولا یتم استرداد كلا من رسوم الشحن ورسوم خدمة الدفع عند
+					الاستلام ان وجدت.
+				</div>
+				<div style={{ fontSize: "16px", fontWeight: "bolder" }}>
 					WE Appreciate Your Visit...
 					<br />
 					www.acesportive.com
+					<br />
+					<img src={QrCodeImg} alt='ACE' width={100} />
 				</div>
 			</div>
 			<div style={{ textAlign: "center" }}>

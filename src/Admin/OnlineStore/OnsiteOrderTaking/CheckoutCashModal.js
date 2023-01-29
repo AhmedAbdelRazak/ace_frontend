@@ -31,6 +31,7 @@ const CheckoutCashModal = ({
 	productsTotalOrderedQty,
 	lengthOfOrders,
 	setLengthOfOrders,
+	allColors,
 }) => {
 	const [moneyReceived, setMoneyReceived] = useState(false);
 
@@ -141,7 +142,7 @@ const CheckoutCashModal = ({
 				style={{ background: "", minHeight: "300px" }}>
 				<div className='row'>
 					<div
-						className='col-5 mx-auto'
+						className='col-7 mx-auto'
 						style={{
 							background: "white",
 							borderRight: "2px grey solid",
@@ -168,17 +169,22 @@ const CheckoutCashModal = ({
 							totalAmount={totalAmount}
 							paymentStatus={paymentStatus}
 							employeeData={employeeData}
+							allColors={allColors}
 						/>
 						<div className='mt-3'>
 							<div>
 								<strong>Customer Paid:</strong>{" "}
-								<span className='ml-5'>
+								<span
+									className='ml-5'
+									style={{ color: "darkblue", fontWeight: "bolder" }}>
 									{customerPaid && Number(customerPaid).toFixed(2)} EGP
 								</span>
 							</div>
 							<div>
 								<strong>Customer Change: </strong>
-								<span className='ml-4'>
+								<span
+									className='ml-4'
+									style={{ color: "darkred", fontWeight: "bolder" }}>
 									{Number(customerPaid - totalAmountAfterDiscount).toFixed(2)}{" "}
 									EGP
 								</span>{" "}
