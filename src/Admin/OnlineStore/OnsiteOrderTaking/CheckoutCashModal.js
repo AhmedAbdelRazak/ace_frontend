@@ -142,7 +142,7 @@ const CheckoutCashModal = ({
 				style={{ background: "", minHeight: "300px" }}>
 				<div className='row'>
 					<div
-						className='col-7 mx-auto'
+						className='col-12 mx-auto'
 						style={{
 							background: "white",
 							borderRight: "2px grey solid",
