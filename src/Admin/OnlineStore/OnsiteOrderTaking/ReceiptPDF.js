@@ -305,7 +305,7 @@ const ReceiptPDF = ({
 								<div
 									className='col-5 mt-4'
 									style={{
-										fontSize: "1.3rem",
+										fontSize: "1.2rem",
 										fontWeight: "bold",
 										color: "black",
 									}}>
@@ -314,7 +314,7 @@ const ReceiptPDF = ({
 								<div
 									className='col-7 mt-4'
 									style={{
-										fontSize: "1.3rem",
+										fontSize: "1.2rem",
 										fontWeight: "bold",
 										color: "black",
 									}}>
@@ -387,7 +387,7 @@ const ReceiptPDF = ({
 					className='mb-3 col-12'
 					style={{
 						color: "black",
-						fontSize: "1rem",
+						fontSize: "1.1rem",
 						textAlign: "right",
 						fontWeight: "bolder",
 					}}>
@@ -409,7 +409,7 @@ const ReceiptPDF = ({
 					الخاصة بالعروض. ولا یتم استرداد كلا من رسوم الشحن ورسوم خدمة الدفع عند
 					الاستلام ان وجدت.
 				</div>
-				<div style={{ fontSize: "24px", fontWeight: "bolder" }}>
+				<div style={{ fontSize: "20px", fontWeight: "bolder" }}>
 					WE Appreciate Your Visit...
 					<br />
 					www.acesportive.com
@@ -433,6 +433,11 @@ export default ReceiptPDF;
 
 const ReceiptPDFWrapper = styled.div`
 	margin-top: 40px;
+
+	.container {
+		width: 945px !important;
+		height: 2008 !important;
+	}
 
 	h1 {
 		color: #006eb2;
