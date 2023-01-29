@@ -97,7 +97,7 @@ const ReceiptPDF = ({
 			const imgWidth = 204;
 			const imgHeight = (canvas.height * imgWidth) / canvas.width;
 			const imgDate = canvas.toDataURL("img/png");
-			const pdf = new jsPDF("p", "mm", [302, 642]);
+			const pdf = new jsPDF("p", "mm", [472, 1004]);
 			pdf.addImage(imgDate, "PNG", 0, 0, imgWidth, imgHeight);
 			pdf.save("invoice");
 		});
