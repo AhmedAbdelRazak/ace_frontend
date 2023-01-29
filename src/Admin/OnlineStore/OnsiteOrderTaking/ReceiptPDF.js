@@ -97,7 +97,7 @@ const ReceiptPDF = ({
 			const imgWidth = 204;
 			const imgHeight = (canvas.height * imgWidth) / canvas.width;
 			const imgDate = canvas.toDataURL("img/png");
-			const pdf = new jsPDF("p", "mm", "a4");
+			const pdf = new jsPDF("p", "mm", [302, 642]);
 			pdf.addImage(imgDate, "PNG", 0, 0, imgWidth, imgHeight);
 			pdf.save("invoice");
 		});
@@ -113,7 +113,7 @@ const ReceiptPDF = ({
 						src='https://res.cloudinary.com/infiniteapps/image/upload/v1670932538/GQ_B2B/1670932537573.jpg'
 						alt='logo'
 						style={{
-							width: "150%",
+							width: "170%",
 							// border: "1px black solid",
 							padding: "0px",
 						}}
@@ -121,7 +121,7 @@ const ReceiptPDF = ({
 				</div>
 				<div
 					className='mx-auto text-center'
-					style={{ fontSize: "20px", fontWeight: "bolder" }}>
+					style={{ fontSize: "24px", fontWeight: "bolder" }}>
 					<div>ACE SPORT</div>
 					<div>Phone: +201220756485</div>
 					<div>Email: ACEFITMENACE@GMAIL.com</div>
@@ -142,7 +142,7 @@ const ReceiptPDF = ({
 				</div>
 				<div
 					className='row ml-5'
-					style={{ fontSize: "20px", fontWeight: "bolder" }}>
+					style={{ fontSize: "24px", fontWeight: "bolder" }}>
 					<div className='col-6'>Invoice No.: {invoiceNumber}</div>
 					<div className='col-6'>
 						Order Taker: {employeeData && employeeData.name}{" "}
@@ -161,7 +161,7 @@ const ReceiptPDF = ({
 
 				<table
 					className='table mt-2 col-10 mx-auto'
-					style={{ fontSize: "19px", border: "1px white solid" }}>
+					style={{ fontSize: "23px", border: "1px white solid" }}>
 					<thead className='' style={{ border: "1px white solid" }}>
 						<tr
 							style={{
@@ -264,7 +264,7 @@ const ReceiptPDF = ({
 				<div
 					className='mb-2'
 					style={{
-						fontSize: "21px",
+						fontSize: "25px",
 						textAlign: "right",
 						fontWeight: "bolder",
 					}}>
@@ -305,7 +305,7 @@ const ReceiptPDF = ({
 								<div
 									className='col-5 mt-4'
 									style={{
-										fontSize: "1.2rem",
+										fontSize: "1.3rem",
 										fontWeight: "bold",
 										color: "black",
 									}}>
@@ -314,7 +314,7 @@ const ReceiptPDF = ({
 								<div
 									className='col-7 mt-4'
 									style={{
-										fontSize: "1.2rem",
+										fontSize: "1.3rem",
 										fontWeight: "bold",
 										color: "black",
 									}}>
@@ -387,7 +387,7 @@ const ReceiptPDF = ({
 					className='mb-3 col-12'
 					style={{
 						color: "black",
-						fontSize: "1.1rem",
+						fontSize: "1rem",
 						textAlign: "right",
 						fontWeight: "bolder",
 					}}>
@@ -409,7 +409,7 @@ const ReceiptPDF = ({
 					الخاصة بالعروض. ولا یتم استرداد كلا من رسوم الشحن ورسوم خدمة الدفع عند
 					الاستلام ان وجدت.
 				</div>
-				<div style={{ fontSize: "20px", fontWeight: "bolder" }}>
+				<div style={{ fontSize: "24px", fontWeight: "bolder" }}>
 					WE Appreciate Your Visit...
 					<br />
 					www.acesportive.com
