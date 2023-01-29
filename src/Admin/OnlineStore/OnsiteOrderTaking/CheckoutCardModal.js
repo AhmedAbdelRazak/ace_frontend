@@ -211,7 +211,7 @@ const CheckoutCardModal = ({
 	return (
 		<CheckoutCardModalWrapper>
 			<Modal
-				width='75%'
+				width='100%'
 				title={
 					<div
 						style={{
