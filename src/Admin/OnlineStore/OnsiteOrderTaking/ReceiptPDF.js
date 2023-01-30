@@ -105,10 +105,10 @@ const ReceiptPDF = ({
 	// };
 
 	const exportPDF = () => {
-		var pdf = new jsPDF("p", "px", [945, 2700]);
+		var pdf = new jsPDF("p", "px", [945, 3100]);
 		const input = document.getElementById("content");
 
-		pdf.canvas.height = 2700;
+		pdf.canvas.height = 3100;
 		pdf.canvas.width = 945;
 
 		pdf.html(input, {
@@ -425,7 +425,7 @@ export default ReceiptPDF;
 
 const ReceiptPDFWrapper = styled.div`
 	width: 925px !important;
-	height: 2700px !important;
+	height: 3100px !important;
 
 	h1 {
 		color: #006eb2;

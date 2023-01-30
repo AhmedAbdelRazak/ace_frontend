@@ -204,6 +204,30 @@ const Inventory = () => {
 		return Number(QtyNoVariables) + Number(sum_array(QtyWithVariables));
 	};
 
+	const overallStockCost = () => {
+		var QtyNoVariables =
+			productsWithNoVariables &&
+			productsWithNoVariables
+				.map((iii) =>
+					Number(iii.quantity) > 0
+						? Number(iii.quantity) * Number(iii.MSRP)
+						: 0,
+				)
+				.reduce((a, b) => a + b, 0);
+
+		var QtyWithVariables = productsWithVariables.map((iii) =>
+			iii.map((iiii) =>
+				Number(iiii.quantity) > 0
+					? Number(iiii.quantity) * Number(iiii.MSRP)
+					: 0,
+			),
+		);
+
+		return Number(QtyNoVariables) + Number(sum_array(QtyWithVariables));
+	};
+
+	console.log(overallStockCost(), "overallStockCost");
+
 	// console.log(overallStockWorth(), "overallStockWorth");
 
 	function search(orders) {
@@ -407,7 +431,7 @@ const Inventory = () => {
 
 						<div className=' tableWrapper container-fluid'>
 							<div className='row'>
-								<div className='col-xl-4 col-lg-6 col-md-11 col-sm-11 text-center mx-auto my-2'>
+								<div className='col-xl-3 col-lg-6 col-md-11 col-sm-11 text-center mx-auto my-2'>
 									<div className='card' style={{ background: "#f1416c" }}>
 										<div className='card-body'>
 											<h5 style={{ fontWeight: "bolder", color: "white" }}>
@@ -432,7 +456,7 @@ const Inventory = () => {
 									</div>
 								</div>
 
-								<div className='col-xl-4 col-lg-6 col-md-11 col-sm-11 text-center mx-auto my-2'>
+								<div className='col-xl-3 col-lg-6 col-md-11 col-sm-11 text-center mx-auto my-2'>
 									<div className='card' style={{ background: "#009ef7" }}>
 										<div className='card-body'>
 											<h5 style={{ fontWeight: "bolder", color: "white" }}>
@@ -459,11 +483,39 @@ const Inventory = () => {
 
 								{isAuthenticated().user.userRole !== "Admin Account" ||
 								isAuthenticated().user.userRole !== "Admin Account" ? null : (
-									<div className='col-xl-4 col-lg-6 col-md-11 col-sm-11 text-center mx-auto my-2'>
+									<div className='col-xl-3 col-lg-6 col-md-11 col-sm-11 text-center mx-auto my-2'>
+										<div className='card' style={{ background: "darkgreen" }}>
+											<div className='card-body'>
+												<h5 style={{ fontWeight: "bolder", color: "white" }}>
+													Inventory Cost
+												</h5>
+												<CountUp
+													style={{ color: "white" }}
+													duration='3'
+													delay={1}
+													end={overallStockCost()}
+													separator=','
+												/>
+												<span
+													style={{
+														color: "white",
+														marginLeft: "5px",
+														fontSize: "1.2rem",
+													}}>
+													EGY Pounds
+												</span>
+											</div>
+										</div>
+									</div>
+								)}
+
+								{isAuthenticated().user.userRole !== "Admin Account" ||
+								isAuthenticated().user.userRole !== "Admin Account" ? null : (
+									<div className='col-xl-3 col-lg-6 col-md-11 col-sm-11 text-center mx-auto my-2'>
 										<div className='card' style={{ background: "#50cd89" }}>
 											<div className='card-body'>
 												<h5 style={{ fontWeight: "bolder", color: "white" }}>
-													Stock Worth (L.E.)
+													Stock Worth (EGP)
 												</h5>
 												<CountUp
 													style={{ color: "white" }}

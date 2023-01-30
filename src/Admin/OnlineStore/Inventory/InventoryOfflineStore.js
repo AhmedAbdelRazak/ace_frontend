@@ -380,7 +380,7 @@ const InventoryOfflineStore = () => {
 					<div className='col-md-12 '>
 						<div className=' tableWrapper container-fluid'>
 							<div className='row'>
-								<div className='col-xl-4 col-lg-6 col-md-11 col-sm-11 text-center mx-auto my-2'>
+								<div className='col-xl-3 col-lg-6 col-md-11 col-sm-11 text-center mx-auto my-2'>
 									<div className='card' style={{ background: "#f1416c" }}>
 										<div className='card-body'>
 											<h5 style={{ fontWeight: "bolder", color: "white" }}>
@@ -405,7 +405,7 @@ const InventoryOfflineStore = () => {
 									</div>
 								</div>
 
-								<div className='col-xl-4 col-lg-6 col-md-11 col-sm-11 text-center mx-auto my-2'>
+								<div className='col-xl-3 col-lg-6 col-md-11 col-sm-11 text-center mx-auto my-2'>
 									<div className='card' style={{ background: "#009ef7" }}>
 										<div className='card-body'>
 											<h5 style={{ fontWeight: "bolder", color: "white" }}>
@@ -432,7 +432,7 @@ const InventoryOfflineStore = () => {
 
 								{isAuthenticated().user.userRole !== "Admin Account" ||
 								isAuthenticated().user.userRole !== "Admin Account" ? null : (
-									<div className='col-xl-4 col-lg-6 col-md-11 col-sm-11 text-center mx-auto my-2'>
+									<div className='col-xl-3 col-lg-6 col-md-11 col-sm-11 text-center mx-auto my-2'>
 										<div className='card' style={{ background: "#50cd89" }}>
 											<div className='card-body'>
 												<h5 style={{ fontWeight: "bolder", color: "white" }}>
