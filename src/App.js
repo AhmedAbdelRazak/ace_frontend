@@ -104,6 +104,7 @@ import AceReceivingLog from "./Admin/OnlineStore/AceReceivingLog";
 import ReturnOrExchangeOfflineStore from "./Admin/OnlineStore/ReturnAndExchange/ReturnOrExchange";
 import AceReceivingOffline from "./Admin/OnlineStore/AceReceiving/AceReceivingOffline";
 import InventoryOfflineStore from "./Admin/OnlineStore/Inventory/InventoryOfflineStore";
+import Test2 from "./Admin/OnlineStore/OnsiteOrderTaking/Test2";
 
 const App = () => {
 	// eslint-disable-next-line
@@ -232,6 +233,8 @@ const App = () => {
 				) : (
 					<Route path='/contact' exact component={Contactus} />
 				)}
+
+				<Route path='/test-test-test' exact component={Test2} />
 
 				{language === "Arabic" ? (
 					<Route path='/about' exact component={AboutArabic} />

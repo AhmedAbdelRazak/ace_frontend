@@ -30,6 +30,7 @@ const CheckoutCardModal = ({
 	productsTotalOrderedQty,
 	lengthOfOrders,
 	setLengthOfOrders,
+	allColors,
 }) => {
 	const [transactionId, setTransactionId] = useState("");
 
@@ -165,16 +166,6 @@ const CheckoutCardModal = ({
 						<div className='col-8 mx-auto'>
 							<hr />
 						</div>
-						<ReceiptPDF
-							chosenProductWithVariables={chosenProductWithVariables}
-							invoiceNumber={invoiceNumber}
-							orderCreationDate={orderCreationDate}
-							discountAmount={discountAmount}
-							totalAmountAfterDiscount={totalAmountAfterDiscount}
-							totalAmount={totalAmount}
-							paymentStatus={paymentStatus}
-							employeeData={employeeData}
-						/>
 
 						<div className='mx-auto mt-4 text-center'>
 							<input
@@ -190,18 +181,33 @@ const CheckoutCardModal = ({
 								}}
 							/>
 						</div>
-					</div>
-				</div>
-				<div className='text-center mx-auto col-3 mt-4 '>
-					<div
-						className='btn btn-primary btn-block mx-auto text-center'
-						onClick={submitOrderCash}
-						style={{
-							background: "darkgreen",
-							color: "white",
-							border: "1px darkgreen solid",
-						}}>
-						Submit Order
+
+						<div className='text-center mx-auto col-3 mt-4 '>
+							<div
+								className='btn btn-primary btn-block mx-auto text-center'
+								onClick={submitOrderCash}
+								style={{
+									background: "darkgreen",
+									color: "white",
+									border: "1px darkgreen solid",
+								}}>
+								Submit Order
+							</div>
+						</div>
+						<div className='col-8 mx-auto'>
+							<hr />
+						</div>
+						<ReceiptPDF
+							chosenProductWithVariables={chosenProductWithVariables}
+							invoiceNumber={invoiceNumber}
+							orderCreationDate={orderCreationDate}
+							discountAmount={discountAmount}
+							totalAmountAfterDiscount={totalAmountAfterDiscount}
+							totalAmount={totalAmount}
+							paymentStatus={paymentStatus}
+							employeeData={employeeData}
+							allColors={allColors}
+						/>
 					</div>
 				</div>
 			</div>

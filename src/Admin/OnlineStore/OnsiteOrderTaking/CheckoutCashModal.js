@@ -160,17 +160,7 @@ const CheckoutCashModal = ({
 						<div className='col-8 mx-auto'>
 							<hr />
 						</div>
-						<ReceiptPDF
-							chosenProductWithVariables={chosenProductWithVariables}
-							invoiceNumber={invoiceNumber}
-							orderCreationDate={orderCreationDate}
-							discountAmount={discountAmount}
-							totalAmountAfterDiscount={totalAmountAfterDiscount}
-							totalAmount={totalAmount}
-							paymentStatus={paymentStatus}
-							employeeData={employeeData}
-							allColors={allColors}
-						/>
+
 						<div className='mt-3'>
 							<div>
 								<strong>Customer Paid:</strong>{" "}
@@ -198,20 +188,34 @@ const CheckoutCashModal = ({
 								/>
 							</div>
 						</div>
+						<div className='text-center mx-auto col-3 mt-4 '>
+							<button
+								disabled={!moneyReceived}
+								className='btn btn-primary btn-block mx-auto text-center'
+								onClick={submitOrderCash}
+								style={{
+									background: "darkgreen",
+									color: "white",
+									border: "1px darkgreen solid",
+								}}>
+								Submit Order
+							</button>
+						</div>
+						<div className='col-8 mx-auto'>
+							<hr />
+						</div>
+						<ReceiptPDF
+							chosenProductWithVariables={chosenProductWithVariables}
+							invoiceNumber={invoiceNumber}
+							orderCreationDate={orderCreationDate}
+							discountAmount={discountAmount}
+							totalAmountAfterDiscount={totalAmountAfterDiscount}
+							totalAmount={totalAmount}
+							paymentStatus={paymentStatus}
+							employeeData={employeeData}
+							allColors={allColors}
+						/>
 					</div>
-				</div>
-				<div className='text-center mx-auto col-3 mt-4 '>
-					<button
-						disabled={!moneyReceived}
-						className='btn btn-primary btn-block mx-auto text-center'
-						onClick={submitOrderCash}
-						style={{
-							background: "darkgreen",
-							color: "white",
-							border: "1px darkgreen solid",
-						}}>
-						Submit Order
-					</button>
 				</div>
 			</div>
 		);
