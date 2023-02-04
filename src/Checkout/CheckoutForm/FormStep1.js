@@ -42,16 +42,19 @@ const FormStep1 = ({
 				className='mx-auto customerDetailsWrapper'
 				style={{
 					background: "white",
-					padding: "0px 40px",
+					// padding: "0px 40px",
 					borderRadius: "10px",
 				}}>
 				<h5 className='mb-4'>Customer Information</h5>
 				<div className='row'>
-					<div className='form-group col-md-6 '>
+					<div className='form-group col-md-6 m-0'>
 						<label className=''>
-							Full Name{" "}
-							{customerDetails.fullName.length < 1 ? requiredText() : null}
+							{customerDetails.fullName.length < 1 &&
+							customerDetails.phone.length > 1
+								? requiredText()
+								: null}
 							{!hasWhiteSpace(customerDetails.fullName) &&
+							customerDetails.phone.length > 1 &&
 							customerDetails.fullName ? (
 								<strong
 									style={{ fontSize: "10px", marginLeft: "3px", color: "red" }}>
@@ -64,13 +67,16 @@ const FormStep1 = ({
 							type='text'
 							className='form-control'
 							value={customerDetails.fullName}
-							placeholder='Required - Full Name'
+							placeholder='Full Name*'
 						/>
 					</div>
 
 					<div className='form-group col-md-6 '>
 						<label className=''>
-							Phone {customerDetails.phone.length < 8 ? requiredText() : null}
+							{customerDetails.phone.length < 11 &&
+							customerDetails.address.length > 1
+								? requiredText()
+								: null}
 							{stringChecker(customerDetails.phone) ? (
 								<strong
 									style={{ fontSize: "10px", marginLeft: "3px", color: "red" }}>
@@ -83,12 +89,12 @@ const FormStep1 = ({
 							type='text'
 							className='form-control'
 							value={customerDetails.phone}
-							placeholder='Required - Phone Number => Should Be 11 Digits'
+							placeholder='Phone Number*'
 						/>
 					</div>
 
 					<div className='form-group col-md-6 '>
-						<label className=''>Email Address </label>
+						{/* <label className=''>Email Address </label> */}
 						{customerDetails.payOnline && !customerDetails.payOnDelivery ? (
 							<strong
 								style={{ fontSize: "10px", marginLeft: "3px", color: "red" }}>
@@ -102,33 +108,32 @@ const FormStep1 = ({
 							value={customerDetails.email}
 							placeholder={
 								customerDetails.payOnline && !customerDetails.payOnDelivery
-									? "Required - Email Address"
-									: "Optional - Email Address"
+									? "Email Address*"
+									: "Email Address"
 							}
 						/>
 					</div>
 					<div className='form-group col-md-6 '>
-						<label className=''>
+						{/* <label className=''>
 							Physical Address{" "}
 							{customerDetails.address.length < 5 ? requiredText() : null}
-						</label>
+						</label> */}
 						<input
 							onChange={handleChange("address")}
 							type='text'
 							className='form-control'
 							value={customerDetails.address}
-							placeholder='Required - Physical Address'
+							placeholder='Physical Address*'
 						/>
 					</div>
 					{payOnDelivery_OnlineLogic ? (
-						<div className='form-group col-md-6 mx-auto mt-2 '>
-							<label className=''>
+						<div className='form-group col-md-6 mx-auto '>
+							{/* <label className=''>
 								How Would You Like To Pay?{" "}
 								{customerDetails.payOnDelivery && customerDetails.payOnline
 									? requiredText()
 									: null}
-							</label>
-							<br />
+							</label> */}
 							<select
 								onChange={(e) => {
 									if (e.target.value === "Pay On Delivery") {
@@ -145,7 +150,7 @@ const FormStep1 = ({
 										});
 									}
 								}}
-								className=' mb-3 mx-auto w-100'
+								className=' mb-3 m-0 w-100'
 								style={{
 									paddingTop: "9px",
 									paddingBottom: "9px",
@@ -153,7 +158,7 @@ const FormStep1 = ({
 									// textAlign: "center",
 									border: "#cfcfcf solid 1px",
 									borderRadius: "10px",
-									fontSize: "0.9rem",
+									fontSize: "0.85rem",
 									// boxShadow: "2px 2px 2px 2px rgb(0,0,0,0.2)",
 									textTransform: "uppercase",
 								}}>
@@ -173,7 +178,7 @@ const FormStep1 = ({
 					) : null}
 
 					<div className='form-group col-md-6 mx-auto '>
-						<label className=''>Order Comment</label>
+						{/* <label className=''>Order Comment</label> */}
 						<textarea
 							row='5'
 							onChange={handleChange("orderComment")}
@@ -238,7 +243,7 @@ const FormStep1Wrapper = styled.div`
 			/* text-align: center; */
 			border: #cfcfcf solid 1px;
 			border-radius: 4px !important;
-			width: 80% !important;
+			width: 95% !important;
 			font-size: 0.8rem !important;
 			/* box-shadow: 2px 2px 2px 2px rgb(0, 0, 0, 0.2); */
 			margin-bottom: 15px;
@@ -257,7 +262,7 @@ const FormStep1Wrapper = styled.div`
 		}
 
 		.customerDetailsWrapper {
-			padding: 10px 40px !important;
+			padding: 10px 5px !important;
 		}
 	}
 `;

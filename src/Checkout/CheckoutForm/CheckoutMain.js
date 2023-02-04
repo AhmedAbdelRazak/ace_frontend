@@ -32,6 +32,7 @@ import {
 	signout,
 	signup,
 } from "../../auth";
+import CartSummaryPhone from "./CartSummaryPhone";
 // eslint-disable-next-line
 const { Step } = Steps;
 
@@ -382,13 +383,13 @@ const CheckoutMain = ({ match }) => {
 		{
 			title: (
 				<Link to='/cart' className='FormTitle'>
-					Cart
+					<div className='stepsTitle'>Cart</div>
 				</Link>
 			),
 			content: "",
 		},
 		{
-			title: <div className='FormTitle'>Information</div>,
+			title: <div className='FormTitle'>Info</div>,
 			content: (
 				<FormStep1
 					customerDetails={customerDetails}
@@ -895,13 +896,21 @@ const CheckoutMain = ({ match }) => {
 		<CheckoutMainWrapper>
 			{cart.length === 0 ? RedirectToHome() : null}
 			<div className='row'>
-				<div className='col-md-8 mx-auto leftSize'>
+				<div
+					className='col-md-8 mx-auto leftSize'
+					// style={{ border: "1px solid black" }}
+				>
 					<Steps current={current}>
 						{steps.map((item) => (
 							<Step key={item.title} title={item.title} />
 						))}
 					</Steps>
-
+					<CartSummaryPhone
+						total_amount={total_amount}
+						shippingFee={shippingFee}
+						appliedCoupon={appliedCoupon}
+						couponApplied={couponApplied}
+					/>
 					<div className='steps-content'>{steps[current].content}</div>
 					<div className='text-center mt-2'>
 						{current > 1 && current !== 1 && !loading && (
@@ -1309,8 +1318,7 @@ const CheckoutMainWrapper = styled.div`
 	}
 
 	@media (max-width: 900px) {
-		margin-left: 10px;
-		margin-right: 10px;
+		padding: 10px 0px;
 
 		.ScheduleNowButton {
 			font-size: 0.8rem !important;
@@ -1337,8 +1345,22 @@ const CheckoutMainWrapper = styled.div`
 			font-size: 0.73rem !important;
 		}
 		.FormTitle {
-			font-size: 0.85rem;
+			font-size: 0.75rem;
+			/* margin-right: 50px !important; */
 		}
+
+		.ant-steps-vertical
+			> .ant-steps-item
+			> .ant-steps-item-container
+			> .ant-steps-item-tail {
+			display: none;
+		}
+
+		.ant-steps-vertical > .ant-steps-item .ant-steps-item-icon {
+			margin-right: 10px;
+			background: black !important;
+		}
+
 		.inputFields {
 			padding-top: 9px;
 			padding-bottom: 9px;
@@ -1371,11 +1393,14 @@ const CheckoutMainWrapper = styled.div`
 		svg,
 		.ant-steps-vertical {
 			text-align: center !important;
-			margin: auto;
 		}
 
 		.rightSide {
 			border-left: solid 1px white;
+		}
+
+		.ant-steps-vertical {
+			flex-direction: row !important;
 		}
 	}
 `;
