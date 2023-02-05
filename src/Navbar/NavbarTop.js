@@ -131,6 +131,16 @@ const NavbarTop = ({ history, language, setLanguage, chosenLanguage }) => {
 					style={{ fontSize: "20px", color: "#c60e0e", cursor: "pointer" }}>
 					<FaTimes />
 				</div>
+				<div
+					className='text-center mt-3'
+					style={{
+						fontWeight: "bold",
+						fontSize: "1rem",
+						textDecoration: "underline",
+					}}>
+					Shopping Bag
+				</div>
+
 				{cart && cart.length === 0 ? (
 					<div style={{ marginTop: "80px" }}>
 						<h3
@@ -457,13 +467,14 @@ const NavbarTop = ({ history, language, setLanguage, chosenLanguage }) => {
 												className='trashIcon'
 												type='button'
 												style={{
-													marginLeft: "250px",
-													color: "red",
+													marginLeft: "230px",
+													color: "black",
 													border: "none",
 													fontWeight: "bold",
+													fontSize: "0.8rem",
 												}}
 												onClick={() => removeItem(i.id, i.size, i.color)}>
-												<FaTrash />
+												Remove
 											</button>
 										</div>
 									</div>
@@ -1139,8 +1150,9 @@ const SideWrapperCart = styled.nav`
 	}
 	@media (max-width: 1000px) {
 		.trashIcon {
-			margin-left: 180px !important;
-			font-size: 15px !important;
+			margin-left: 130px !important;
+			font-size: 12px !important;
+			font-weight: normal !important;
 		}
 
 		.link-btn {

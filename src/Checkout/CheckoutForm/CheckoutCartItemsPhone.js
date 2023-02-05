@@ -16,6 +16,7 @@ const CheckoutCartItemsPhone = ({
 	// eslint-disable-next-line
 	const [relatedProducts, setRelatedProducts] = useState([]);
 
+	// console.log(couponApplied, "appliedCoupon");
 	const [allColors, setAllColors] = useState([]);
 
 	const {
@@ -298,47 +299,73 @@ const CheckoutCartItemsPhone = ({
 							EGP {shippingFee}
 						</div>
 
-						<div className='col-8'>COD% (1%):</div>
+						<div className='col-8'>Trans. Fee (1%):</div>
 
 						<div className='col-4' style={{ fontWeight: "bold" }}>
 							EGP {total_amount * 0.01}
 						</div>
+
+						{couponApplied ? (
+							<>
+								<div className='col-8'>Coupon Disc.:</div>
+
+								<div className='col-4' style={{ fontWeight: "bold" }}>
+									EGP{" "}
+									{(
+										(Number(total_amount) * Number(appliedCoupon.discount)) /
+										100
+									).toFixed(2)}
+								</div>
+							</>
+						) : null}
 					</div>
 					<hr />
 					{couponApplied ? (
 						<>
 							{appliedCoupon && appliedCoupon.name && appliedCoupon.expiry ? (
 								<div className='mt-1'>
-									{new Date(appliedCoupon.expiry).setHours(0, 0, 0, 0) >=
-									new Date().setHours(0, 0, 0, 0) ? (
-										<div style={{ fontWeight: "bold", fontSize: "1rem" }}>
-											Total{" "}
-											<s style={{ color: "red", marginRight: "10px" }}>
-												{" "}
-												{Number(total_amount) +
-													Number(shippingFee) +
-													Number(Number(total_amount * 0.01).toFixed(2))}{" "}
-												L.E.{" "}
-											</s>
-											{Number(
-												Number(total_amount) +
-													Number(shippingFee) +
-													Number(Number(total_amount * 0.01).toFixed(2)) -
-													(Number(total_amount) *
-														Number(appliedCoupon.discount)) /
-														100,
-											).toFixed(2)}{" "}
-											L.E.{" "}
+									<div className='row'>
+										<div className='col-8'>Total </div>
+
+										<div className='col-4'>
+											{new Date(appliedCoupon.expiry).setHours(0, 0, 0, 0) >=
+											new Date().setHours(0, 0, 0, 0) ? (
+												<div style={{ fontWeight: "bold", fontSize: "1rem" }}>
+													EGP{" "}
+													{Number(
+														Number(total_amount) +
+															Number(shippingFee) +
+															Number(Number(total_amount * 0.01).toFixed(2)) -
+															(Number(total_amount) *
+																Number(appliedCoupon.discount)) /
+																100,
+													).toFixed(2)}{" "}
+													<div>
+														<s
+															style={{
+																color: "red",
+																marginRight: "10px",
+																fontSize: "13px",
+															}}>
+															EGP{" "}
+															{Number(total_amount) +
+																Number(shippingFee) +
+																Number(
+																	Number(total_amount * 0.01).toFixed(2),
+																)}{" "}
+														</s>
+													</div>
+												</div>
+											) : (
+												<div style={{ fontWeight: "bold", fontSize: "1rem" }}>
+													Total EGP
+													{Number(total_amount) +
+														Number(shippingFee) +
+														Number(Number(total_amount * 0.01).toFixed(2))}{" "}
+												</div>
+											)}
 										</div>
-									) : (
-										<div style={{ fontWeight: "bold", fontSize: "1rem" }}>
-											Total{" "}
-											{Number(total_amount) +
-												Number(shippingFee) +
-												Number(Number(total_amount * 0.01).toFixed(2))}{" "}
-											L.E.{" "}
-										</div>
-									)}
+									</div>
 								</div>
 							) : (
 								<div style={{ fontWeight: "bold", fontSize: "1rem" }}>

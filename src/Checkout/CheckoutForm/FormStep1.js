@@ -45,7 +45,10 @@ const FormStep1 = ({
 					// padding: "0px 40px",
 					borderRadius: "10px",
 				}}>
-				<h5 className='mb-4'>Customer Information</h5>
+				<h5 className='mb-1'>Customer Details</h5>
+				<div style={{ fontSize: "13px", textAlign: "left" }}>
+					We'll use these details to keep you informed on your delivery
+				</div>
 				<div className='row'>
 					<div className='form-group col-md-6 m-0'>
 						<label className=''>
@@ -134,6 +137,13 @@ const FormStep1 = ({
 									? requiredText()
 									: null}
 							</label> */}
+							<hr />
+							<h5 className='mb-0'>Payment Method</h5>
+							<div
+								className='mb-2'
+								style={{ fontSize: "13px", textAlign: "left" }}>
+								Choose your payment method (Powered By PAYMOB)
+							</div>
 							<select
 								onChange={(e) => {
 									if (e.target.value === "Pay On Delivery") {
@@ -157,7 +167,7 @@ const FormStep1 = ({
 									// paddingRight: "50px",
 									// textAlign: "center",
 									border: "#cfcfcf solid 1px",
-									borderRadius: "10px",
+									borderRadius: "3px",
 									fontSize: "0.85rem",
 									// boxShadow: "2px 2px 2px 2px rgb(0,0,0,0.2)",
 									textTransform: "uppercase",
@@ -234,6 +244,13 @@ const FormStep1Wrapper = styled.div`
 		font-weight: bolder;
 		color: darkred;
 		text-transform: capitalize;
+	}
+
+	h5 {
+		font-size: 1.7rem;
+		text-transform: uppercase;
+		font-weight: bolder;
+		text-align: left !important;
 	}
 
 	@media (max-width: 900px) {

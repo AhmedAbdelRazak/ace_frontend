@@ -1,6 +1,7 @@
 /** @format */
 // eslint-disable-next-line
-import React, { useEffect, useState } from "react";
+import { CarOutlined } from "@ant-design/icons";
+import React from "react";
 import styled from "styled-components";
 import CouponComp from "../CouponComp";
 // import { states } from "./Utils";
@@ -22,30 +23,45 @@ const FormStep2 = ({
 	couponApplied,
 	setCouponApplied,
 }) => {
+	// console.log(allShippingOptions, "allShippingOptions");
+
+	const ChosenCityAndState =
+		allShippingOptions &&
+		allShippingOptions.map((i) => i.chosenShippingData) &&
+		allShippingOptions
+			.map((i) => i.chosenShippingData)[0]
+			.filter((ii) => customerDetails.state === ii.governorate)[0];
+
+	// console.log(ChosenCityAndState, "ChosenCityAndState");
+
 	const customerDetailsForm = () => {
 		return (
 			<div
-				className='mx-auto customerDetailsWrapper'
+				className=' customerDetailsWrapper'
 				style={{
 					background: "white",
 					padding: "0px 200px",
 					borderRadius: "10px",
 				}}>
-				<h4 className='mb-4'>Shipping Information</h4>
+				<h5 className='mb-1' style={{ textAlign: "left" }}>
+					Shipping Information
+				</h5>
 				<div>
-					<label className=''>Please Select Your Governorate</label>
+					<label className=' mt-2' style={{ float: "left" }}>
+						Please Select Your Governorate
+					</label>
 					<br />
 					<select
 						onChange={handleChangeState}
-						placeholder='Select a Ticket'
-						className=' mb-3 col-md-10 mx-auto my-1'
+						placeholder='Select a Governorate'
+						className=' mb-3 col-md-10 mx-auto my-1 w-100'
 						style={{
 							paddingTop: "12px",
 							paddingBottom: "12px",
 							// paddingRight: "50px",
 							// textAlign: "center",
 							border: "#cfcfcf solid 1px",
-							borderRadius: "10px",
+							borderRadius: "3px",
 							fontSize: "0.9rem",
 							// boxShadow: "2px 2px 2px 2px rgb(0,0,0,0.2)",
 							textTransform: "capitalize",
@@ -66,11 +82,13 @@ const FormStep2 = ({
 
 				{chosenCity.length > 0 ? (
 					<div>
-						<label className=''>Please Select Your City</label>
+						<label className='' style={{ float: "left" }}>
+							Please Select Your City
+						</label>
 						<br />
 						<select
 							onChange={handleChangeCity}
-							placeholder='Select a Ticket'
+							placeholder='Select a City'
 							className=' mb-3 col-md-10 mx-auto my-1'
 							style={{
 								paddingTop: "12px",
@@ -78,7 +96,8 @@ const FormStep2 = ({
 								// paddingRight: "50px",
 								// textAlign: "center",
 								border: "#cfcfcf solid 1px",
-								borderRadius: "10px",
+								borderRadius: "3px",
+
 								fontSize: "0.9rem",
 								// boxShadow: "2px 2px 2px 2px rgb(0,0,0,0.2)",
 								textTransform: "capitalize",
@@ -103,11 +122,41 @@ const FormStep2 = ({
 				<br />
 				{customerDetails.state && allShippingOptions.length > 0 ? (
 					<div>
-						<br />
 						<div
-							className='mt-3'
-							style={{ fontSize: "1rem", fontWeight: "bold" }}>
-							Shipping Fee: {shippingFee} L.E.
+							className='mt-3 py-2 px-1'
+							style={{
+								fontSize: "1rem",
+								border: "1px solid lightgrey",
+							}}>
+							<div
+								style={{
+									fontSize: "0.85rem",
+									textTransform: "uppercase",
+									fontWeight: "bold",
+								}}>
+								Standard Delivery
+							</div>
+
+							<div className='row' style={{ fontSize: "0.8rem" }}>
+								<div className='col-6'>
+									<div>
+										<CarOutlined /> {customerDetails.carrierName}{" "}
+										{ChosenCityAndState &&
+											ChosenCityAndState.estimatedTimeForArrival +
+												" - " +
+												(Number(ChosenCityAndState.estimatedTimeForArrival) +
+													1)}{" "}
+										Days
+									</div>
+								</div>
+
+								<div className='col-6'>
+									Shipping Fee:{" "}
+									<span style={{ fontWeight: "bolder" }}>
+										EGP {shippingFee}
+									</span>{" "}
+								</div>
+							</div>
 						</div>
 					</div>
 				) : (
@@ -145,7 +194,7 @@ export default FormStep2;
 
 const FormStep2Wrapper = styled.div`
 	margin: 30px 0px;
-	text-align: center;
+	text-align: left;
 	min-height: 300px;
 	background: white;
 
@@ -155,6 +204,13 @@ const FormStep2Wrapper = styled.div`
 
 	label {
 		font-weight: bold;
+	}
+
+	h5 {
+		font-size: 1.7rem;
+		text-transform: uppercase;
+		font-weight: bolder;
+		text-align: left !important;
 	}
 
 	@media (max-width: 1000px) {
@@ -168,7 +224,13 @@ const FormStep2Wrapper = styled.div`
 		}
 
 		.customerDetailsWrapper {
-			padding: 10px 40px !important;
+			padding: 10px 10px !important;
+		}
+		h5 {
+			font-size: 1.7rem;
+			text-transform: uppercase;
+			font-weight: bolder;
+			text-align: left !important;
 		}
 	}
 `;

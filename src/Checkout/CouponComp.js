@@ -94,6 +94,7 @@ const CouponComp = ({
 					</>
 				) : null}
 			</div>
+			<hr />
 		</CouponCompWrapper>
 	);
 };
@@ -101,7 +102,7 @@ const CouponComp = ({
 export default CouponComp;
 
 const CouponCompWrapper = styled.div`
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 
 	svg {
 		top: 0px !important;

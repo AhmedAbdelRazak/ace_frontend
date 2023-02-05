@@ -919,7 +919,7 @@ const CheckoutMain = ({ match }) => {
 								style={{
 									width: "20%",
 									marginRight: "10px",
-									backgroundColor: "var(--orangePrimary)",
+									backgroundColor: "black",
 									color: "white",
 									fontWeight: "bold",
 									fontSize: "0.9rem",
@@ -950,6 +950,22 @@ const CheckoutMain = ({ match }) => {
 								style={{
 									width: "20%",
 									fontWeight: "bold",
+									color:
+										!customerDetails.phone ||
+										!customerDetails.address ||
+										!customerDetails.fullName ||
+										(customerDetails.payOnDelivery &&
+											customerDetails.payOnline) ||
+										(!customerDetails.payOnDelivery &&
+											!customerDetails.payOnline) ||
+										(!customerDetails.payOnDelivery &&
+											customerDetails.payOnline &&
+											!customerDetails.email) ||
+										notAvailableStock ||
+										!hasWhiteSpace(customerDetails.fullName) ||
+										stringChecker(customerDetails.phone)
+											? "grey"
+											: "white",
 									fontSize: "0.9rem",
 								}}
 								onClick={() => {
@@ -1029,7 +1045,7 @@ const CheckoutMain = ({ match }) => {
 										width: "20%",
 										fontWeight: "bold",
 										fontSize: "0.9rem",
-										background: "#005fbb",
+										background: "black",
 									}}
 									onClick={(e) => {
 										CreatingOrder(e);
@@ -1053,7 +1069,7 @@ const CheckoutMain = ({ match }) => {
 										width: "20%",
 										fontWeight: "bold",
 										fontSize: "0.9rem",
-										background: "#005fbb",
+										background: "black",
 									}}
 									onClick={(e) => {
 										if (
@@ -1271,7 +1287,8 @@ const CheckoutMainWrapper = styled.div`
 	}
 
 	.Buttons {
-		background: #005fbb;
+		color: white;
+		background: black;
 	}
 	.ant-steps-item-icon {
 		color: white !important;
@@ -1357,7 +1374,7 @@ const CheckoutMainWrapper = styled.div`
 		}
 
 		.ant-steps-vertical > .ant-steps-item .ant-steps-item-icon {
-			margin-right: 10px;
+			margin-right: 0px;
 			background: black !important;
 		}
 
@@ -1390,9 +1407,9 @@ const CheckoutMainWrapper = styled.div`
 		}
 
 		.ant-steps,
-		svg,
 		.ant-steps-vertical {
 			text-align: center !important;
+			margin-left: 16px !important;
 		}
 
 		.rightSide {

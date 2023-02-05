@@ -5,14 +5,23 @@ import { useCartContext } from "./cart_context";
 import { Link } from "react-router-dom";
 // eslint-disable-next-line
 import { isAuthenticated } from "../auth/index";
-import { allLoyaltyPointsAndStoreStatus, getColors } from "../apiCore";
+import {
+	allLoyaltyPointsAndStoreStatus,
+	getColors,
+	getProducts,
+	readProduct,
+} from "../apiCore";
 import { FaTrash, FaMinus, FaPlus } from "react-icons/fa";
 import { Helmet } from "react-helmet";
-// import Slider from "react-slick";
+import CardForRelatedProducts from "../pages/SingleProduct/CardForRelatedProducts";
+import Slider from "react-slick";
 // import CardForRelatedProducts from "../SingleProduct/CardForRelatedProducts";
 
 const Cart = ({ chosenLanguage }) => {
 	const [relatedProducts, setRelatedProducts] = useState([]);
+	const [categoryProducts, setCategoryProducts] = useState([]);
+	// eslint-disable-next-line
+	const [Product, setProduct] = useState([]);
 	const [
 		// eslint-disable-next-line
 		alreadySetLoyaltyPointsManagement,
@@ -337,6 +346,77 @@ const Cart = ({ chosenLanguage }) => {
 		],
 	};
 
+	const loadSingleProduct = (productId) => {
+		readProduct(productId).then((data) => {
+			if (data.error) {
+				console.log(data.error);
+			} else {
+				getProducts().then((data2) => {
+					if (data2.error) {
+						console.log(data2.error);
+					} else {
+						var allAceProducts = data2.filter(
+							(i) =>
+								i.activeProduct === true && i.storeName.storeName === "ace",
+						);
+						setCategoryProducts(
+							allAceProducts.filter(
+								(iiii) =>
+									iiii.category.categoryName.toLowerCase() ===
+									data.category.categoryName,
+							),
+						);
+					}
+				});
+
+				setProduct(data);
+				setRelatedProducts(data.relatedProducts);
+			}
+		});
+	};
+
+	useEffect(() => {
+		if (cart.length > 0) {
+			const productId = cart[0]._id;
+			loadSingleProduct(productId);
+		} else {
+			return null;
+		}
+		// eslint-disable-next-line
+	}, []);
+
+	const settings2 = {
+		dots: true,
+		infinite: true,
+		autoplay: true,
+		arrows: true,
+		speed: 1000,
+		slidesToShow: categoryProducts && categoryProducts.length >= 4 ? 4 : 2,
+		slidesToScroll: 1,
+		autoplaySpeed: 5000,
+		pauseOnHover: true,
+		adaptiveHeight: true,
+
+		responsive: [
+			{
+				breakpoint: 1200,
+				settings: {
+					dots: true,
+					infinite: true,
+					autoplay: true,
+					arrows: true,
+					speed: 1000,
+					slidesToShow:
+						categoryProducts && categoryProducts.length >= 2 ? 2 : 1,
+					slidesToScroll: 1,
+					autoplaySpeed: 5000,
+					pauseOnHover: true,
+					adaptiveHeight: true,
+				},
+			},
+		],
+	};
+
 	return (
 		<CartV2Styling>
 			<Helmet>
@@ -458,7 +538,7 @@ const Cart = ({ chosenLanguage }) => {
 							return (
 								<div key={k} className='mt-2'>
 									<div className='row'>
-										<div className='col-3'>
+										<div className='col-2'>
 											<span>
 												<img
 													src={i.image}
@@ -467,12 +547,12 @@ const Cart = ({ chosenLanguage }) => {
 												/>
 											</span>
 										</div>
-										<div className='col-9 mx-auto my-auto'>
+										<div className='col-9 my-auto ml-4'>
 											<div
 												style={{
 													fontSize: "12px",
 													fontWeight: "bold",
-													marginLeft: "10px",
+													marginLeft: "0px",
 													textTransform: "uppercase",
 												}}>
 												{chosenLanguage === "Arabic" ? i.nameArabic : i.name}
@@ -577,68 +657,62 @@ const Cart = ({ chosenLanguage }) => {
 														})}
 												</select>
 											</div>
-											{chosenLanguage === "Arabic" ? (
-												<span
-													className='buttons-up-down'
-													style={{ color: "#282491", marginTop: "10px" }}>
-													<button
-														type='button'
-														className='amount-btn'
-														onClick={increase}>
-														<FaPlus />
-													</button>
-													<span className='amount'>{i.amount}</span>
-
-													<button
-														type='button'
-														className='amount-btn'
-														onClick={decrease}>
-														<FaMinus />
-													</button>
-													<span style={{ color: "black" }}>الكمية</span>
-												</span>
-											) : (
-												<span
-													className='buttons-up-down'
-													style={{ color: "#282491", marginTop: "10px" }}>
-													<span style={{ color: "black" }}>Quantity</span>
-													<button
-														type='button'
-														className='amount-btn'
-														onClick={decrease}>
-														<FaMinus />
-													</button>
-													<span className='amount'>{i.amount}</span>
-													<button
-														type='button'
-														className='amount-btn'
-														onClick={increase}>
-														<FaPlus />
-													</button>
-												</span>
-											)}
 											<div
 												style={{
 													fontSize: "0.9rem",
 													fontWeight: "bold",
 													letterSpacing: "3px",
 													color: "goldenrod",
-													marginLeft: "70px",
+													// marginLeft: "70px",
 													marginTop: "10px",
 												}}>
 												{i.priceAfterDiscount * i.amount} L.E.
 											</div>
-											<button
-												type='button'
+											<div
+												className='buttons-up-down'
 												style={{
-													marginLeft: "250px",
-													color: "red",
-													border: "none",
+													fontSize: "12px",
 													fontWeight: "bold",
-												}}
-												onClick={() => removeItem(i.id, i.size, i.color)}>
-												<FaTrash />
-											</button>
+													marginLeft: "15px",
+													marginTop: "10px",
+													textTransform: "capitalize",
+													color: "darkgreen",
+												}}>
+												<button
+													type='button'
+													className='amount-btn'
+													style={{
+														border: "lightgrey solid 1px",
+														backgroundColor: "white",
+														color: "darkgrey",
+														padding: "13px",
+													}}
+													onClick={decrease}>
+													<FaMinus />
+												</button>
+												<span
+													className='amount my-auto mx-auto'
+													style={{
+														border: "lightgrey solid 1px",
+														backgroundColor: "white",
+														color: "black",
+														padding: "3.3px 14px 3.3px 14px",
+													}}>
+													{i.amount}
+												</span>
+												<button
+													style={{
+														border: "lightgrey solid 1px",
+														backgroundColor: "white",
+														color: "darkgrey",
+														padding: "13px",
+													}}
+													type='button'
+													className='amount-btn'
+													onClick={increase}>
+													<FaPlus style={{ fontSize: "1.2rem" }} />
+												</button>
+											</div>
 										</div>
 									</div>
 
@@ -646,54 +720,91 @@ const Cart = ({ chosenLanguage }) => {
 								</div>
 							);
 						})}
-						<div className='Totals'>Total Amount: {total_amount} L.E.</div>
-						<div className='link-container'>
-							<Link
-								to='/our-products'
-								className='link-btn btn-primary ml-1'
-								style={{
-									borderRadius: "10px",
-									background: "grey",
-								}}>
-								continue shopping
-							</Link>
+						<div className='Totals  m-0 p-0 w-100'>
+							<div className='row'>
+								<div className='col-8'>Subtotal:</div>
+
+								<div className='col-4' style={{ fontWeight: "bold" }}>
+									EGP {total_amount}
+								</div>
+
+								<div className='col-8'>Shipping Fee:</div>
+
+								<div
+									className='col-4'
+									style={{ fontWeight: "bold", fontSize: "0.7rem" }}>
+									Continue To Checkout to know your shipping fee
+								</div>
+							</div>
+							<hr />
+							<div style={{ fontSize: "1rem" }}>
+								<div className='row'>
+									<div className='col-8'>Total </div>
+
+									<div className='col-4' style={{ fontWeight: "bolder" }}>
+										EGP {Number(total_amount)}
+									</div>
+								</div>
+							</div>
+						</div>
+						<div className=' mx-auto text-center mt-4'>
 							<Link
 								type='button'
 								to='/checkout'
 								style={{
-									background: "#007db5",
+									background: "black",
 									color: "white",
 									textTransform: "uppercase",
-									borderRadius: "10px",
+									borderRadius: "3px",
+									minWidth: "350px",
+									textAlign: "center",
+									padding: "16px 10px",
+									fontWeight: "bold",
+									fontSize: "1.2rem",
 								}}
 								className='link-btn clear-btn'
 								// onClick={clearCart}
 							>
-								Continue To Check Out
+								To Check Out
 							</Link>
+							<div className='mt-2'>
+								<Link
+									to='/our-products'
+									style={{
+										fontSize: "0.8rem",
+										// fontWeight: "bold",
+										textDecoration: "underline",
+										color: "black",
+										// background: "grey",
+									}}>
+									Continue Shopping
+								</Link>
+							</div>
 						</div>
 					</div>
 				</>
 			)}
-			{/* {relatedProducts && relatedProducts.length > 0 ? (
+
+			{categoryProducts && categoryProducts.length > 0 ? (
 				<ProductWrapperRelated>
-					<React.Fragment>
-						<div className='title mb-2'>
-							<h1 className='title'>Products You May Like!</h1>
-						</div>
-					</React.Fragment>
-					<div className='container-fluid my-3 ProductSlider'>
-						<Slider {...settings} className='mb-5'>
-							{relatedProducts &&
-								relatedProducts.map((product, i) => (
+					<h5 className='title'>YOU MAY ALSO LIKE!</h5>
+					<div className='container-fluid my-1 ProductSlider'>
+						<Slider {...settings2} className='mb-5'>
+							{categoryProducts &&
+								categoryProducts.map((product, i) => (
 									<div className='img-fluid images ' key={i}>
-										<CardForRelatedProducts product={product} key={i} />
+										<CardForRelatedProducts
+											i={i}
+											product={product}
+											key={i}
+											// chosenLanguage={chosenLanguage}
+										/>
 									</div>
 								))}
 						</Slider>
 					</div>
 				</ProductWrapperRelated>
-			) : null} */}
+			) : null}
 		</CartV2Styling>
 	);
 };
@@ -840,18 +951,18 @@ const ProductWrapperRelated = styled.div`
 
 	.title {
 		text-align: center;
-		font-size: 2rem;
-		letter-spacing: 7px;
+		font-size: 1.1rem;
+		/* letter-spacing: 7px; */
 		font-weight: bold;
-		text-shadow: 3px 3px 10px;
+		/* text-shadow: 3px 3px 10px; */
 	}
 
 	.titleArabic {
 		text-align: center;
-		font-size: 2rem;
+		font-size: 1.1rem;
 		/* letter-spacing: 7px; */
 		font-weight: bold;
-		text-shadow: 3px 3px 10px;
+		/* text-shadow: 3px 3px 10px; */
 	}
 
 	.images {

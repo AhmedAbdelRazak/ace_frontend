@@ -16,59 +16,127 @@ const FormStep3 = ({
 	const overAllReviewPayOnDelivery = () => {
 		return (
 			<div>
-				<h5>Shipping Details</h5>
-				<div>Name: {customerDetails.fullName}</div>
-				<div>Phone #: {customerDetails.phone}</div>
-				{customerDetails.email ? (
-					<div>Email: {customerDetails.email}</div>
-				) : null}
-				<div>Governorate: {customerDetails.state}</div>
-				<div>City: {customerDetails.cityName}</div>
-				<div>Address: {customerDetails.address}</div>
-				<div>Payment: Pay on delivery</div>
-				<div>Total Purchased Items: {total_items} items </div>
-				<div>Shipping Fee: {shippingFee} L.E.</div>
-				<div>COD: {Number(total_amount * 0.01).toFixed(2)} L.E. (1%) </div>
-				<div>Subtotal: {total_amount} L.E. </div>
+				<h5>Order Review</h5>
+
+				<div className='row'>
+					<div className='col-5'>Name:</div>
+
+					<div className='col-5'>
+						<strong>{customerDetails.fullName}</strong>{" "}
+					</div>
+
+					<div className='col-5'>Phone #:</div>
+
+					<div className='col-5'>
+						<strong>{customerDetails.phone}</strong>{" "}
+					</div>
+
+					<div className='col-5'>Email:</div>
+					<div className='col-5'>
+						{customerDetails.email ? (
+							<div>
+								<strong> {customerDetails.email}</strong>
+							</div>
+						) : null}
+					</div>
+
+					<div className='col-5 mt-4'>Governorate:</div>
+					<div className='col-5 mt-4'>
+						<strong>{customerDetails.state}</strong>{" "}
+					</div>
+
+					<div className='col-5'>City:</div>
+					<div className='col-5'>
+						<strong>{customerDetails.cityName}</strong>{" "}
+					</div>
+
+					<div className='col-5'>Address:</div>
+					<div className='col-5'>
+						<strong>{customerDetails.address}</strong>{" "}
+					</div>
+
+					<div className='col-5 mt-4'>Total Purchased Items:</div>
+					<div className='col-5 mt-4'>
+						<strong className=''>{total_items} items</strong>
+					</div>
+
+					<div className='col-5'>Shipping Fee:</div>
+					<div className='col-5'>
+						<strong className=''>EGP {shippingFee}</strong>{" "}
+					</div>
+
+					<div className='col-5'>Trans. Fee:</div>
+					<div className='col-5'>
+						<strong>EGP {Number(total_amount * 0.01).toFixed(2)} (1%)</strong>{" "}
+					</div>
+					{couponApplied ? <div className='col-5'>Coupon Disc.:</div> : null}
+					{couponApplied ? (
+						<div className='col-5' style={{ fontWeight: "bold" }}>
+							EGP -
+							{(
+								(Number(total_amount) * Number(appliedCoupon.discount)) /
+								100
+							).toFixed(2)}
+						</div>
+					) : null}
+
+					<div className='col-5'>Subtotal:</div>
+					<div className='col-5'>
+						<strong>EGP {Number(total_amount).toFixed(2)}</strong>{" "}
+					</div>
+				</div>
+
 				<br />
 				{couponApplied ? (
 					<>
 						{appliedCoupon && appliedCoupon.name && appliedCoupon.expiry ? (
 							<div className='mt-1'>
-								{new Date(appliedCoupon.expiry).setHours(0, 0, 0, 0) >=
-								new Date().setHours(0, 0, 0, 0) ? (
-									<div style={{ fontWeight: "bold", fontSize: "1rem" }}>
-										Total Amount Due:{" "}
-										<s style={{ color: "red", marginRight: "10px" }}>
-											{" "}
-											{Number(total_amount) +
-												Number(shippingFee) +
-												Number(Number(total_amount * 0.01).toFixed(2))}{" "}
-											L.E.{" "}
-										</s>
-										{Number(
-											Number(total_amount) +
-												Number(shippingFee) +
-												Number(Number(total_amount * 0.01).toFixed(2)) -
-												(Number(total_amount) *
-													Number(appliedCoupon.discount)) /
-													100,
-										).toFixed(2)}{" "}
-										L.E.{" "}
+								<div className='row'>
+									<div className='col-8'>Total </div>
+
+									<div className='col-4'>
+										{new Date(appliedCoupon.expiry).setHours(0, 0, 0, 0) >=
+										new Date().setHours(0, 0, 0, 0) ? (
+											<div style={{ fontWeight: "bold", fontSize: "1rem" }}>
+												EGP{" "}
+												{Number(
+													Number(total_amount) +
+														Number(shippingFee) +
+														Number(Number(total_amount * 0.01).toFixed(2)) -
+														(Number(total_amount) *
+															Number(appliedCoupon.discount)) /
+															100,
+												).toFixed(2)}{" "}
+												<div>
+													<s
+														style={{
+															color: "red",
+															marginRight: "10px",
+															fontSize: "13px",
+														}}>
+														EGP{" "}
+														{Number(total_amount) +
+															Number(shippingFee) +
+															Number(
+																Number(total_amount * 0.01).toFixed(2),
+															)}{" "}
+													</s>
+												</div>
+											</div>
+										) : (
+											<div style={{ fontWeight: "bold", fontSize: "1rem" }}>
+												Total EGP
+												{Number(total_amount) +
+													Number(shippingFee) +
+													Number(Number(total_amount * 0.01).toFixed(2))}{" "}
+											</div>
+										)}
 									</div>
-								) : (
-									<div style={{ fontWeight: "bold", fontSize: "1rem" }}>
-										Total Amount Due:{" "}
-										{Number(total_amount) +
-											Number(shippingFee) +
-											Number(Number(total_amount * 0.01).toFixed(2))}{" "}
-										L.E.{" "}
-									</div>
-								)}
+								</div>
 							</div>
 						) : (
 							<div style={{ fontWeight: "bold", fontSize: "1rem" }}>
-								Total Amount Due:{" "}
+								Total{" "}
 								{Number(total_amount) +
 									Number(shippingFee) +
 									Number(Number(total_amount * 0.01).toFixed(2))}{" "}
@@ -77,12 +145,17 @@ const FormStep3 = ({
 						)}
 					</>
 				) : (
-					<div style={{ fontWeight: "bold", fontSize: "1rem" }}>
-						Total Amount Due:{" "}
-						{Number(total_amount) +
-							Number(shippingFee) +
-							Number(Number(total_amount * 0.01).toFixed(2))}{" "}
-						L.E.{" "}
+					<div style={{ fontSize: "1rem" }}>
+						<div className='row'>
+							<div className='col-5'>Total </div>
+
+							<div className='col-5' style={{ fontWeight: "bolder" }}>
+								EGP{" "}
+								{Number(total_amount) +
+									Number(shippingFee) +
+									Number(Number(total_amount * 0.01).toFixed(2))}{" "}
+							</div>
+						</div>
 					</div>
 				)}
 			</div>
@@ -98,7 +171,7 @@ const FormStep3 = ({
 export default FormStep3;
 
 const FormStep3Wrapper = styled.div`
-	margin: 30px 0px;
+	margin: 30px 5px;
 	text-align: left;
 	margin-left: 100px;
 
@@ -107,8 +180,9 @@ const FormStep3Wrapper = styled.div`
 	}
 
 	@media (max-width: 1000px) {
-		margin-left: 20px;
-		margin: 0px 0px;
+		margin: 30px 5px;
+
+		/* margin: 0px 0px; */
 
 		.textResizeMain2 {
 			font-size: 0.8rem !important;
@@ -122,6 +196,13 @@ const FormStep3Wrapper = styled.div`
 			font-weight: bolder;
 			text-align: center !important;
 			margin: 0px auto !important;
+		}
+
+		h5 {
+			font-size: 1.7rem;
+			text-transform: uppercase;
+			font-weight: bolder;
+			text-align: left !important;
 		}
 	}
 `;
