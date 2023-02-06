@@ -414,7 +414,7 @@ const SideWrapper = styled.nav`
 	position: fixed;
 	/* top: 101px; */
 	left: 0;
-	width: 80%;
+	width: 90%;
 	height: 100%;
 	background: var(--mainGrey);
 	z-index: 500;
