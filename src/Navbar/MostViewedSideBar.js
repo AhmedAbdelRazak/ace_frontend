@@ -4,9 +4,9 @@ import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components";
 import CardInHomePage from "./CardInHomePage";
 import Slider from "react-slick";
-import { getSortedProducts } from "../../apiCore";
+import { getSortedProducts } from "../apiCore";
 
-const MostViewedProducts = ({ chosenLanguage }) => {
+const MostViewedSideBar = ({ chosenLanguage }) => {
 	const [productsByMostViews, setProductsByMostViews] = useState([]);
 	const [loading, setLoading] = useState(true);
 
@@ -51,7 +51,7 @@ const MostViewedProducts = ({ chosenLanguage }) => {
 		speed: 1000,
 		slidesToShow: 4,
 		slidesToScroll: 1,
-		autoplaySpeed: 5000,
+		autoplaySpeed: 3000,
 		pauseOnHover: true,
 		adaptiveHeight: true,
 
@@ -64,9 +64,9 @@ const MostViewedProducts = ({ chosenLanguage }) => {
 					autoplay: true,
 					arrows: true,
 					speed: 1000,
-					slidesToShow: 2,
+					slidesToShow: 1,
 					slidesToScroll: 1,
-					autoplaySpeed: 5000,
+					autoplaySpeed: 3000,
 					pauseOnHover: true,
 					adaptiveHeight: true,
 				},
@@ -74,7 +74,7 @@ const MostViewedProducts = ({ chosenLanguage }) => {
 		],
 	};
 	return (
-		<MostViewedProductsWrapper>
+		<MostViewedSideBarWrapper>
 			{loading ? (
 				<div>Loading</div>
 			) : (
@@ -111,13 +111,13 @@ const MostViewedProducts = ({ chosenLanguage }) => {
 					</div>
 				</>
 			)}
-		</MostViewedProductsWrapper>
+		</MostViewedSideBarWrapper>
 	);
 };
 
-export default MostViewedProducts;
+export default MostViewedSideBar;
 
-const MostViewedProductsWrapper = styled.div`
+const MostViewedSideBarWrapper = styled.div`
 	margin-top: 50px;
 
 	.title {

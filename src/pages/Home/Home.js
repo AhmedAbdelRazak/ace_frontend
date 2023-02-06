@@ -11,12 +11,12 @@ import CategoryWrapperComp from "./CategoryWrapperComp";
 import FeaturedProducts from "./FeaturedProducts";
 // eslint-disable-next-line
 import OurBrandsComp from "./OurBrandsComp";
-import MostViewedProducts from "./MostViewedProducts";
 import GenderLinks from "./GenderLinks";
 import HeroComponent2 from "./HeroComponent2";
 import HeroComponent3 from "./HeroComponent3";
 import GenderNav from "../../Navbar/GenderNav";
 import { Helmet } from "react-helmet";
+import MostViewedSideBar from "../../Navbar/MostViewedSideBar";
 
 const Home = ({ chosenLanguage }) => {
 	// eslint-disable-next-line
@@ -153,7 +153,7 @@ const Home = ({ chosenLanguage }) => {
 					allSubcategories={allSubcategories}
 				/>
 			</div> */}
-			<MostViewedProducts chosenLanguage={chosenLanguage} />
+			<MostViewedSideBar chosenLanguage={chosenLanguage} />
 
 			<HeroComponent3 />
 			<br />

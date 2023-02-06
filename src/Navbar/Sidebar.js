@@ -5,8 +5,52 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { isAuthenticated, signout } from "../auth";
 import { useCartContext } from "../Checkout/cart_context";
+import MostViewedSideBar from "./MostViewedSideBar";
 
-const Sidebar = ({ language, setLanguage, history, allGenders }) => {
+const isActive = (history, path, gendersLength) => {
+	if (history.genderName === path.genderName) {
+		return {
+			color: "black",
+			fontWeight: "bold",
+			// textDecoration: "underline",
+			margin: gendersLength === 2 ? "0px 30px" : "0px 15px",
+		};
+	} else {
+		return {
+			color: "darkGrey",
+			fontWeight: "bold",
+			margin: gendersLength === 2 ? "0px 30px" : "0px 15px",
+		};
+	}
+};
+
+const isActive2 = (history, allGenders) => {
+	const genderIndex =
+		allGenders &&
+		allGenders.map((i) => i.genderName).indexOf(history.genderName);
+	if (history.genderName && genderIndex >= 0) {
+		return {
+			borderBottom: "1px solid black",
+			position: "absolute",
+			top: genderIndex === 0 ? "-15px" : "-15px",
+			left: genderIndex === 0 ? "70px" : "182px",
+		};
+	} else {
+		return {
+			color: "white",
+		};
+	}
+};
+
+const Sidebar = ({
+	language,
+	setLanguage,
+	history,
+	allGenders,
+	genderClicked,
+	setGenderClicked,
+	allCategories,
+}) => {
 	const [pageScrolled, setPageScrolled] = useState(false);
 	const [offset, setOffset] = useState(0);
 
@@ -38,21 +82,104 @@ const Sidebar = ({ language, setLanguage, history, allGenders }) => {
 							allGenders.map((g, i) => {
 								return (
 									<Link
-										to={`/our-products?filterby=gender&gendername=${g.genderName}`}
+										// to={`/our-products?filterby=gender&gendername=${g.genderName}`}
+										to='#'
 										className='genderItem'
-										style={{
-											margin: allGenders.length === 2 ? "0px 20px" : "0px 15px",
-										}}
+										// style={{
+										// 	margin: allGenders.length === 2 ? "0px 20px" : "0px 15px",
+										// }}
+
+										style={isActive(genderClicked, g, allGenders.length)}
 										key={i}
-										onClick={isSidebarOpen2 ? closeSidebar2 : openSidebar2}>
+										// onClick={isSidebarOpen2 ? closeSidebar2 : openSidebar2}
+										onClick={() => setGenderClicked(g)}>
 										{g.genderName}
 									</Link>
 								);
 							})}
 					</li>
+
+					<div className='col-12 mx-auto'>
+						<hr />
+						<hr
+							className='col-2 mx-auto'
+							style={isActive2(genderClicked, allGenders)}
+						/>
+					</div>
+
+					<div className='mx-auto text-center'>
+						{genderClicked &&
+							genderClicked.thumbnail &&
+							genderClicked.thumbnail[0] && (
+								<img
+									src={genderClicked.thumbnail[0].url}
+									alt='infinite-apps.com'
+									style={{
+										width: "90%",
+										height: "40%",
+										textAlign: "center",
+										marginTop: "10px",
+									}}
+								/>
+							)}
+					</div>
+					<li
+						className='mt-3'
+						onClick={() => {
+							window.scrollTo({ top: 0, behavior: "smooth" });
+						}}>
+						<Link
+							to='/'
+							className='sik'
+							style={{
+								textTransform: "capitalize",
+								marginLeft: "25px",
+								fontWeight: "bolder",
+								color: "#c60e0e",
+							}}
+							onClick={isSidebarOpen2 ? closeSidebar2 : openSidebar2}>
+							Sale
+						</Link>
+						<br />
+						<Link
+							to={`/our-products?filterby=gender&gendername=${genderClicked.genderName}`}
+							className='sik'
+							style={{
+								textTransform: "capitalize",
+								fontWeight: "bolder",
+								padding: "0.2rem 1.1rem",
+								marginLeft: "10px",
+								color: "black",
+							}}
+							onClick={isSidebarOpen2 ? closeSidebar2 : openSidebar2}>
+							All Products
+						</Link>
+						{allCategories &&
+							allCategories.map((c, i) => {
+								return (
+									<Link
+										to={`/our-products?filterby=category&categoryName=${c.categorySlug}`}
+										key={i}
+										className='sidebar-link'
+										style={{
+											textTransform: "uppercase",
+											padding: "0.2rem 1.1rem",
+											marginLeft: "10px",
+											// fontWeight: "bolder",
+										}}
+										onClick={isSidebarOpen2 ? closeSidebar2 : openSidebar2}>
+										{c.categoryName}
+									</Link>
+								);
+							})}
+					</li>
+
 					<div className='col-12 mx-auto'>
 						<hr />
 					</div>
+
+					<MostViewedSideBar chosenLanguage='English' />
+
 					<li
 						className='mt-3'
 						onClick={() => {
@@ -89,7 +216,7 @@ const Sidebar = ({ language, setLanguage, history, allGenders }) => {
 									{language === "Arabic" ? (
 										<span className='sidebarArabic'>منتجاتنا</span>
 									) : (
-										"Our Products"
+										"Shop"
 									)}
 								</>
 							</Fragment>
@@ -239,7 +366,7 @@ const Sidebar = ({ language, setLanguage, history, allGenders }) => {
 							</span>
 						</li>
 					)}
-					<li
+					{/* <li
 						className='nav-item mx-3'
 						style={{ marginTop: "150px" }}
 						onClick={() => {
@@ -274,7 +401,7 @@ const Sidebar = ({ language, setLanguage, history, allGenders }) => {
 								</span>
 							)}
 						</span>
-					</li>
+					</li> */}
 				</ul>
 			</SideWrapper>
 		</>
@@ -287,14 +414,16 @@ const SideWrapper = styled.nav`
 	position: fixed;
 	/* top: 101px; */
 	left: 0;
-	width: 70%;
+	width: 80%;
 	height: 100%;
 	background: var(--mainGrey);
 	z-index: 500;
 	border-right: 3px solid lightgrey;
 	transition: 0.5s;
 	transform: ${(props) => (props.show ? "translateX(0)" : "translateX(-100%)")};
-	top: ${(props) => (props.show2 ? "66px" : "107px")};
+	/* top: ${(props) => (props.show2 ? "66px" : "107px")}; */
+	top: 0px;
+	overflow-y: auto;
 	/*transform: translateX(-100%);*/ /**this will hide the side bar */
 	ul {
 		list-style-type: none;
@@ -309,14 +438,15 @@ const SideWrapper = styled.nav`
 		text-align: center;
 	}
 	hr {
-		border-bottom: 1px solid darkgrey;
+		border-bottom: 1px solid lightgray;
 	}
+
 	.sidebar-link {
 		display: block;
 		font-size: 1rem;
 		text-transform: capitalize;
 		color: var(--mainBlack);
-		padding: 1.1rem 1.1rem;
+		padding: 0.5rem 1.1rem;
 		background: transparent;
 		transition: var(--mainTransition);
 	}
@@ -327,7 +457,7 @@ const SideWrapper = styled.nav`
 		text-decoration: none;
 	}
 	.fontawesome-icons {
-		color: darkred;
+		color: #c60e0e;
 		margin-right: 10px;
 		/* font-weight: bold; */
 	}

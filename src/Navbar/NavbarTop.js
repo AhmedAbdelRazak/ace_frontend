@@ -45,7 +45,9 @@ const NavbarTop = ({ history, language, setLanguage, chosenLanguage }) => {
 	const [onlineStoreName, setOnlineStoreName] = useState("");
 	const [allColors, setAllColors] = useState([]);
 	const [allGenders, setAllGenders] = useState([]);
+	const [allCategories, setAllCategories] = useState([]);
 	const [modalVisible3, setModalVisible3] = useState(false);
+	const [genderClicked, setGenderClicked] = useState({ genderName: "men" });
 
 	const getOnlineStoreName = () => {
 		allLoyaltyPointsAndStoreStatus().then((data) => {
@@ -84,6 +86,25 @@ const NavbarTop = ({ history, language, setLanguage, chosenLanguage }) => {
 					).values(),
 				];
 				setAllGenders(uniqueGenders);
+				setGenderClicked(uniqueGenders[0]);
+
+				//Categories Unique
+				var categoriesArray = data
+					.filter(
+						(i) =>
+							i.activeProduct === true &&
+							i.storeName.storeName === "ace" &&
+							genderClicked.genderName.toLowerCase() ===
+								i.gender.genderName.toLowerCase(),
+					)
+					.map((ii) => ii.category);
+
+				let uniqueCategories = [
+					...new Map(
+						categoriesArray.map((item) => [item["categoryName"], item]),
+					).values(),
+				];
+				setAllCategories(uniqueCategories);
 			}
 		});
 	};
@@ -93,6 +114,37 @@ const NavbarTop = ({ history, language, setLanguage, chosenLanguage }) => {
 		gettingAllProducts();
 		// eslint-disable-next-line
 	}, []);
+
+	const gettingAllProductsCategories = () => {
+		getProducts().then((data) => {
+			if (data.error) {
+				console.log(data.error);
+			} else {
+				//Categories Unique
+				var categoriesArray = data
+					.filter(
+						(i) =>
+							i.activeProduct === true &&
+							i.storeName.storeName === "ace" &&
+							genderClicked.genderName.toLowerCase() ===
+								i.gender.genderName.toLowerCase(),
+					)
+					.map((ii) => ii.category);
+
+				let uniqueCategories = [
+					...new Map(
+						categoriesArray.map((item) => [item["categoryName"], item]),
+					).values(),
+				];
+				setAllCategories(uniqueCategories);
+			}
+		});
+	};
+
+	useEffect(() => {
+		gettingAllProductsCategories();
+		// eslint-disable-next-line
+	}, [genderClicked]);
 
 	const gettingAllColors = () => {
 		getColors().then((data) => {
@@ -541,6 +593,9 @@ const NavbarTop = ({ history, language, setLanguage, chosenLanguage }) => {
 				setLanguage={setLanguage}
 				language={language}
 				allGenders={allGenders}
+				setGenderClicked={setGenderClicked}
+				genderClicked={genderClicked}
+				allCategories={allCategories}
 			/>
 
 			<div className='logo-type  logoWrapper'>
