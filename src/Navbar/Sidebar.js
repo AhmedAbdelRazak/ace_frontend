@@ -80,22 +80,29 @@ const Sidebar = ({
 						}}>
 						{allGenders &&
 							allGenders.map((g, i) => {
-								return (
-									<Link
-										// to={`/our-products?filterby=gender&gendername=${g.genderName}`}
-										to='#'
-										className='genderItem'
-										// style={{
-										// 	margin: allGenders.length === 2 ? "0px 20px" : "0px 15px",
-										// }}
+								if (
+									g.genderName.toLowerCase() === "men" ||
+									g.genderName.toLowerCase() === "women"
+								) {
+									return (
+										<Link
+											// to={`/our-products?filterby=gender&gendername=${g.genderName}`}
+											to='#'
+											className='genderItem'
+											// style={{
+											// 	margin: allGenders.length === 2 ? "0px 20px" : "0px 15px",
+											// }}
 
-										style={isActive(genderClicked, g, allGenders.length)}
-										key={i}
-										// onClick={isSidebarOpen2 ? closeSidebar2 : openSidebar2}
-										onClick={() => setGenderClicked(g)}>
-										{g.genderName}
-									</Link>
-								);
+											style={isActive(genderClicked, g, allGenders.length)}
+											key={i}
+											// onClick={isSidebarOpen2 ? closeSidebar2 : openSidebar2}
+											onClick={() => setGenderClicked(g)}>
+											{g.genderName}
+										</Link>
+									);
+								} else {
+									return null;
+								}
 							})}
 					</li>
 

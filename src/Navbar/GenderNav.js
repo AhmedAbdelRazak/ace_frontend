@@ -44,26 +44,33 @@ const GenderNav = () => {
 			<div className='row mx-auto'>
 				{allGenders &&
 					allGenders.map((g, i) => {
-						return (
-							<div
-								className={
-									allGenders.length === 2
-										? "col-6 mx-auto genderItem"
-										: allGenders.length === 2
-										? "col-4 mx-auto genderItem"
-										: "col-6 mx-auto genderItem"
-								}
-								key={i}
-								style={{ textTransform: "uppercase" }}>
-								<Link
-									to={`/our-products?filterby=gender&gendername=${g.genderName}`}
-									onClick={() =>
-										window.scrollTo({ top: 0, behavior: "smooth" })
-									}>
-									SHOP {g.genderName}
-								</Link>
-							</div>
-						);
+						if (
+							g.genderName.toLowerCase() === "men" ||
+							g.genderName.toLowerCase() === "women"
+						) {
+							return (
+								<div
+									className={
+										allGenders.length === 2
+											? "col-6 mx-auto genderItem"
+											: allGenders.length === 2
+											? "col-4 mx-auto genderItem"
+											: "col-6 mx-auto genderItem"
+									}
+									key={i}
+									style={{ textTransform: "uppercase" }}>
+									<Link
+										to={`/our-products?filterby=gender&gendername=${g.genderName}`}
+										onClick={() =>
+											window.scrollTo({ top: 0, behavior: "smooth" })
+										}>
+										SHOP {g.genderName}
+									</Link>
+								</div>
+							);
+						} else {
+							return null;
+						}
 					})}
 			</div>
 		</GenderNavWrapper>
